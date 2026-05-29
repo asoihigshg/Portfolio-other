@@ -1,0 +1,1263 @@
+cat > /mnt/user-data/outputs/portfolio/index.html << 'HTMLEOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jack Amias — Electronics · Code · Quantum</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void: #05020f;
+      --deep: #0d0520;
+      --plum: #1a0a35;
+      --grape: #2d1155;
+      --violet: #4a1fa8;
+      --iris: #6b35d9;
+      --lilac: #9b6dff;
+      --lavender: #c4a8ff;
+      --ghost: #e8e0ff;
+      --plasma: #bf5fff;
+      --spark: #ff6aff;
+      --cyan-accent: #00f5ff;
+      --gold-accent: #ffd700;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--ghost);
+      font-family: 'Space Mono', monospace;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    @media (pointer: coarse) {
+      body { cursor: auto; }
+    }
+
+    /* ── Custom Cursor (desktop only) ── */
+    #cursor, #cursor-ring {
+      display: none;
+    }
+    @media (pointer: fine) {
+      #cursor {
+        display: block;
+        position: fixed;
+        width: 12px; height: 12px;
+        background: var(--spark);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        mix-blend-mode: screen;
+      }
+      #cursor-ring {
+        display: block;
+        position: fixed;
+        width: 40px; height: 40px;
+        border: 1.5px solid var(--lilac);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition: width 0.2s, height 0.2s, border-color 0.2s;
+        opacity: 0.7;
+      }
+      body:has(a:hover) #cursor-ring,
+      body:has(button:hover) #cursor-ring,
+      body:has(.card:hover) #cursor-ring {
+        width: 64px; height: 64px;
+        border-color: var(--spark);
+      }
+    }
+
+    /* ── Canvas — fixed, fills whole viewport ── */
+    #bg-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      display: block;
+    }
+
+    /* ── Layout ── */
+    main { position: relative; z-index: 1; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(5, 2, 15, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(107, 53, 217, 0.2);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      color: var(--lavender);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--spark); }
+
+    /* Desktop nav links */
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--lavender);
+      text-decoration: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 100%;
+      height: 1px;
+      background: var(--spark);
+      transition: right 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--spark); }
+    .nav-links a:hover::after { right: 0; }
+
+    /* Hamburger — mobile only */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--lavender);
+      transition: transform 0.3s, opacity 0.3s, background 0.2s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--spark); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--spark); }
+
+    /* Mobile drawer */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 56px; left: 0; right: 0;
+      background: rgba(5, 2, 15, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(107, 53, 217, 0.3);
+      z-index: 99;
+      flex-direction: column;
+      padding: 1.5rem 2rem 2rem;
+      gap: 0;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--lavender);
+      text-decoration: none;
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(107, 53, 217, 0.15);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:active { color: var(--spark); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 3rem 4rem;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--plasma);
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s ease forwards;
+    }
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.6rem, 8vw, 7.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s ease forwards;
+    }
+    .hero-title .line-1 { color: var(--ghost); }
+    .hero-title .line-2 {
+      background: linear-gradient(135deg, var(--lilac), var(--spark), var(--cyan-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-title .line-3 {
+      color: var(--lavender);
+      font-style: italic;
+      font-size: 0.6em;
+    }
+    .hero-desc {
+      max-width: 520px;
+      font-size: 0.82rem;
+      line-height: 1.9;
+      color: rgba(196, 168, 255, 0.7);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s ease forwards;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s ease forwards;
+    }
+    .btn-primary {
+      padding: 0.85rem 2rem;
+      background: linear-gradient(135deg, var(--violet), var(--plasma));
+      color: var(--ghost);
+      border: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: filter 0.2s, transform 0.2s;
+      display: inline-block;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-primary:hover, .btn-primary:active {
+      filter: brightness(1.3) drop-shadow(0 0 18px var(--plasma));
+      transform: translateY(-2px);
+    }
+    .btn-ghost {
+      padding: 0.85rem 2rem;
+      background: transparent;
+      color: var(--lilac);
+      border: 1px solid rgba(107, 53, 217, 0.5);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      display: inline-block;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-ghost:hover, .btn-ghost:active {
+      border-color: var(--lilac);
+      background: rgba(107, 53, 217, 0.15);
+      color: var(--ghost);
+    }
+
+    /* ── Sections ── */
+    section { padding: 6rem 3rem; position: relative; }
+    .section-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--plasma);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .section-label::before {
+      content: '';
+      width: 24px; height: 1px;
+      background: var(--plasma);
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+      line-height: 1.1;
+      margin-bottom: 3rem;
+      color: var(--ghost);
+    }
+    .section-title em { color: var(--lilac); font-style: normal; }
+
+    /* ── About ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .about-text p {
+      font-size: 0.82rem;
+      line-height: 2;
+      color: rgba(196, 168, 255, 0.75);
+      margin-bottom: 1.2rem;
+    }
+    .about-text p strong { color: var(--lavender); }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.8rem;
+    }
+    .tag {
+      padding: 0.32rem 0.8rem;
+      background: rgba(74, 31, 168, 0.25);
+      border: 1px solid rgba(107, 53, 217, 0.4);
+      color: var(--lilac);
+      font-size: 0.65rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .tag:hover { background: rgba(107, 53, 217, 0.4); border-color: var(--lilac); color: var(--ghost); }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .stat-box {
+      padding: 1.6rem;
+      background: rgba(13, 5, 32, 0.7);
+      border: 1px solid rgba(107, 53, 217, 0.25);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: linear-gradient(to bottom, var(--iris), var(--plasma));
+      transition: height 0.4s ease;
+    }
+    .stat-box:hover::before { height: 100%; }
+    .stat-box:hover { border-color: rgba(107, 53, 217, 0.6); transform: translateY(-3px); }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--lilac);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-num span { color: var(--plasma); }
+    .stat-label { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(196, 168, 255, 0.5); }
+
+    /* ── Projects ── */
+    #projects { background: rgba(10, 4, 22, 0.4); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      background: rgba(13, 5, 32, 0.75);
+      border: 1px solid rgba(74, 31, 168, 0.3);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: default;
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(107, 53, 217, 0.13), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .card:hover::after { opacity: 1; }
+    .card:hover { border-color: rgba(107, 53, 217, 0.7); transform: translateY(-4px); }
+    .card-tag {
+      display: inline-block;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--plasma);
+      margin-bottom: 0.9rem;
+      padding: 0.18rem 0.55rem;
+      border: 1px solid rgba(191, 95, 255, 0.4);
+    }
+    .card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--ghost);
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+    .card p {
+      font-size: 0.76rem;
+      line-height: 1.9;
+      color: rgba(196, 168, 255, 0.6);
+      margin-bottom: 1.5rem;
+    }
+    .card-footer { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; }
+    .card-tech { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+    .chip {
+      font-size: 0.58rem;
+      padding: 0.18rem 0.45rem;
+      background: rgba(74, 31, 168, 0.3);
+      color: var(--lavender);
+      letter-spacing: 0.05em;
+    }
+    .card-link {
+      font-size: 0.62rem;
+      color: var(--lilac);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s, gap 0.2s;
+      white-space: nowrap;
+    }
+    .card-link:hover { color: var(--spark); gap: 0.8rem; }
+    .card-icon {
+      font-size: 1.8rem;
+      position: absolute;
+      top: 1.4rem; right: 1.4rem;
+      opacity: 0.14;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .card:hover .card-icon { opacity: 0.32; transform: scale(1.15) rotate(5deg); }
+
+    /* ── Courses ── */
+    .courses-list {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+    .course-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.3rem 1.8rem;
+      background: rgba(13, 5, 32, 0.75);
+      border: 1px solid rgba(74, 31, 168, 0.25);
+      transition: border-color 0.3s, background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .course-item::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 100%;
+      height: 2px;
+      background: linear-gradient(to right, var(--iris), var(--plasma));
+      transition: right 0.4s ease;
+    }
+    .course-item:hover::before { right: 0; }
+    .course-item:hover { border-color: rgba(107, 53, 217, 0.5); background: rgba(26, 10, 53, 0.75); }
+    .course-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: rgba(107, 53, 217, 0.4);
+      min-width: 2.2rem;
+    }
+    .course-info h4 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--ghost);
+      margin-bottom: 0.2rem;
+      line-height: 1.3;
+    }
+    .course-info p { font-size: 0.7rem; color: rgba(196, 168, 255, 0.5); letter-spacing: 0.04em; }
+    .course-badge {
+      padding: 0.25rem 0.7rem;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+    .badge-complete  { color: #5aff8a; border-color: rgba(90, 255, 138, 0.4); }
+    .badge-progress  { color: var(--gold-accent); border-color: rgba(255, 215, 0, 0.4); }
+    .badge-planned   { color: rgba(196, 168, 255, 0.5); border-color: rgba(196, 168, 255, 0.2); }
+
+    /* ── Contact ── */
+    #contact { text-align: center; }
+    .contact-inner { max-width: 600px; margin: 0 auto; }
+    .contact-inner p {
+      font-size: 0.82rem;
+      line-height: 2;
+      color: rgba(196, 168, 255, 0.6);
+      margin-bottom: 2.5rem;
+    }
+    .contact-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.6rem;
+      border: 1px solid rgba(107, 53, 217, 0.35);
+      color: var(--lavender);
+      text-decoration: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      background: rgba(13, 5, 32, 0.6);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .contact-link:hover, .contact-link:active {
+      border-color: var(--lilac);
+      background: rgba(74, 31, 168, 0.2);
+      color: var(--ghost);
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(107, 53, 217, 0.3);
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid rgba(74, 31, 168, 0.2);
+      padding: 2rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: rgba(196, 168, 255, 0.3);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--void); }
+    ::-webkit-scrollbar-thumb { background: var(--violet); }
+
+    /* ════════════════════════
+       MOBILE OVERRIDES
+    ════════════════════════ */
+    @media (max-width: 768px) {
+      section { padding: 5rem 1.2rem; }
+
+      .hero { padding: 6rem 1.4rem 3rem; }
+      .hero-eyebrow { font-size: 0.58rem; letter-spacing: 0.2em; }
+      .hero-desc { font-size: 0.78rem; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .stat-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+      .stat-box { padding: 1.2rem; }
+      .stat-num { font-size: 1.8rem; }
+
+      .projects-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+      .card { padding: 1.5rem; }
+      .card h3 { font-size: 1rem; }
+      .card-footer { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+
+      .course-item {
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
+        gap: 0.5rem 1rem;
+        padding: 1rem 1.2rem;
+      }
+      .course-badge {
+        grid-column: 2;
+        justify-self: start;
+      }
+      .course-num { font-size: 1.1rem; min-width: 1.8rem; grid-row: span 2; align-self: center; }
+      .course-info h4 { font-size: 0.85rem; }
+
+      .contact-links { flex-direction: column; align-items: center; }
+      .contact-link { width: 100%; max-width: 280px; justify-content: center; }
+
+      footer { flex-direction: column; gap: 0.6rem; text-align: center; padding: 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { line-height: 1.0; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Mobile drawer -->
+  <nav>
+    <a class="nav-logo" href="#"><span>//</span> Jack Amias</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#courses">Courses</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#about"    onclick="closeMenu()">About</a>
+    <a href="#projects" onclick="closeMenu()">Projects</a>
+    <a href="#courses"  onclick="closeMenu()">Courses</a>
+    <a href="#contact"  onclick="closeMenu()">Contact</a>
+  </div>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <p class="hero-eyebrow">// Electronics · Neural Networks · Quantum Systems</p>
+      <h1 class="hero-title">
+        <span class="line-1">Building at the</span><br>
+        <span class="line-2">Edge of Physics</span><br>
+        <span class="line-3">& Silicon</span>
+      </h1>
+      <p class="hero-desc">
+        Engineer and researcher working across embedded electronics,
+        machine learning architectures, and quantum circuit simulation.
+        Bridging the physical and computational worlds.
+      </p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact"  class="btn-ghost">Get in Touch</a>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p class="section-label">Who I am</p>
+          <h2 class="section-title">Systems thinker.<br><em>Circuit builder.</em></h2>
+          <p>I work at the intersection of <strong>hardware and intelligent systems</strong> — designing circuits that sense and respond, training models that learn from probabilistic data, and simulating quantum phenomena that classical computers struggle to describe.</p>
+          <p>My approach is grounded in first principles: understanding a system from the physics up, then building the software to match. Whether that's a quantum circuit simulation, classical circuit, or neural network.</p>
+          <div class="skill-tags">
+            <span class="tag">FPGA / HDL</span>
+            <span class="tag">Embedded C</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">Qiskit</span>
+            <span class="tag">PCB Design</span>
+            <span class="tag">CUDA</span>
+            <span class="tag">Rust</span>
+            <span class="tag">Quantum Circuits</span>
+            <span class="tag">Signal Processing</span>
+            <span class="tag">RF Electronics</span>
+          </div>
+        </div>
+        <div class="stat-grid reveal">
+          <div class="stat-box">
+            <div class="stat-num">12<span>+</span></div>
+            <div class="stat-label">Projects Completed</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">8<span>+</span></div>
+            <div class="stat-label">Courses Certified</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Domains Mastered</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Curiosity Level</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <div style="max-width:1200px;margin:0 auto;">
+        <p class="section-label reveal">What I've built</p>
+        <h2 class="section-title reveal">Selected <em>Projects</em></h2>
+        <div class="projects-grid">
+
+          <div class="card reveal">
+            <span class="card-icon">⚛</span>
+            <span class="card-tag">Quantum</span>
+            <h3>Quantum Chess Neural Network</h3>
+            <p>Built a neural network in an AlphaZero style to play Chris Cantwell's probabilistic chess variant using ROCm, CUDA, PyTorch and the Quantum Chess SDK.</p>
+            <div class="card-footer">
+              <div class="card-tech">
+                <span class="chip">Quantum Forge</span>
+                <span class="chip">PyTorch</span>
+                <span class="chip">ROCm/CUDA</span>
+              </div>
+              <a href="#" class="card-link">View →</a>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <span class="card-icon">🧠</span>
+            <span class="card-tag">Classical Circuits</span>
+            <h3>CPU from Scratch</h3>
+            <p>Designed a simple 8-bit CPU built entirely from 4000-series logic gates, from ALU to control unit.</p>
+            <div class="card-footer">
+              <div class="card-tech">
+                <span class="chip">Logic Design</span>
+                <span class="chip">KiCad</span>
+                <span class="chip">Circuit Sim</span>
+              </div>
+              <a href="#" class="card-link">View →</a>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <span class="card-icon">🔊</span>
+            <span class="card-tag">Quantum</span>
+            <h3>Quantum Guitar Effects Pedal</h3>
+            <p>Uses the Quantum Forge SDK to implement quantum-probabilistic audio effects that evolve with the quantum circuit state.</p>
+            <div class="card-footer">
+              <div class="card-tech">
+                <span class="chip">Quantum Forge</span>
+                <span class="chip">JavaScript</span>
+                <span class="chip">DAW Plugins</span>
+              </div>
+              <a href="#" class="card-link">View →</a>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <span class="card-icon">✈️</span>
+            <span class="card-tag">Classical Circuits</span>
+            <h3>Aircraft Navigation System</h3>
+            <p>Grid-matrix terrain mapping with Manhattan distance pathfinding — implemented entirely in 4000-series logic gates.</p>
+            <div class="card-footer">
+              <div class="card-tech">
+                <span class="chip">Circuit Sim</span>
+                <span class="chip">CAD Design</span>
+                <span class="chip">Logic Systems</span>
+              </div>
+              <a href="#" class="card-link">View →</a>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <span class="card-icon">♟</span>
+            <span class="card-tag">Quantum</span>
+            <h3>Second Quantum Chess Engine</h3>
+            <p>A second engine using Quantum Forge and the Quantum Chess SDK to benchmark Alpha-Beta vs MCTS algorithms in a quantum-probabilistic game tree.</p>
+            <div class="card-footer">
+              <div class="card-tech">
+                <span class="chip">Quantum Forge</span>
+                <span class="chip">JavaScript</span>
+              </div>
+              <a href="#" class="card-link">View →</a>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <span class="card-icon">♻️</span>
+            <span class="card-tag">Neural Network</span>
+            <h3>Automatically Sorting Bin</h3>
+            <p>Automated sorting system using a neural network to classify objects, driving motor control to route each item into the correct compartment.</p>
+            <div class="card-footer">
+              <div class="card-tech">
+                <span class="chip">PyTorch</span>
+                <span class="chip">DirectML</span>
+              </div>
+              <a href="#" class="card-link">View →</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Courses -->
+    <section id="courses">
+      <div style="max-width:900px;margin:0 auto;">
+        <p class="section-label reveal">What I've studied</p>
+        <h2 class="section-title reveal">Courses & <em>Certifications</em></h2>
+        <div class="courses-list">
+
+          <div class="course-item reveal">
+            <div class="course-num">01</div>
+            <div class="course-info">
+              <h4>Quantum Computing — From Linear Algebra to Entanglement</h4>
+              <p>MIT OpenCourseWare · 2024</p>
+            </div>
+            <span class="course-badge badge-complete">Complete</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">02</div>
+            <div class="course-info">
+              <h4>Deep Learning Specialisation</h4>
+              <p>Coursera / deeplearning.ai · Andrew Ng · 2023</p>
+            </div>
+            <span class="course-badge badge-complete">Complete</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">03</div>
+            <div class="course-info">
+              <h4>Digital Design & Computer Architecture</h4>
+              <p>ETH Zürich / edX · 2023</p>
+            </div>
+            <span class="course-badge badge-complete">Complete</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">04</div>
+            <div class="course-info">
+              <h4>Embedded Systems Programming on ARM</h4>
+              <p>Udemy — FastBit Embedded Brain Academy · 2023</p>
+            </div>
+            <span class="course-badge badge-complete">Complete</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">05</div>
+            <div class="course-info">
+              <h4>CS231n: CNNs for Visual Recognition</h4>
+              <p>Stanford University · 2024</p>
+            </div>
+            <span class="course-badge badge-complete">Complete</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">06</div>
+            <div class="course-info">
+              <h4>Quantum Machine Learning</h4>
+              <p>PennyLane / Xanadu · 2024</p>
+            </div>
+            <span class="course-badge badge-progress">In Progress</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">07</div>
+            <div class="course-info">
+              <h4>Advanced FPGA Design with Chisel</h4>
+              <p>UC Berkeley / edX · Planned</p>
+            </div>
+            <span class="course-badge badge-planned">Planned</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">08</div>
+            <div class="course-info">
+              <h4>Reinforcement Learning from Human Feedback</h4>
+              <p>Hugging Face Deep RL Course · 2025</p>
+            </div>
+            <span class="course-badge badge-planned">Planned</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="contact-inner">
+        <p class="section-label reveal" style="justify-content:center;">Get in touch</p>
+        <h2 class="section-title reveal">Let's build something<br><em>extraordinary</em></h2>
+        <p class="reveal">Open to collaborations in quantum simulation, embedded ML, and hardware-accelerated AI. Happy to discuss research ideas, consulting, or just interesting problems.</p>
+        <div class="contact-links reveal">
+          <a href="mailto:jackamias5@proton.me" class="contact-link">✉ Email</a>
+          <a href="https://github.com" class="contact-link" target="_blank">⌥ GitHub</a>
+          <a href="https://linkedin.com" class="contact-link" target="_blank">↗ LinkedIn</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>// Jack Amias</span>
+    <span>Electronics · Code · Quantum</span>
+  </footer>
+
+  <script>
+  // ══════════════════════════════════════════
+  // HAMBURGER MENU
+  // ══════════════════════════════════════════
+  const hamburger   = document.getElementById('hamburger');
+  const mobileMenu  = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  }
+
+  // ══════════════════════════════════════════
+  // CURSOR (desktop pointer only)
+  // ══════════════════════════════════════════
+  const isFinePointer = window.matchMedia('(pointer: fine)').matches;
+  const cursor     = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursor-ring');
+  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  let ringX = mx, ringY = my;
+
+  if (isFinePointer) {
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+    });
+    (function animateRing() {
+      ringX += (mx - ringX) * 0.12;
+      ringY += (my - ringY) * 0.12;
+      cursorRing.style.left = ringX + 'px';
+      cursorRing.style.top  = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    })();
+  }
+
+  // ══════════════════════════════════════════
+  // CARD MOUSE GLOW
+  // ══════════════════════════════════════════
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%');
+      card.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%');
+    });
+  });
+
+  // ══════════════════════════════════════════
+  // SCROLL REVEAL
+  // ══════════════════════════════════════════
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 70);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ══════════════════════════════════════════
+  // LIQUID PHYSICS SIMULATION
+  // Full-screen fixed canvas with touch support
+  // ══════════════════════════════════════════
+  const canvas = document.getElementById('bg-canvas');
+  const ctx    = canvas.getContext('2d');
+
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+                   || window.matchMedia('(pointer: coarse)').matches;
+
+  // Reduce particle count on mobile for performance
+  const NUM_PARTICLES = isMobile ? 80 : 180;
+
+  let W, H;
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); initParticles(); });
+
+  // Pointer position — works for both mouse and touch
+  let px = W / 2, py = H / 2;
+  let pvx = 0, pvy = 0, lastPX = W / 2, lastPY = H / 2;
+  let mouseNX = 0.5, mouseNY = 0.5; // normalised for waves
+
+  function updatePointer(cx, cy) {
+    pvx = cx - lastPX;
+    pvy = cy - lastPY;
+    lastPX = cx; lastPY = cy;
+    px = cx; py = cy;
+    mouseNX = cx / W;
+    mouseNY = cy / H;
+  }
+
+  // Desktop mouse
+  document.addEventListener('mousemove', e => updatePointer(e.clientX, e.clientY));
+
+  // Touch events — use first touch point
+  canvas.style.pointerEvents = 'none'; // canvas never captures touches
+  document.addEventListener('touchmove', e => {
+    const t = e.touches[0];
+    updatePointer(t.clientX, t.clientY);
+  }, { passive: true });
+  document.addEventListener('touchstart', e => {
+    const t = e.touches[0];
+    updatePointer(t.clientX, t.clientY);
+    ripples.push({ x: t.clientX, y: t.clientY, r: 0, alpha: 0.6 });
+  }, { passive: true });
+
+  // Particles
+  const particles = [];
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(init = false) {
+      this.x  = Math.random() * W;
+      this.y  = init ? Math.random() * H : -20;
+      this.vx = (Math.random() - 0.5) * 0.4;
+      this.vy = (Math.random() - 0.5) * 0.4;
+      this.r  = 1.5 + Math.random() * 3.5;
+      this.life    = 0;
+      this.maxLife = 400 + Math.random() * 600;
+      this.hue  = 255 + Math.random() * 60;
+      this.sat  = 60  + Math.random() * 30;
+      this.baseAlpha = 0.15 + Math.random() * 0.35;
+    }
+    update() {
+      this.life++;
+      this.vy += 0.006;
+      this.vx += (Math.random() - 0.5) * 0.03;
+
+      const dx   = this.x - px;
+      const dy   = this.y - py;
+      const dist = Math.sqrt(dx * dx + dy * dy) || 0.001;
+      if (dist < 180) {
+        const force = (180 - dist) / 180;
+        const angle = Math.atan2(dy, dx);
+        const speed = Math.sqrt(pvx * pvx + pvy * pvy);
+        const swirl = 0.012 * force * (1 + speed * 0.05);
+        this.vx += Math.cos(angle + Math.PI * 0.5) * swirl * 3;
+        this.vy += Math.sin(angle + Math.PI * 0.5) * swirl * 3;
+        this.vx += (dx / dist) * force * 0.25;
+        this.vy += (dy / dist) * force * 0.25;
+      }
+      this.vx *= 0.985;
+      this.vy *= 0.985;
+      this.x  += this.vx;
+      this.y  += this.vy;
+      if (this.x < -10) this.x = W + 10;
+      if (this.x > W + 10) this.x = -10;
+      if (this.y > H + 20 || this.life > this.maxLife) this.reset();
+    }
+    draw() {
+      const lifeRatio = this.life / this.maxLife;
+      const alpha = this.baseAlpha * Math.sin(lifeRatio * Math.PI);
+      const dx = this.x - px, dy = this.y - py;
+      const d  = Math.sqrt(dx * dx + dy * dy);
+      const glow = d < 150 ? (1 - d / 150) * 0.5 : 0;
+
+      const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 3.5);
+      grad.addColorStop(0,   `hsla(${this.hue}, ${this.sat + glow * 30}%, ${50 + glow * 30}%, ${alpha + glow * 0.3})`);
+      grad.addColorStop(0.4, `hsla(${this.hue}, ${this.sat}%, 40%, ${alpha * 0.6})`);
+      grad.addColorStop(1,   `hsla(${this.hue}, ${this.sat}%, 30%, 0)`);
+
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r * 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+    }
+  }
+
+  function drawConnections() {
+    const maxDist = isMobile ? 70 : 90;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i], b = particles[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const dist = dx * dx + dy * dy;
+        if (dist < maxDist * maxDist) {
+          const alpha = (1 - Math.sqrt(dist) / maxDist) * 0.08;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(107, 53, 217, ${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  const GRID_STEP = isMobile ? 28 : 22;
+  function drawMetaballs() {
+    const cols = Math.ceil(W / GRID_STEP) + 1;
+    const rows = Math.ceil(H / GRID_STEP) + 1;
+    for (let gy = 0; gy < rows; gy++) {
+      for (let gx = 0; gx < cols; gx++) {
+        const ppx = gx * GRID_STEP;
+        const ppy = gy * GRID_STEP;
+        let field = 0;
+        for (const p of particles) {
+          const dx = ppx - p.x, dy = ppy - p.y;
+          field += (p.r * p.r * 1800) / (dx * dx + dy * dy + 1);
+        }
+        if (field > 1.8) {
+          const alpha = Math.min((field - 1.8) * 0.04, 0.12);
+          ctx.fillStyle = `rgba(74, 31, 168, ${alpha})`;
+          ctx.fillRect(ppx - GRID_STEP * 0.5, ppy - GRID_STEP * 0.5, GRID_STEP, GRID_STEP);
+        }
+      }
+    }
+  }
+
+  let waveT = 0;
+  function drawWaves() {
+    waveT += 0.008;
+    const layers = [
+      { amp: 35, freq: 0.006, speed: 1.0, y: H * 0.35, alpha: 0.04, hue: 270 },
+      { amp: 25, freq: 0.009, speed: 1.6, y: H * 0.55, alpha: 0.035, hue: 290 },
+      { amp: 45, freq: 0.004, speed: 0.7, y: H * 0.72, alpha: 0.03,  hue: 250 },
+    ];
+    const mInfluence = (mouseNY - 0.5) * 30;
+    for (const l of layers) {
+      ctx.beginPath();
+      for (let x = 0; x <= W; x += 4) {
+        const y = l.y + mInfluence
+                + Math.sin(x * l.freq + waveT * l.speed) * l.amp
+                + Math.sin(x * l.freq * 2.3 + waveT * l.speed * 1.5) * l.amp * 0.4;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
+      ctx.fillStyle = `hsla(${l.hue}, 60%, 25%, ${l.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  const ripples = [];
+  if (isFinePointer) {
+    document.addEventListener('click', () => {
+      ripples.push({ x: px, y: py, r: 0, alpha: 0.6 });
+    });
+  }
+  function drawRipples() {
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const rip = ripples[i];
+      rip.r += 3.5; rip.alpha -= 0.015;
+      if (rip.alpha <= 0) { ripples.splice(i, 1); continue; }
+      ctx.beginPath();
+      ctx.arc(rip.x, rip.y, rip.r, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(191, 95, 255, ${rip.alpha})`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+  }
+
+  const trail = [];
+  let trailTimer = 0;
+  function updateTrail() {
+    if (!isFinePointer) return;
+    trailTimer++;
+    if (trailTimer % 2 === 0) {
+      trail.push({ x: px, y: py, alpha: 0.5, r: 3 + Math.abs(pvx + pvy) * 0.3 });
+    }
+    for (let i = trail.length - 1; i >= 0; i--) {
+      trail[i].alpha -= 0.04;
+      trail[i].r     *= 0.96;
+      if (trail[i].alpha <= 0) trail.splice(i, 1);
+    }
+    for (const t of trail) {
+      ctx.beginPath();
+      ctx.arc(t.x, t.y, t.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(191, 95, 255, ${t.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    particles.length = 0;
+    for (let i = 0; i < NUM_PARTICLES; i++) particles.push(new Particle());
+  }
+  initParticles();
+
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Vignette
+    const vig = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W,H) * 0.75);
+    vig.addColorStop(0, 'rgba(13,5,32,0)');
+    vig.addColorStop(1, 'rgba(5,2,15,0.7)');
+    ctx.fillStyle = vig;
+    ctx.fillRect(0, 0, W, H);
+
+    // Aurora around pointer
+    const aur = ctx.createRadialGradient(px, py, 0, px, py, 300);
+    aur.addColorStop(0,   'rgba(107,53,217,0.09)');
+    aur.addColorStop(0.5, 'rgba(74,31,168,0.04)');
+    aur.addColorStop(1,   'rgba(0,0,0,0)');
+    ctx.fillStyle = aur;
+    ctx.fillRect(0, 0, W, H);
+
+    drawWaves();
+    if (!isMobile) drawMetaballs();  // skip metaballs on mobile (expensive)
+    drawConnections();
+    particles.forEach(p => { p.update(); p.draw(); });
+    updateTrail();
+    drawRipples();
+
+    requestAnimationFrame(render);
+  }
+  render();
+
+  // ══════════════════════════════════════════
+  // PARALLAX (desktop only)
+  // ══════════════════════════════════════════
+  if (isFinePointer) {
+    const heroTitle = document.querySelector('.hero-title');
+    const heroDesc  = document.querySelector('.hero-desc');
+    document.addEventListener('mousemove', e => {
+      const dx = (e.clientX / W - 0.5) * 18;
+      const dy = (e.clientY / H - 0.5) * 10;
+      if (heroTitle) heroTitle.style.transform = `translate(${dx * 0.4}px, ${dy * 0.3}px)`;
+      if (heroDesc)  heroDesc.style.transform  = `translate(${dx * 0.2}px, ${dy * 0.15}px)`;
+    });
+  }
+  </script>
+</body>
+</html>
+HTMLEOF
+echo "Done"
