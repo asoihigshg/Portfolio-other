@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Electronics · Code · Quantum</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void: #05020f;
+      --deep: #0d0520;
+      --plum: #1a0a35;
+      --grape: #2d1155;
+      --violet: #4a1fa8;
+      --iris: #6b35d9;
+      --lilac: #9b6dff;
+      --lavender: #c4a8ff;
+      --ghost: #e8e0ff;
+      --plasma: #bf5fff;
+      --spark: #ff6aff;
+      --cyan-accent: #00f5ff;
+      --gold-accent: #ffd700;
+      --glow-iris: rgba(107, 53, 217, 0.6);
+      --glow-plasma: rgba(191, 95, 255, 0.5);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--ghost);
+      font-family: 'Space Mono', monospace;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Custom Cursor ── */
+    #cursor {
+      position: fixed;
+      width: 12px; height: 12px;
+      background: var(--spark);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.05s, background 0.2s;
+      mix-blend-mode: screen;
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 40px; height: 40px;
+      border: 1.5px solid var(--lilac);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, border-color 0.2s;
+      opacity: 0.7;
+    }
+    body:has(a:hover) #cursor-ring,
+    body:has(button:hover) #cursor-ring,
+    body:has(.card:hover) #cursor-ring {
+      width: 64px; height: 64px;
+      border-color: var(--spark);
+    }
+
+    /* ── Canvas Background ── */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Layout ── */
+    main { position: relative; z-index: 1; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 3rem;
+      background: rgba(5, 2, 15, 0.6);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(107, 53, 217, 0.2);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: var(--lavender);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--spark); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--lavender);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 100%;
+      height: 1px;
+      background: var(--spark);
+      transition: right 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--spark); }
+    .nav-links a:hover::after { right: 0; }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 3rem 4rem;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--plasma);
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s ease forwards;
+    }
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3rem, 8vw, 7.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s ease forwards;
+    }
+    .hero-title .line-1 { color: var(--ghost); }
+    .hero-title .line-2 {
+      background: linear-gradient(135deg, var(--lilac), var(--spark), var(--cyan-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-title .line-3 {
+      color: var(--lavender);
+      font-style: italic;
+      font-size: 0.6em;
+    }
+    .hero-desc {
+      max-width: 520px;
+      font-size: 0.85rem;
+      line-height: 1.85;
+      color: rgba(196, 168, 255, 0.7);
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s ease forwards;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s ease forwards;
+    }
+    .btn-primary {
+      padding: 0.85rem 2.2rem;
+      background: linear-gradient(135deg, var(--violet), var(--plasma));
+      color: var(--ghost);
+      border: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: none;
+      text-decoration: none;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: filter 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      filter: brightness(1.3) drop-shadow(0 0 18px var(--plasma));
+      transform: translateY(-2px);
+    }
+    .btn-ghost {
+      padding: 0.85rem 2.2rem;
+      background: transparent;
+      color: var(--lilac);
+      border: 1px solid rgba(107, 53, 217, 0.5);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: none;
+      text-decoration: none;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      display: inline-block;
+    }
+    .btn-ghost:hover {
+      border-color: var(--lilac);
+      background: rgba(107, 53, 217, 0.15);
+      color: var(--ghost);
+    }
+
+    /* ── Section Shared ── */
+    section {
+      padding: 7rem 3rem;
+      position: relative;
+    }
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--plasma);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .section-label::before {
+      content: '';
+      width: 28px; height: 1px;
+      background: var(--plasma);
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 3.5rem;
+      color: var(--ghost);
+    }
+    .section-title em {
+      color: var(--lilac);
+      font-style: normal;
+    }
+
+    /* ── About ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .about-text p {
+      font-size: 0.85rem;
+      line-height: 2;
+      color: rgba(196, 168, 255, 0.75);
+      margin-bottom: 1.2rem;
+    }
+    .about-text p strong { color: var(--lavender); }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 2rem;
+    }
+    .tag {
+      padding: 0.35rem 0.9rem;
+      background: rgba(74, 31, 168, 0.25);
+      border: 1px solid rgba(107, 53, 217, 0.4);
+      color: var(--lilac);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .tag:hover {
+      background: rgba(107, 53, 217, 0.4);
+      border-color: var(--lilac);
+      color: var(--ghost);
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .stat-box {
+      padding: 1.8rem;
+      background: rgba(13, 5, 32, 0.6);
+      border: 1px solid rgba(107, 53, 217, 0.25);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: linear-gradient(to bottom, var(--iris), var(--plasma));
+      transition: height 0.4s ease;
+    }
+    .stat-box:hover::before { height: 100%; }
+    .stat-box:hover {
+      border-color: rgba(107, 53, 217, 0.6);
+      transform: translateY(-3px);
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--lilac);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-num span { color: var(--plasma); }
+    .stat-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(196, 168, 255, 0.5);
+    }
+
+    /* ── Projects ── */
+    #projects { background: rgba(10, 4, 22, 0.5); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.8rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      background: rgba(13, 5, 32, 0.7);
+      border: 1px solid rgba(74, 31, 168, 0.3);
+      padding: 2.2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: none;
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(107, 53, 217, 0.12), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .card:hover::after { opacity: 1; }
+    .card:hover {
+      border-color: rgba(107, 53, 217, 0.7);
+      transform: translateY(-5px);
+    }
+    .card-tag {
+      display: inline-block;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--plasma);
+      margin-bottom: 1rem;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid rgba(191, 95, 255, 0.4);
+    }
+    .card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--ghost);
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+    .card p {
+      font-size: 0.78rem;
+      line-height: 1.9;
+      color: rgba(196, 168, 255, 0.6);
+      margin-bottom: 1.6rem;
+    }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-tech {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .chip {
+      font-size: 0.6rem;
+      padding: 0.2rem 0.5rem;
+      background: rgba(74, 31, 168, 0.3);
+      color: var(--lavender);
+      letter-spacing: 0.06em;
+    }
+    .card-link {
+      font-size: 0.65rem;
+      color: var(--lilac);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s, gap 0.2s;
+    }
+    .card-link:hover { color: var(--spark); gap: 0.8rem; }
+    .card-icon {
+      font-size: 2rem;
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      opacity: 0.15;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .card:hover .card-icon { opacity: 0.35; transform: scale(1.15) rotate(5deg); }
+
+    /* ── Courses ── */
+    .courses-list {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .course-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.5rem 2rem;
+      background: rgba(13, 5, 32, 0.7);
+      border: 1px solid rgba(74, 31, 168, 0.25);
+      transition: border-color 0.3s, background 0.3s;
+      cursor: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .course-item::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 100%;
+      height: 2px;
+      background: linear-gradient(to right, var(--iris), var(--plasma));
+      transition: right 0.4s ease;
+    }
+    .course-item:hover::before { right: 0; }
+    .course-item:hover {
+      border-color: rgba(107, 53, 217, 0.5);
+      background: rgba(26, 10, 53, 0.7);
+    }
+    .course-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: rgba(107, 53, 217, 0.4);
+      min-width: 2.5rem;
+    }
+    .course-info h4 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--ghost);
+      margin-bottom: 0.25rem;
+    }
+    .course-info p {
+      font-size: 0.72rem;
+      color: rgba(196, 168, 255, 0.5);
+      letter-spacing: 0.05em;
+    }
+    .course-badge {
+      padding: 0.3rem 0.8rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+    .badge-complete { color: #5aff8a; border-color: rgba(90, 255, 138, 0.4); }
+    .badge-progress { color: var(--gold-accent); border-color: rgba(255, 215, 0, 0.4); }
+    .badge-planned { color: rgba(196, 168, 255, 0.5); border-color: rgba(196, 168, 255, 0.2); }
+
+    /* ── Contact ── */
+    #contact { text-align: center; }
+    .contact-inner {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .contact-inner p {
+      font-size: 0.85rem;
+      line-height: 2;
+      color: rgba(196, 168, 255, 0.6);
+      margin-bottom: 3rem;
+    }
+    .contact-links {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 1.8rem;
+      border: 1px solid rgba(107, 53, 217, 0.35);
+      color: var(--lavender);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      background: rgba(13, 5, 32, 0.5);
+    }
+    .contact-link:hover {
+      border-color: var(--lilac);
+      background: rgba(74, 31, 168, 0.2);
+      color: var(--ghost);
+      transform: translateY(-2px);
+      box-shadow: 0 0 24px rgba(107, 53, 217, 0.3);
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid rgba(74, 31, 168, 0.2);
+      padding: 2.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: rgba(196, 168, 255, 0.3);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--void); }
+    ::-webkit-scrollbar-thumb { background: var(--violet); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hero { padding: 7rem 1.5rem 3rem; }
+      footer { flex-direction: column; gap: 0.8rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Liquid physics canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <main>
+    <!-- Nav -->
+    <nav>
+      <a class="nav-logo" href="#"><span>//</span> Portfolio</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <p class="hero-eyebrow">// Electronics · Neural Networks · Quantum Systems</p>
+      <h1 class="hero-title">
+        <span class="line-1">Building at the</span><br>
+        <span class="line-2">Edge of Physics</span><br>
+        <span class="line-3">& Silicon</span>
+      </h1>
+      <p class="hero-desc">
+        Engineer and researcher working across embedded electronics, 
+        machine learning architectures, and quantum circuit simulation. 
+        Bridging the physical and computational worlds.
+      </p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact" class="btn-ghost">Get in Touch</a>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p class="section-label">Who I am</p>
+          <h2 class="section-title">Systems thinker.<br><em>Circuit bender.</em></h2>
+          <p>I work at the intersection of <strong>hardware and intelligent systems</strong> — designing circuits that sense and respond, training models that learn from physical data, and simulating quantum phenomena that classical computers struggle to describe.</p>
+          <p>My approach is grounded in first principles: understanding a system from the physics up, then building the software to match. Whether that's an FPGA implementation of a neural accelerator or a variational quantum eigensolver simulation.</p>
+          <div class="skill-tags">
+            <span class="tag">FPGA / HDL</span>
+            <span class="tag">Embedded C</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">Qiskit</span>
+            <span class="tag">PCB Design</span>
+            <span class="tag">CUDA</span>
+            <span class="tag">Rust</span>
+            <span class="tag">Quantum Circuits</span>
+            <span class="tag">Signal Processing</span>
+            <span class="tag">RF Electronics</span>
+          </div>
+        </div>
+        <div class="stat-grid reveal">
+          <div class="stat-box">
+            <div class="stat-num">12<span>+</span></div>
+            <div class="stat-label">Projects Completed</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">8<span>+</span></div>
+            <div class="stat-label">Courses Certified</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Domains Mastered</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Curiosity Level</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <div style="max-width:1200px;margin:0 auto;">
+        <p class="section-label reveal">What I've built</p>
+        <h2 class="section-title reveal">Selected <em>Projects</em></h2>
+        <div class="projects-grid">
+
+          <div class="card reveal">
+            <span class="card-icon">⚛</span>
+            <span class="card-tag">Quantum</span>
+            <h3>Variational Quantum Eigensolver</h3>
+            <p>Implemented VQE for molecular ground-state energy estimation using parameterised quantum circuits. Benchmarked against classical FCI methods on H₂ and LiH molecules.</p>
+            <div class="card-footer">
+              <div class="card-tech">
+                <span class="chip">Qiskit</span>
+                <span class="chip">Python</span>
+                <span class="chip">NumPy</span>
+              </div>
+              <a href="#" class="card-link">View →</a>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <span class="card-icon">🧠</span>
+            <span class="card-tag">Neural Network</span>
+            <h3>Spiking Neural Network on FPGA</h3>
+            <p>Hardware implementation of a leaky integrate-and-fire SNN for real-time pattern recognition. Achieves 10× lower power than GPU equivalent with comparable accuracy.</p>
+            <div class="card-footer">
+              <div class="card-tech">
+                <span class="chip">VHDL</span>
+                <span class="chip">Xilinx</span>
+                <span class="chip">Python</span>
+              </div>
+              <a href="#" class="card-link">View →</a>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <span class="card-icon">📡</span>
+            <span class="card-tag">Electronics</span>
+            <h3>SDR-Based Spectrum Analyser</h3>
+            <p>Custom PCB with RTL-SDR front-end and Raspberry Pi CM4 running real-time FFT. Covers 100kHz–1.7GHz with waterfall display and signal annotation via ML classifier.</p>
+            <div class="card-footer">
+              <div class="card-tech">
+                <span class="chip">KiCad</span>
+                <span class="chip">C++</span>
+                <span class="chip">GNU Radio</span>
+              </div>
+              <a href="#" class="card-link">View →</a>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <span class="card-icon">🔬</span>
+            <span class="card-tag">Simulation</span>
+            <h3>Quantum Noise Channel Simulator</h3>
+            <p>Density matrix simulation of open quantum systems with depolarising, amplitude damping, and phase flip channels. Visualises decoherence in qubit arrays over time.</p>
+            <div class="card-footer">
+              <div class="card-tech">
+                <span class="chip">QuTiP</span>
+                <span class="chip">Matplotlib</span>
+                <span class="chip">Rust</span>
+              </div>
+              <a href="#" class="card-link">View →</a>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <span class="card-icon">⚡</span>
+            <span class="card-tag">Embedded</span>
+            <h3>Neural Accelerator on STM32</h3>
+            <p>Quantised convolutional network deployed on STM32H7 for on-device image classification at 200fps. Custom fixed-point arithmetic library for 8-bit inference.</p>
+            <div class="card-footer">
+              <div class="card-tech">
+                <span class="chip">C</span>
+                <span class="chip">CMSIS-NN</span>
+                <span class="chip">TFLite</span>
+              </div>
+              <a href="#" class="card-link">View →</a>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <span class="card-icon">🌐</span>
+            <span class="card-tag">Neural Network</span>
+            <h3>Physics-Informed Neural ODE</h3>
+            <p>Neural ODE trained with physics-based loss terms to model chaotic dynamical systems. Predicts Lorenz attractor trajectories with sub-millisecond inference.</p>
+            <div class="card-footer">
+              <div class="card-tech">
+                <span class="chip">PyTorch</span>
+                <span class="chip">JAX</span>
+                <span class="chip">CUDA</span>
+              </div>
+              <a href="#" class="card-link">View →</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Courses -->
+    <section id="courses">
+      <div style="max-width:900px;margin:0 auto;">
+        <p class="section-label reveal">What I've studied</p>
+        <h2 class="section-title reveal">Courses & <em>Certifications</em></h2>
+        <div class="courses-list">
+
+          <div class="course-item reveal">
+            <div class="course-num">01</div>
+            <div class="course-info">
+              <h4>Quantum Computing — From Linear Algebra to Entanglement</h4>
+              <p>MIT OpenCourseWare · 2024</p>
+            </div>
+            <span class="course-badge badge-complete">Complete</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">02</div>
+            <div class="course-info">
+              <h4>Deep Learning Specialisation</h4>
+              <p>Coursera / deeplearning.ai · Andrew Ng · 2023</p>
+            </div>
+            <span class="course-badge badge-complete">Complete</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">03</div>
+            <div class="course-info">
+              <h4>Digital Design & Computer Architecture</h4>
+              <p>ETH Zürich / edX · 2023</p>
+            </div>
+            <span class="course-badge badge-complete">Complete</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">04</div>
+            <div class="course-info">
+              <h4>Embedded Systems Programming on ARM</h4>
+              <p>Udemy — FastBit Embedded Brain Academy · 2023</p>
+            </div>
+            <span class="course-badge badge-complete">Complete</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">05</div>
+            <div class="course-info">
+              <h4>CS231n: Convolutional Neural Networks for Visual Recognition</h4>
+              <p>Stanford University · 2024</p>
+            </div>
+            <span class="course-badge badge-complete">Complete</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">06</div>
+            <div class="course-info">
+              <h4>Quantum Machine Learning</h4>
+              <p>PennyLane / Xanadu · 2024</p>
+            </div>
+            <span class="course-badge badge-progress">In Progress</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">07</div>
+            <div class="course-info">
+              <h4>Advanced FPGA Design with Chisel</h4>
+              <p>UC Berkeley / edX · Planned</p>
+            </div>
+            <span class="course-badge badge-planned">Planned</span>
+          </div>
+
+          <div class="course-item reveal">
+            <div class="course-num">08</div>
+            <div class="course-info">
+              <h4>Reinforcement Learning from Human Feedback</h4>
+              <p>Hugging Face Deep RL Course · 2025</p>
+            </div>
+            <span class="course-badge badge-planned">Planned</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="contact-inner">
+        <p class="section-label reveal" style="justify-content:center;">Get in touch</p>
+        <h2 class="section-title reveal">Let's build something<br><em>extraordinary</em></h2>
+        <p class="reveal">Open to collaborations in quantum simulation, embedded ML, and hardware-accelerated AI. Also happy to discuss research ideas, consulting, or just talk about interesting problems.</p>
+        <div class="contact-links reveal">
+          <a href="mailto:hello@example.com" class="contact-link">✉ Email</a>
+          <a href="https://github.com" class="contact-link" target="_blank">⌥ GitHub</a>
+          <a href="https://linkedin.com" class="contact-link" target="_blank">↗ LinkedIn</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>// Built with physics & caffeine</span>
+    <span>Update this portfolio as your work grows →</span>
+  </footer>
+
+  <script>
+  // ══════════════════════════════════════════
+  // CURSOR
+  // ══════════════════════════════════════════
+  const cursor = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursor-ring');
+  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  let ringX = mx, ringY = my;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mx - ringX) * 0.12;
+    ringY += (my - ringY) * 0.12;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top  = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // ══════════════════════════════════════════
+  // CARD MOUSE GLOW
+  // ══════════════════════════════════════════
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width  * 100).toFixed(1);
+      const y = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+  });
+
+  // ══════════════════════════════════════════
+  // SCROLL REVEAL
+  // ══════════════════════════════════════════
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ══════════════════════════════════════════
+  // LIQUID PHYSICS SIMULATION
+  // ══════════════════════════════════════════
+  const canvas = document.getElementById('bg-canvas');
+  const ctx    = canvas.getContext('2d');
+
+  let W, H;
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); initParticles(); });
+
+  // Mouse position (normalised 0-1)
+  let mouseX = 0.5, mouseY = 0.5;
+  let mouseVX = 0, mouseVY = 0;
+  let lastMX = 0, lastMY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseVX = e.clientX - lastMX;
+    mouseVY = e.clientY - lastMY;
+    lastMX = e.clientX; lastMY = e.clientY;
+    mouseX = e.clientX / W;
+    mouseY = e.clientY / H;
+  });
+
+  // ── Metaball / SPH-lite fluid ──
+  const NUM_PARTICLES = 180;
+  const particles = [];
+
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(init = false) {
+      this.x  = Math.random() * W;
+      this.y  = init ? Math.random() * H : -20;
+      this.vx = (Math.random() - 0.5) * 0.4;
+      this.vy = (Math.random() - 0.5) * 0.4;
+      this.r  = 1.5 + Math.random() * 3.5;
+      this.life = 0;
+      this.maxLife = 400 + Math.random() * 600;
+      // Hue in purple/violet range
+      this.hue = 255 + Math.random() * 60; // 255-315
+      this.sat = 60 + Math.random() * 30;
+      this.baseAlpha = 0.15 + Math.random() * 0.35;
+    }
+    update() {
+      this.life++;
+      // Gravity-like drift
+      this.vy += 0.006;
+      this.vx += (Math.random() - 0.5) * 0.03;
+
+      // Mouse repulsion/attraction
+      const dx = this.x - mx;
+      const dy = this.y - my;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 180) {
+        const force = (180 - dist) / 180;
+        const angle = Math.atan2(dy, dx);
+        const speed = Math.sqrt(mouseVX * mouseVX + mouseVY * mouseVY);
+        // Swirl effect
+        const swirl = 0.012 * force * (1 + speed * 0.05);
+        this.vx += Math.cos(angle + Math.PI * 0.5) * swirl * 3;
+        this.vy += Math.sin(angle + Math.PI * 0.5) * swirl * 3;
+        // Repulsion
+        this.vx += (dx / dist) * force * 0.25;
+        this.vy += (dy / dist) * force * 0.25;
+      }
+
+      // Damping
+      this.vx *= 0.985;
+      this.vy *= 0.985;
+
+      this.x += this.vx;
+      this.y += this.vy;
+
+      // Wrap horizontally
+      if (this.x < -10) this.x = W + 10;
+      if (this.x > W + 10) this.x = -10;
+
+      // Reset if off bottom or max life
+      if (this.y > H + 20 || this.life > this.maxLife) this.reset();
+    }
+    draw() {
+      const lifeRatio = this.life / this.maxLife;
+      const alpha = this.baseAlpha * Math.sin(lifeRatio * Math.PI);
+      // Distance to mouse for brightness boost
+      const dx = this.x - mx, dy = this.y - my;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      const glow = d < 150 ? (1 - d / 150) * 0.5 : 0;
+
+      const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 3.5);
+      grad.addColorStop(0,   `hsla(${this.hue}, ${this.sat + glow * 30}%, ${50 + glow * 30}%, ${alpha + glow * 0.3})`);
+      grad.addColorStop(0.4, `hsla(${this.hue}, ${this.sat}%, 40%, ${alpha * 0.6})`);
+      grad.addColorStop(1,   `hsla(${this.hue}, ${this.sat}%, 30%, 0)`);
+
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r * 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+    }
+  }
+
+  // ── Connection lines between close particles ──
+  function drawConnections() {
+    const maxDist = 90;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i], b = particles[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < maxDist) {
+          const alpha = (1 - dist / maxDist) * 0.08;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(107, 53, 217, ${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  // ── Metaball field (sampled grid) ──
+  const GRID_STEP = 22;
+  function drawMetaballs() {
+    // Threshold-based blob rendering using marching squares-lite
+    const cols = Math.ceil(W / GRID_STEP) + 1;
+    const rows = Math.ceil(H / GRID_STEP) + 1;
+
+    for (let gy = 0; gy < rows; gy++) {
+      for (let gx = 0; gx < cols; gx++) {
+        const px = gx * GRID_STEP;
+        const py = gy * GRID_STEP;
+        let field = 0;
+        for (const p of particles) {
+          const dx = px - p.x, dy = py - p.y;
+          const d2 = dx * dx + dy * dy;
+          field += (p.r * p.r * 1800) / (d2 + 1);
+        }
+        if (field > 1.8) {
+          const alpha = Math.min((field - 1.8) * 0.04, 0.12);
+          ctx.fillStyle = `rgba(74, 31, 168, ${alpha})`;
+          ctx.fillRect(px - GRID_STEP * 0.5, py - GRID_STEP * 0.5, GRID_STEP, GRID_STEP);
+        }
+      }
+    }
+  }
+
+  // ── Ambient wave layers ──
+  let waveT = 0;
+  function drawWaves() {
+    waveT += 0.008;
+    const layers = [
+      { amp: 35, freq: 0.006, speed: 1.0, y: H * 0.35, alpha: 0.04, hue: 270 },
+      { amp: 25, freq: 0.009, speed: 1.6, y: H * 0.55, alpha: 0.035, hue: 290 },
+      { amp: 45, freq: 0.004, speed: 0.7, y: H * 0.72, alpha: 0.03, hue: 250 },
+    ];
+
+    // Mouse influence on waves
+    const mInfluence = (mouseY - 0.5) * 30;
+
+    for (const l of layers) {
+      ctx.beginPath();
+      for (let x = 0; x <= W; x += 4) {
+        const y = l.y + mInfluence
+                + Math.sin(x * l.freq + waveT * l.speed) * l.amp
+                + Math.sin(x * l.freq * 2.3 + waveT * l.speed * 1.5) * l.amp * 0.4;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
+      ctx.fillStyle = `hsla(${l.hue}, 60%, 25%, ${l.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  // ── Mouse ripple ──
+  const ripples = [];
+  document.addEventListener('click', () => {
+    ripples.push({ x: mx, y: my, r: 0, maxR: 120, alpha: 0.6 });
+  });
+  function drawRipples() {
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const rip = ripples[i];
+      rip.r   += 3.5;
+      rip.alpha -= 0.015;
+      if (rip.alpha <= 0) { ripples.splice(i, 1); continue; }
+      ctx.beginPath();
+      ctx.arc(rip.x, rip.y, rip.r, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(191, 95, 255, ${rip.alpha})`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+  }
+
+  // ── Mouse trail ──
+  const trail = [];
+  let trailTimer = 0;
+  function updateTrail() {
+    trailTimer++;
+    if (trailTimer % 2 === 0) {
+      trail.push({ x: mx, y: my, alpha: 0.5, r: 3 + Math.abs(mouseVX + mouseVY) * 0.3 });
+    }
+    for (let i = trail.length - 1; i >= 0; i--) {
+      trail[i].alpha -= 0.04;
+      trail[i].r     *= 0.96;
+      if (trail[i].alpha <= 0) trail.splice(i, 1);
+    }
+    for (const t of trail) {
+      ctx.beginPath();
+      ctx.arc(t.x, t.y, t.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(191, 95, 255, ${t.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    particles.length = 0;
+    for (let i = 0; i < NUM_PARTICLES; i++) particles.push(new Particle());
+  }
+  initParticles();
+
+  // ── Main render loop ──
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Deep background vignette
+    const vignette = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.75);
+    vignette.addColorStop(0, 'rgba(13, 5, 32, 0)');
+    vignette.addColorStop(1, 'rgba(5, 2, 15, 0.7)');
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0, 0, W, H);
+
+    // Mouse "aurora" highlight
+    const aurora = ctx.createRadialGradient(mx, my, 0, mx, my, 320);
+    aurora.addColorStop(0,   'rgba(107, 53, 217, 0.08)');
+    aurora.addColorStop(0.5, 'rgba(74, 31, 168, 0.04)');
+    aurora.addColorStop(1,   'rgba(0,0,0,0)');
+    ctx.fillStyle = aurora;
+    ctx.fillRect(0, 0, W, H);
+
+    drawWaves();
+    drawMetaballs();
+    drawConnections();
+
+    particles.forEach(p => { p.update(); p.draw(); });
+
+    updateTrail();
+    drawRipples();
+
+    requestAnimationFrame(render);
+  }
+  render();
+
+  // ══════════════════════════════════════════
+  // PARALLAX on hero elements
+  // ══════════════════════════════════════════
+  const heroTitle = document.querySelector('.hero-title');
+  const heroDesc  = document.querySelector('.hero-desc');
+  document.addEventListener('mousemove', e => {
+    const dx = (e.clientX / W - 0.5) * 18;
+    const dy = (e.clientY / H - 0.5) * 10;
+    if (heroTitle) heroTitle.style.transform = `translate(${dx * 0.4}px, ${dy * 0.3}px)`;
+    if (heroDesc)  heroDesc.style.transform  = `translate(${dx * 0.2}px, ${dy * 0.15}px)`;
+  });
+  </script>
+</body>
+</html>
