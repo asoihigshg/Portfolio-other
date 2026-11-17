@@ -28,6 +28,7 @@ my photos ................. main.js, search:  var PHOTOS
                             photo-1.jpg is used for the first one, the rest are placeholders
 my music .................. main.js, search:  var TR=
 my plotter drawings ....... main.js, search:  var DR=
+my tournaments ............ index.html, search:  id="tournaments"
 the tab title phrases ..... main.js, search:  var T=[document.title
 colours ................... style.css, search:  :root
 

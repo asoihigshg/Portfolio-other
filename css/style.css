@@ -870,4 +870,8 @@ section.rm:nth-of-type(4n)>h2 {
 
 strong{background:linear-gradient(transparent 58%,rgba(197,138,66,.42) 58%);padding:0 .1em;}
 a:hover{text-decoration:underline wavy;text-underline-offset:4px;}
+.pg2 small time{font:inherit;}
+
+#tournaments .pg2{min-height:190px;}
+
 .ps{display:block;margin-top:14px;font:1.5rem/1 "Reenie Beanie",cursive;color:var(--hot);transform:rotate(-1deg);}
