@@ -1,4 +1,4 @@
-/* colours live in here */
+/* colours */
 :root {
   --wall: #E4D6BA;
   --wt: #30251F;
@@ -53,7 +53,6 @@ body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index
 }
 
 
-/* scrolling banner strips */
 .mq {
   overflow: hidden;
   white-space: nowrap;
@@ -114,7 +113,6 @@ body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index
 }
 
 
-/* photo strip */
 .film {
   display:flex; gap:16px;overflow-x:auto;padding:36px 24px;background-color:#30251F;background-image:repeating-linear-gradient(90deg,var(--paper) 0 14px,transparent 14px 28px),repeating-linear-gradient(90deg,var(--paper) 0 14px,transparent 14px 28px); background-size:100% 9px;background-position:0 9px,0 calc(100% - 9px);background-repeat:no-repeat; .junk {
     display: none;
@@ -151,7 +149,6 @@ body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index
 #dv{position:fixed;inset:0;z-index:60;background:rgba(10,10,10,.85);display:grid;place-content:center;justify-items:center;padding:20px;overflow:auto;}
 #dv[hidden]{display:none}
 
-/* photo viewer: the camera, then the print sliding out */
 .cam {
   width: min(340px,86vw);
   position: relative;
@@ -242,7 +239,6 @@ body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index
 .sheet figcaption { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:10px; font-size:.95rem; }
 
 .sheet button { font:inherit; cursor:pointer; border:2px solid var(--ink); background:var(--sun); color:var(--ink); padding:2px 12px; }
-/* ipod in the music section */
 .ipod { width:290px; margin:10px auto 0; padding:18px 18px 30px; border-radius:30px; background:linear-gradient(160deg,#fafafa,#c9c9c9); border:2px solid #8c8c8c; box-shadow:8px 10px 0 rgba(0,0,0,.35),inset 0 0 0 3px #fff; color:#111; font-family:Helvetica,Arial,sans-serif; transform:rotate(-2deg); }
 .scr { height:210px; background:#dfe9ee; border:3px solid #777; border-radius:8px; overflow:hidden; display:flex; flex-direction:column; font-size:15px; line-height:1.3; }
 .scr .bar { background:linear-gradient(#f4f8fb,#b5c6d1); padding:3px 8px; display:flex; justify-content:space-between; font-weight:700; font-size:13px; border-bottom:1px solid #7c8c96; }
@@ -378,7 +374,6 @@ h1 {
 .tg{display:flex;flex-wrap:wrap;gap:10px 12px;margin-top:44px}
 .tg span{color:var(--ink);padding:3px 16px;transform:rotate(var(--r));box-shadow:2px 3px 0 rgba(0,0,0,.35);font-style:italic;}
 
-/* project gallery grid */
 .gw{display:grid;grid-template-columns:repeat(12,1fr);gap:70px 30px;align-items:start;}
 .pj{grid-column:span 6;position:relative;transform:rotate(var(--r));margin-top:var(--m,0);}
 .pj:nth-child(1){grid-column:1/8;}
@@ -419,7 +414,6 @@ h1 {
   margin: 6px 0 0;
 }
 
-/* contact postcard */
 .pc {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
@@ -641,7 +635,6 @@ h2 {
 .bc small { font:1.6rem/1 "Reenie Beanie",cursive; color:var(--hot); display:block; margin-top:10px; }
 
 .bc .stampd { position:absolute; top:-14px; right:14px; background:var(--paper); }
-/* falling leaves */
 .fall { position:absolute; left:50%; top:0; bottom:0; width:100vw; transform:translateX(-50%); overflow:hidden; pointer-events:none; z-index:-1; }
 
 .lf { position:absolute; top:-70px; animation:fall linear infinite; }
@@ -663,7 +656,6 @@ h2 {
   .fall{display:none;}
 
 }
-/* dark mode lamp */
 #lamp{position:fixed;top:12px;right:14px;z-index:80;background:none;border:0;padding:4px;width:56px;cursor:pointer;}
 
 #lamp svg{display:block;width:100%;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.25));}
@@ -676,7 +668,6 @@ h2 {
 [data-lit] #glow{opacity:1;}
 #tint{position:fixed;inset:0;pointer-events:none;z-index:58;mix-blend-mode:multiply;transition:background 1s}
 
-/* vine on the left edge, hidden on narrow screens */
 #vine{position:fixed;left:0;top:0;height:100vh;width:46px;z-index:5;pointer-events:none;}
 @media (max-width:899px){
   #vine { display:none; }
@@ -720,7 +711,6 @@ input,textarea,#ea {
   user-select: text;
 }
 
-/* fencing box */
 .fx {
   display: flex;
   flex-wrap: wrap;
@@ -799,7 +789,6 @@ input,textarea,#ea {
   font-size: .95rem;
 }
 
-/* doodles */
 .dd {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(210px,1fr));
@@ -811,7 +800,7 @@ input,textarea,#ea {
 .dc svg { display:block; width:100%; aspect-ratio:1; background:repeating-linear-gradient(transparent 0 24px,rgba(112,84,90,.2) 24px 25px),#fffdf5; }
 .dc figcaption { font:400 1.45rem/1.1 "Reenie Beanie",cursive; text-align:center; padding-top:8px; }
 .rib { position:absolute; right:-14px; top:-18px; width:78px; height:78px; border-radius:50%; background:var(--hot); color:#fff; font:400 .95rem/1 "Reenie Beanie",cursive; display:grid; place-content:center; text-align:center; padding:10px; transform:rotate(14deg); border:3px double #fff; box-shadow:2px 3px 0 rgba(0,0,0,.3); }
-/* the 90s homepage bit */
+/* 90s bit */
 .ret{margin:100px 0 0;padding:40px 14px 50px;background:#000080 radial-gradient(#fff 1px,transparent 1.5px) 0 0/37px 41px;color:#fff;font:16px/1.45 "Times New Roman",Times,serif;text-align:center;border-block:6px ridge #c0c0c0;position:relative;z-index:5}
 .ret *{box-sizing:content-box;}
 
@@ -871,3 +860,14 @@ section.rm:nth-of-type(4n)>h2 {
 	text-underline-offset: 6px;
 	text-decoration-thickness: 1px;
 }
+
+
+::selection {
+	background: var(--sun);
+	color: var(--ink);
+}
+
+
+strong{background:linear-gradient(transparent 58%,rgba(197,138,66,.42) 58%);padding:0 .1em;}
+a:hover{text-decoration:underline wavy;text-underline-offset:4px;}
+.ps{display:block;margin-top:14px;font:1.5rem/1 "Reenie Beanie",cursive;color:var(--hot);transform:rotate(-1deg);}
