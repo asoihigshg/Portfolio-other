@@ -1,0 +1,566 @@
+/* all the styles are in here. colours are in :root just below, change those and the whole site changes (i think). some of this is fine, some of it is a crime scene */
+  :root{ --wall:#E4D6BA;--wt:#30251F;
+  --paper:#F2E8D6;--ink:#30251F;--hot:#A94F36;--sun:#C58A42;--pink:#BD8170;--blue:#70545A; --mint:#8E9468;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){
+   
+	/* old colour was a nightmare */
+ :root:not([data-theme="light"]){ --wall:#241b16;--wt:#F2E8D6;color-scheme:dark}
+	
+    }
+		:root[data-theme="dark"]{ --wall:#241b16;--wt:#F2E8D6;color-scheme:dark}
+/* .old-nav{color:red;margin:0} */
+   html{ /* dont ask */
+	scroll-padding-top:calc(env(safe-area-inset-top,0px) + 12px)} @media (prefers-reduced-motion:no-preference){
+html{scroll-behavior:smooth} } /* TODO */
+ *{box-sizing:border-box}  
+
+	body{ /* idk */
+	/* idk */
+   margin:0; background:radial-gradient(rgba(0,0,0,.2) 1px,transparent 1.5px) 0 0/5px 5px,var(--wall);color:var(--wt);font:18px/1.65 "Special Elite","Courier New",monospace;overflow-x:hidden}
+body::after{ content:"";position:fixed;
+   inset:0;pointer-events:none;opacity:.55;mix-blend-mode:multiply; /* idk */
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}  
+
+     /* ok this is probably wrong but it works */
+/* tweak later */
+        a{
+	color:inherit}a:focus-visible,summary:focus-visible,button:focus-visible{outline:4px solid var(--hot);outline-offset:3px}.bg{font-family:"Fraunces","Arial Black",sans-serif;
+        font-weight:400} /* 2am */
+   .rm{ max-width:1100px;margin:0 auto;padding:clamp(70px,11vw,130px) 22px 0; position:relative}h2{font:400 clamp(2.8rem,10vw,6.5rem)/1.05 "Caveat","Arial Black",sans-serif;margin:0 0 12px;transform:rotate(-2deg); display:inline-block;background:var(--paper);
+ color:var(--ink);padding:.02em .25em .08em;box-shadow:6px 6px 0 var(--hot)}
+   .cap{display:block;width:fit-content;background:#30251F;
+  color:#F2E8D6;border:2px solid #F2E8D6;padding:3px 16px;margin:8px 0 38px;
+/* broke on safari, this fixes it i think */
+font-size:.95rem;letter-spacing:.14em;transform:rotate(-1deg);
+   box-shadow:3px 3px 0 rgba(0,0,0,.4)}  
+
+		.chk{height:30px; background:repeating-conic-gradient(var(--ink) 0 25%,var(--paper) 0 50%) 0 0/30px 30px;border-block:3px solid var(--ink)}
+    /* TODO */
+  .cas{ /* wip */
+     width:150px; height:auto;margin-left:auto;transform:rotate(7deg);
+	filter:drop-shadow(4px 5px 0 rgba(0,0,0,.35))}.tape{font-family:"Special Elite",monospace}
+.p,.fr,.pc,.lb,.sk,nav a,.pol{
+     filter:url(#rough)} body::before{ content:"";position:fixed;inset:0;pointer-events:none;z-index:50;
+        /* ??? */
+	opacity:.5;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='s'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='1' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 9 -6.4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23s)'/%3E%3C/svg%3E")}
+	
+.note{ display:inline-block;
+		font:400 clamp(1.8rem,4.4vw,2.5rem)/1 "Reenie Beanie",cursive;color:var(--hot);
+        transform:rotate(var(--r,-4deg)); margin:10px 8px}
+  .cap+.note{
+	margin:-26px 0 24px}.btns .note{margin-left:auto} /* 2am */
+		.btns .note+.cas{
+	margin-left:0} /* hmm */
+/* tweak later */
+.mq{overflow:hidden;white-space:nowrap;background:var(--hot);color:var(--paper); border-block:3px solid var(--ink); transform:rotate(-1.5deg); margin:80px -12px 0;font:400 1.5rem/1 "Fraunces",sans-serif}
+	.mq span{
+	display:inline-block;padding:10px 0;animation:mq 26s linear infinite}@keyframes mq{to{transform:translateX(-50%)}}
+/* idk */
+    .pols{display:flex;gap:28px;flex-wrap:wrap; /* dont ask */
+        justify-content:center;margin-top:44px;width:100%}.pol{margin:0;background:#FBF4E4;color:var(--ink);padding:12px 12px 8px;width:210px;box-shadow:5px 6px 0 rgba(0,0,0,.35);transform:rotate(var(--r))}  
+
+  .pol svg{display:block; width:100%;aspect-ratio:1}.pol figcaption{
+/* 2am */
+     font:400 1.5rem/1.1 "Reenie Beanie",cursive;text-align:center;padding-top:8px}
+  /* works on my laptop */
+   
+		.film{display:flex;
+gap:16px;overflow-x:auto;padding:36px 24px;background-color:#30251F;background-image:repeating-linear-gradient(90deg,var(--paper) 0 14px,transparent 14px 28px),repeating-linear-gradient(90deg,var(--paper) 0 14px,transparent 14px 28px);
+	background-size:100% 9px;background-position:0 9px,0 calc(100% - 9px);background-repeat:no-repeat;
+	.junk{display:none}
+     border-block:3px solid var(--ink);
+     /* ??? */
+     .todo{padding:0}
+ transform:rotate(-1deg);margin:0 -10px} /* fixed? */
+  .fm{ flex:none;width:200px;aspect-ratio:3/2;border:0;
+    padding:0;background:#333;cursor:pointer;position:relative}
+		.fm img{width:100%;
+height:100%; object-fit:cover;display:block; /* ??? */
+        filter:grayscale(1) contrast(1.15)}
+	 .fm:hover img{ filter:none}
+        /* TODO */
+.fm i{
+	position:absolute;left:2px;bottom:-24px;color:var(--sun);font:normal .8rem "Special Elite",monospace}#dv{position:fixed;inset:0;z-index:60; background:rgba(10,10,10,.85);display:grid;place-content:center;
+justify-items:center;padding:20px;overflow:auto}
+   #dv[hidden]{ /* dont delete */
+display:none}.cam{width:min(340px,86vw);position:relative; clip-path:inset(0 -80px -900px -80px)}
+.cam svg{display:block;width:100%;
+   height:auto;position:relative;z-index:3}
+  .fl{ fill:#fff6c9; /* idk */
+  opacity:0;animation:flash .8s .15s}
+    @keyframes flash{30%{opacity:1}  
+
+	}
+  .px{ background:#FBF4E4;color:var(--ink); padding:12px 12px 16px; width:78%;
+  margin:-20px auto 0;
+  animation:eject 3.4s .5s both;box-shadow:6px 8px 0 rgba(0,0,0,.4)} .px .ph{aspect-ratio:1;overflow:hidden;background:#1d2b2a} /* 2am */
+
+		.px img{ width:100%;height:100%;object-fit:cover; display:block;animation:dev 7s 3.8s ease-in both}.px p{
+ font:400 1.7rem/1.1 "Reenie Beanie",cursive;margin:10px 0 0;
+	/* fixed? */
+	text-align:center} @keyframes eject{0%{transform:translateY(-102%)} 28%{transform:translateY(-70%)}
+   
+
+  /* dont ask */
+34%{transform:translateY(-70%)} /* dont delete */
+	 66%{
+transform:translateY(-28%)}
+72%{transform:translateY(-28%)}
+100%{transform:translateY(0)}} @keyframes dev{from{
+	filter:brightness(.12) sepia(1) hue-rotate(150deg) saturate(2.5) contrast(.8);opacity:.5}  
+
+60%{filter:brightness(.7) sepia(.6) hue-rotate(150deg) saturate(1.3)}
+ to{ filter:none;opacity:1}  
+
+  }
+  #dv .x{margin-top:22px}.dr{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:38px 30px}.sheet{ margin:0;background:var(--paper);color:var(--ink);padding:16px 16px 12px;box-shadow:7px 8px 0 rgba(0,0,0,.3);transform:rotate(var(--r))}
+  .sheet svg{display:block;
+        width:100%; aspect-ratio:1; background:#fff;border:1px solid #bbb}
+.sheet path{fill:none;
+ stroke:var(--ink);
+	stroke-width:.9;stroke-linecap:round;
+	stroke-linejoin:round} .sheet .pen line{stroke:var(--hot);stroke-width:.3;opacity:.5}.sheet .pen circle{fill:var(--hot)} /* dont ask */
+/* fixed? */
+	.sheet figcaption{display:flex;justify-content:space-between;
+	/* works on my laptop */
+ align-items:center;gap:10px;margin-top:10px;font-size:.95rem}  
+
+	 .sheet button{font:inherit;cursor:pointer;border:2px solid var(--ink);background:var(--sun);color:var(--ink); padding:2px 12px}
+    .test2{outline:1px solid lime}
+	.ipod{ width:290px;margin:10px auto 0;padding:18px 18px 30px; border-radius:30px;background:linear-gradient(160deg,#fafafa,#c9c9c9);border:2px solid #8c8c8c; /* ??? */
+box-shadow:8px 10px 0 rgba(0,0,0,.35),inset 0 0 0 3px #fff;color:#111; font-family:Helvetica,Arial,sans-serif; transform:rotate(-2deg)}.scr{ height:210px;background:#dfe9ee;border:3px solid #777;border-radius:8px;
+        /* dont ask */
+     /* TODO */
+   
+        overflow:hidden;display:flex;flex-direction:column;font-size:15px;
+   
+    line-height:1.3}  
+
+
+.scr .bar{ background:linear-gradient(#f4f8fb,#b5c6d1);padding:3px 8px;
+        /* works on my laptop */
+    display:flex;justify-content:space-between; font-weight:700;font-size:13px;border-bottom:1px solid #7c8c96}.scr ul{ list-style:none;margin:0;padding:0; flex:1;
+	overflow:hidden}.scr li{padding:5px 10px;display:flex;
+	justify-content:space-between;white-space:nowrap}
+  .scr li.on{
+	background:linear-gradient(#5aa0e6,#1c64c0);color:#fff}  
+
+     /* fixed? */
+		#np{flex:1;padding:10px;display:flex;flex-direction:column;gap:5px} #np[hidden],#tl[hidden]{display:none} /* dont ask */
+		#np .art{height:74px;border:1px solid #777}
+		#np b{font-size:16px}.pg{height:10px;border:1px solid #666;background:#fff;margin-top:auto}
+  .pg i{display:block;height:100%;background:linear-gradient(#5aa0e6,#1c64c0)}.tm{display:flex;justify-content:space-between;
+   /* why is this so long */
+   font-size:12px} .wheel{ position:relative;
+width:210px;height:210px;
+	 margin:26px auto 0;border-radius:50%;background:#f7f7f7;border:2px solid #aaa;touch-action:none;box-shadow:inset 0 -6px 12px rgba(0,0,0,.12)}.wheel button{position:absolute; /* hmm */
+        border:0; /* dont delete */
+		background:none;
+	font:700 13px Helvetica,Arial,sans-serif;color:#888; cursor:pointer;padding:8px}
+.mn{top:10px;left:50%;transform:translateX(-50%)}  
+
+	.pv{left:6px;top:50%;transform:translateY(-50%)}
+.nx{right:6px;top:50%;
+   transform:translateY(-50%)}
+   .pp{bottom:10px;
+	left:50%;transform:translateX(-50%)}
+     /* dont delete */
+        /* copied from somewhere, dont ask */
+		.wheel .ct{left:50%;
+   top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:linear-gradient(#e8e8e8,#cfcfcf);border:2px solid #aaa;padding:0}
+@media (prefers-reduced-motion:reduce){ .px,.px img{ animation:none} /* dont ask */
+ }.pj{transition:transform .25s} /* works on my laptop */
+ /* body{background:#fff} */
+  .pj:hover{
+ transform:rotate(0) scale(1.02);z-index:3}
+		.lt{transition:transform .2s cubic-bezier(.3,1.6,.5,1)}
+.lt:hover{ transform:rotate(0) scale(1.15)}
+		@media (pointer:fine){
+		html{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 2l4 9.5 10 .8-7.6 6.6 2.3 10-8.7-5.4-8.7 5.4 2.3-10L2 12.3l10-.8z' fill='%23C58A42' stroke='%2330251F' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 16 16,auto}
+a,button,summary,.wheel,.fm{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 2l4 9.5 10 .8-7.6 6.6 2.3 10-8.7-5.4-8.7 5.4 2.3-10L2 12.3l10-.8z' fill='%23A94F36' stroke='%2330251F' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 16 16,pointer!important}
+   } @media (prefers-reduced-motion:reduce){ .mq span{ animation:none}
+}
+
+     .sp,.sk span,.lb small{font-family:"Special Elite",monospace} /* 2am */
+        header{ max-width:1100px;margin:0 auto;padding:26px 22px 0}
+        nav{ display:flex;flex-wrap:wrap;gap:10px}
+nav a{background:var(--paper);color:var(--ink);padding:5px 16px; /* TODO */
+		/* TODO */
+    text-decoration:none;font-style:italic;box-shadow:3px 3px 0 var(--ink);transform:rotate(var(--r))}
+nav a:hover{background:var(--sun)} h1{margin:clamp(40px,8vw,90px) 0 0; /* hmm */
+   font:400 clamp(3.6rem,17vw,11.5rem)/.98 "Fraunces","Arial Black",sans-serif}.row{
+  display:flex;flex-wrap:wrap;width:fit-content}.row+.row{margin-left:clamp(14px,6vw,90px)} .lt{color:var(--ink);padding:0 .07em;margin:0 .02em;display:inline-block;transform:rotate(var(--r));
+	animation:drop .7s cubic-bezier(.3,1.5,.5,1) both;animation-delay:var(--d)}@keyframes drop{from{transform:translateY(-70vh) rotate(calc(var(--r)*5)); opacity:0}} .show{ font:italic 400 clamp(1.8rem,5.2vw,3.4rem)/1.1 "Instrument Serif",Georgia,serif; /* tweak later */
+  margin:36px 0 0;max-width:15em}.tape{
+	display:inline-block;background:var(--sun);color:var(--ink);padding:3px 18px;margin:22px 0 0;transform:rotate(-1.5deg);font-style:italic} /* wip */
+	.lead{ /* why is this here */
+     max-width:34em; margin:18px 0 0}.btns{display:flex;gap:16px; flex-wrap:wrap;
+    margin-top:28px}
+    .bt{font:400 1.15rem "Fraunces","Arial Black",sans-serif; text-decoration:none;
+	color:var(--ink);padding:12px 26px;
+border:3px solid var(--ink);background:var(--hot);box-shadow:5px 5px 0 var(--ink);border-radius:60px 60px 60px 8px;cursor:pointer;display:inline-block}.bt.b{background:var(--mint);
+		border-radius:8px 60px 60px 60px}
+.bt:hover{transform:translate(-2px,-2px);
+  box-shadow:7px 7px 0 var(--ink)} .sh{ position:relative;
+        filter:drop-shadow(5px 6px 0 rgba(0,0,0,.28))} .sh::before{content:"";position:absolute; /* old version below, keeping it just in case */
+		/* hacky */
+   z-index:2;top:-14px;left:50%;
+        width:120px;height:32px;
+margin-left:-60px;background:var(--sun);opacity:.85;transform:rotate(-3deg)}
+ .p{background:var(--paper);color:var(--ink);padding:48px clamp(24px,5vw,56px) 52px;clip-path:polygon(0 2%,4% 0,9% 2%,15% 0,22% 1.5%,30% 0,38% 2%,46% 0,55% 1.5%,63% 0,71% 2%,80% 0,88% 1.5%,95% 0,100% 2%,99% 30%,100% 55%,98.5% 80%,100% 100%,92% 98.5%,84% 100%,75% 98%,66% 100%,57% 98.5%,48% 100%,39% 98%,30% 100%,21% 98.5%,12% 100%,5% 98%,0 100%,1.5% 70%,0 45%,1% 20%)}
+ .p{background:var(--paper);color:var(--ink);padding:48px clamp(24px,5vw,56px) 52px;clip-path:polygon(0 2%,4% 0,9% 2%,15% 0,22% 1.5%,30% 0,38% 2%,46% 0,55% 1.5%,63% 0,71% 2%,80% 0,88% 1.5%,95% 0,100% 2%,99% 30%,100% 55%,98.5% 80%,100% 100%,92% 98.5%,84% 100%,75% 98%,66% 100%,57% 98.5%,48% 100%,39% 98%,30% 100%,21% 98.5%,12% 100%,5% 98%,0 100%,1.5% 70%,0 45%,1% 20%)} /* copied twice by accident */
+   .p h3{
+   font:400 clamp(1.9rem,4.4vw,2.8rem)/1 "Fraunces",sans-serif;
+	margin:0 0 16px}
+.p p{margin:0 0 14px}
+.p i.k{opacity:.7}
+   
+ .ab{ display:flex;
+flex-wrap:wrap;gap:36px;align-items:flex-start}  
+
+	.ab .sh{flex:1 1 440px;max-width:640px;transform:rotate(-1.2deg)} .stk{flex:1 1 280px; /* dont delete */
+	display:flex;flex-wrap:wrap;
+     /* TODO: clean this up */
+   
+		justify-content:center;padding-top:10px}
+  .sk{width:150px;height:150px; border-radius:50%;margin:-10px -6px;display:grid;place-content:center;text-align:center;color:var(--ink);border:3px solid var(--ink);
+   /* works on my phone */
+  box-shadow:4px 4px 0 var(--ink);transform:rotate(var(--r)); line-height:1.05}  
+.todo{padding:0}
+
+ .sk b{font:400 2.7rem/1 "Fraunces",sans-serif}.sk span{
+    font-style:italic;font-size:.95rem;
+/* 2am */
+	padding:0 14px}
+  .tg{display:flex;
+	 flex-wrap:wrap;gap:10px 12px;margin-top:44px} .tg span{color:var(--ink); padding:3px 16px;transform:rotate(var(--r));box-shadow:2px 3px 0 rgba(0,0,0,.35);font-style:italic}.gw{
+  display:grid;grid-template-columns:repeat(12,1fr);gap:70px 30px;align-items:start}
+		.pj{grid-column:span 6;position:relative;transform:rotate(var(--r)); margin-top:var(--m,0)}
+.pj:nth-child(1){grid-column:1/8}.pj:nth-child(2){
+/* fixed (i think) */
+ grid-column:8/13;
+  /* old colour was a nightmare */
+
+	--m:90px}.pj:nth-child(3){ grid-column:1/5}
+  .pj:nth-child(4){grid-column:5/13;--m:50px}
+    .pj:nth-child(5){
+    grid-column:2/7}
+  /* fixed? */
+  .pj:nth-child(6){ grid-column:7/13;
+   --m:60px}.fr{
+        background:var(--paper); /* dont delete */
+  padding:clamp(12px,2.4vw,24px);border:clamp(8px,1.6vw,16px) solid var(--fc); box-shadow:8px 10px 0 rgba(0,0,0,.3)}
+    .pj:nth-child(3) .fr{border:0;
+	padding:0;
+
+	 /* dont touch!! */
+     .test2{outline:1px solid lime} /* wip */
+     .test2{outline:1px solid lime} /* copied twice by accident */
+	 box-shadow:6px 9px 0 rgba(0,0,0,.3)}  
+	
+
+/* body{background:#fff} */
+   
+	.pj:nth-child(3)::before{ content:"";position:absolute;z-index:2;top:-8px;left:50%;width:18px;height:18px;
+   margin-left:-9px;border-radius:50%;background:var(--hot);
+
+        border:3px solid var(--ink)}  
+
+  .fr svg{display:block;width:100%;
+  aspect-ratio:var(--ar)}
+		.lb{position:relative;
+		z-index:2;background:#fff;color:var(--ink);padding:12px 16px 14px;margin:-22px 0 0 auto;width:min(94%,360px);box-shadow:4px 4px 0 var(--ink);
+   font-size:.98rem;line-height:1.3;
+        .todo{padding:0} /* dont ask */
+		/* tweak later */
+   transform:rotate(1.2deg)} /* dont ask */
+  .lb h3{font:italic 400 1.45rem/1.05 "Instrument Serif",Georgia,serif;margin:0 0 4px}.lb small{display:block;font-size:.9rem;opacity:.75}
+	 .lb p{
+   margin:6px 0 0}.pc{display:grid;grid-template-columns:1.3fr 1fr;background:var(--paper);color:var(--ink); /* 2am */
+   border:3px solid var(--ink);box-shadow:9px 9px 0 var(--ink);
+		/* ??? */
+
+transform:rotate(1deg);max-width:880px;margin:0 auto 0 4%}
+		.pc>div{padding:clamp(22px,4vw,40px)}
+.pc .r{border-left:3px dashed var(--ink);
+  position:relative;display:flex;flex-direction:column; gap:18px;justify-content:center} .pc h3{
+        font:400 clamp(2rem,5vw,3.2rem)/.95 "Fraunces",sans-serif;
+
+  margin:0 0 14px}.stp{position:absolute;top:14px;right:14px; width:68px;height:82px;border:5px dotted var(--hot);background:var(--sun);
+        /* 2am */
+		display:grid;place-content:center;font:400 1.6rem "Fraunces",sans-serif;transform:rotate(4deg)} .em{ font:italic 400 1.5rem "Instrument Serif",serif;
+  word-break:break-all} footer{ padding:110px 22px 60px;text-align:center;font-style:italic} /* ??? */
+	@media (max-width:760px){
+		h1{font-size:clamp(3.25rem,16vw,7.5rem)} /* 2am */
+  .gw{ display:block}
+        /* hmm */
+ .pj{margin:0 0 64px!important}
+		.pc{grid-template-columns:1fr;margin:0}
+    .pc .r{border-left:0;border-top:3px dashed var(--ink);padding-top:90px}
+	
+    }   /* 2am */
+
+	@media (prefers-reduced-motion:reduce){.lt{
+     animation:none}
+.pj,.bt,.lt{transition:none!important}  
+   
+
+ .mq{transform:none!important}  
+
+     }
+	body{ font:17px/1.65 "DM Sans",system-ui,sans-serif}
+   /* ??? */
+		.cap,.tape,nav a,.sheet figcaption,.lb small,.summary .m,summary .m,.sp,footer{font-family:"Special Elite",monospace}
+   /* dont ask */
+  h1,h1 .lt,h2,.p h3,.pc h3,.bt,.mq,.sk b,.stp{ font-weight:800}h2{
+	 font-style:italic;box-shadow:6px 6px 0 var(--sun)}
+		.note,.hello,.status{ font-family:"Caveat",cursive} /* 2am */
+		/* 2am */
+ .hello{font-size:clamp(1.5rem,4vw,2.1rem);margin:clamp(40px,7vw,80px) 0 0;color:var(--hot);transform:rotate(-1.5deg)}
+	/* tweak later */
+  .hello+h1{
+
+	margin-top:clamp(28px,5vw,56px)}.status{display:flex; flex-wrap:wrap;
+   /* old version below, keeping it just in case */
+  gap:6px 14px;align-items:center;
+	font-size:1.5rem;margin:22px 0 0}
+/* body{background:#fff} */
+		.status b{font-weight:700;border:2px dashed var(--hot);padding:0 12px;transform:rotate(1deg)} .stampd{font:.8rem "Special Elite",monospace; border:2px solid var(--blue);color:var(--blue);padding:1px 8px;transform:rotate(-4deg);letter-spacing:.1em}.pj::after{content:"";position:absolute;top:-12px;left:28%;
+   width:96px; height:26px;z-index:3;background:repeating-linear-gradient(45deg,rgba(197,138,66,.85) 0 6px,rgba(242,232,214,.55) 6px 12px);transform:rotate(-4deg)} .pj:nth-child(even)::after{ left:55%;transform:rotate(5deg);background:repeating-linear-gradient(90deg,rgba(142,148,104,.85) 0 8px,rgba(242,232,214,.5) 8px 14px)} .mgn{ /* idk */
+/* tweak later */
+	 font:1.6rem/1 "Reenie Beanie",cursive;color:var(--hot);display:block;margin-top:6px;transform:rotate(-2deg)} /* tweak later */
+	 .sk,.pol,.fm{
+        /* ok this is probably wrong but it works */
+	/* works on my laptop */
+	transition:transform .25s}
+        .sk:hover,.pol:hover{
+	transform:rotate(calc(var(--r)*-1.6)) scale(1.06)} .fn{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:34px 26px; /* 2am */
+ margin-top:10px}.pg2{background:repeating-linear-gradient(transparent 0 29px,rgba(112,84,90,.35) 29px 30px),var(--paper);color:var(--ink);padding:26px 22px 22px 52px;line-height:30px;box-shadow:6px 7px 0 rgba(48,37,31,.3);
+   transform:rotate(var(--r));position:relative;border-left:3px double var(--hot)}.pg2 h3{font:italic 600 1.6rem/30px "Fraunces",serif; margin:0} /* dont delete */
+     .pg2 p{margin:0}  
+
+
+ .pg2 small{font:1.5rem/1 "Reenie Beanie",cursive;color:var(--hot);display:block}  
+
+	
+  .ipod{background:linear-gradient(160deg,#EBDDC0,#BFA57C); border-color:#7a5c3a;color:#30251F;box-shadow:8px 10px 0 rgba(48,37,31,.35),inset 0 0 0 3px #F6ECD6}.scr{background:#E9DDB8; border-color:#5b4430}  
+
+
+  .scr .bar{ background:linear-gradient(#F2E8D6,#C9B28A)}
+
+        .scr li.on{ background:linear-gradient(#C58A42,#A94F36)}.pg i{background:linear-gradient(#C58A42,#A94F36)}
+        .wheel{background:#F2E8D6;
+		border-color:#9a7f58}.wheel button{color:#70545A}.nook{display:flex;flex-wrap:wrap;gap:20px 36px;align-items:center;justify-content:center;margin-top:20px}.nook .note{max-width:16em;margin:0}
+.cass{width:170px;
+
+transform:rotate(4deg);filter:drop-shadow(4px 5px 0 rgba(48,37,31,.35))}
+.rl{ /* ??? */
+	
+transform-box:fill-box;
+	transform-origin:center}
+	/* idk */
+	 .play .rl{
+   animation:sp 2.4s linear infinite} /* works on my laptop */
+@keyframes sp{to{transform:rotate(360deg)}}
+     .st{position:fixed;z-index:70;pointer-events:none;
+	 color:var(--sun);font-size:16px;animation:stf .9s forwards}
+	
+@keyframes stf{to{ opacity:0;transform:translateY(-22px) rotate(90deg) scale(.4)}
+        .test2{outline:1px solid lime}
+        .test2{outline:1px solid lime} /* copied twice by accident */
+}
+		.hid{background:none; border:0;color:inherit;opacity:.5;
+	font:inherit;cursor:pointer;
+padding:8px}.hid:hover{
+	opacity:1}#hm{
+	display:block;font:1.8rem "Reenie Beanie",cursive;color:var(--hot); margin-top:8px}
+    .sheet svg{background:var(--paper)}
+	 .film{
+     background-color:#30251F}@media (prefers-reduced-motion:reduce){.rl,.st{animation:none!important}.sk:hover,.pol:hover{ transform:rotate(var(--r))}   /* 2am */
+
+ } .bn{display:grid;
+   /* sort this out later */
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:40px 28px;margin-top:20px}
+	
+		.bc{background:var(--paper); color:var(--ink);border:3px solid var(--ink);
+  /* why is this so long */
+		box-shadow:7px 7px 0 var(--c);padding:28px 22px 20px; transform:rotate(var(--r));position:relative} .bc h3{font:italic 600 1.6rem/1.1 "Fraunces",serif;margin:0 0 8px}  
+
+.bc p{margin:0} .bc small{
+/* TODO */
+  font:1.6rem/1 "Reenie Beanie",cursive;color:var(--hot);display:block;margin-top:10px}
+   .bc .stampd{position:absolute;
+ top:-14px; right:14px;background:var(--paper)}  
+
+	.fall{ position:absolute;left:50%;top:0;bottom:0;width:100vw;transform:translateX(-50%);
+   
+   overflow:hidden;pointer-events:none;
+   z-index:-1}.lf{position:absolute;top:-70px;animation:fall linear infinite}.lf svg{display:block; width:100%;
+
+
+		height:auto; /* hmm */
+	
+    transform-origin:50% 20%;
+	animation:sw ease-in-out infinite alternate}
+  @keyframes fall{0%{transform:translate3d(0,0,0);opacity:0} /* idk */
+        8%{opacity:.9} 92%{opacity:.9}
+  /* dont delete */
+100%{ transform:translate3d(var(--dx),var(--h),0);
+  opacity:0}  
+
+     }  
+
+     /* works on my phone */
+	
+ @keyframes sw{
+	from{transform:rotate(-35deg) scaleX(1)} to{transform:rotate(35deg) scaleX(.45)} /* 2am */
+  }
+  /* fixed (i think) */
+  /* dont ask */
+@media (prefers-reduced-motion:reduce){.fall{display:none}}#lamp{position:fixed;top:12px;right:14px;z-index:80; background:none;border:0;padding:4px;width:56px;cursor:pointer}   /* hmm */
+
+  #lamp svg{display:block;width:100%;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.25))}#lamp .bulb{ fill:#6b5a44; transition:fill .4s} [data-lit] #lamp .bulb{fill:#FFD27A}
+        #lamp:focus-visible{ outline:3px solid var(--hot);border-radius:8px}  
+
+        /* ??? */
+	#glow{position:fixed;inset:0;pointer-events:none; z-index:59;
+        opacity:0;transition:opacity .6s;
+   background:radial-gradient(circle at calc(100% - 40px) 50px,rgba(255,196,110,.3),transparent 55%)}
+
+   [data-lit] #glow{ opacity:1}
+	 /* dont ask */
+	#tint{
+position:fixed;inset:0;pointer-events:none;z-index:58;mix-blend-mode:multiply;transition:background 1s}#vine{position:fixed;left:0; top:0; height:100vh;width:46px;z-index:5;pointer-events:none}
+		@media (max-width:899px){ /* TODO */
+	#vine{ display:none} }
+  @media (min-width:900px){ section.rm:nth-of-type(odd){
+	margin-left:max(22px,calc(50vw - 620px));margin-right:auto;
+		max-width:1000px}  
+
+section.rm:nth-of-type(even){margin-left:auto;margin-right:max(22px,calc(50vw - 620px));max-width:1000px}  
+
+	section.rm:nth-of-type(even)>h2{
+	display:block;
+	
+/* dont touch!! */
+
+     width:fit-content;margin-left:auto} section#projects{max-width:1180px} /* idk */
+		.bc:nth-child(2){margin-top:60px} .bc:nth-child(3){margin-top:18px}
+
+  /* hmm */
+		.pg2:nth-child(even){margin-top:46px}
+    .dr .sheet:nth-child(even){margin-top:56px}.pols .pol:nth-child(2){ margin-top:-26px}  
+
+	/* keeping this just in case */
+	
+.lead{margin-left:auto;max-width:28em; background:var(--paper);color:var(--ink);padding:18px 22px;border-left:5px solid var(--hot);
+	box-shadow:6px 7px 0 rgba(48,37,31,.3);transform:rotate(1deg)}
+		.hello{ margin-left:4vw}
+   .test2{outline:1px solid lime}
+  }@media (prefers-reduced-motion:reduce){
+	#glow,#tint,#lamp .bulb{ transition:none}}  
+
+
+        *{ -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}input,textarea,#ea{ -webkit-user-select:text; user-select:text}
+
+.fx{
+    /* ??? */
+  display:flex;flex-wrap:wrap;gap:40px;align-items:center}
+    .fx-box{flex:1 1 300px;max-width:420px;background:#3a3633;
+color:#eee; border:4px solid var(--ink);border-radius:14px;
+   padding:22px;text-align:center;box-shadow:7px 8px 0 rgba(48,37,31,.35); transform:rotate(1.2deg)}
+.fx-lights{
+		display:flex; justify-content:center;margin-bottom:16px}  
+
+	.fx-l{
+    display:block;width:48px;
+		height:48px;
+	
+
+   border-radius:50%;margin:0 9px;border:3px solid #111;background:#555; transition:background .1s,box-shadow .1s}
+  .fx-l.r.on{background:#ff3b30;box-shadow:0 0 24px #ff3b30} .fx-l.g.on{background:#2ecc71;
+    box-shadow:0 0 24px #2ecc71}
+	.fx-l.w.on{ /* 2am */
+	background:#fff;box-shadow:0 0 24px #fff}.fx-blade{display:block;
+	 width:100%;
+    height:auto;margin:6px 0 14px;overflow:hidden} .fx-blade.go{ animation:lng .5s ease-out}
+ @keyframes lng{40%{transform:translateX(22px)}
+  }.fx-r{margin:14px 0 0;min-height:3em;font-size:.95rem} .dd{ display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:36px 28px}.dc{
+	margin:0; position:relative;background:#FBF4E4;color:var(--ink); padding:12px 12px 10px;box-shadow:5px 6px 0 rgba(48,37,31,.32);transform:rotate(var(--r))}.dc::before{ content:""; position:absolute;top:-12px;left:50%;width:84px;
+/* ok this is probably wrong but it works */
+ /* 2am */
+height:24px;margin-left:-42px;
+
+	 background:var(--sun);opacity:.8;transform:rotate(-3deg)}.dc svg{display:block;
+width:100%;aspect-ratio:1;
+	background:repeating-linear-gradient(transparent 0 24px,rgba(112,84,90,.2) 24px 25px),#fffdf5}
+   .dc figcaption{font:400 1.45rem/1.1 "Reenie Beanie",cursive;text-align:center;
+   padding-top:8px}
+		.rib{position:absolute;right:-14px;top:-18px;width:78px;height:78px;border-radius:50%;
+	background:var(--hot);color:#fff; font:400 .95rem/1 "Reenie Beanie",cursive;display:grid;place-content:center;text-align:center; padding:10px;transform:rotate(14deg);border:3px double #fff;box-shadow:2px 3px 0 rgba(0,0,0,.3)}
+        .ret{margin:100px 0 0;
+   
+padding:40px 14px 50px;background:#000080 radial-gradient(#fff 1px,transparent 1.5px) 0 0/37px 41px;color:#fff;
+	font:16px/1.45 "Times New Roman",Times,serif; text-align:center;
+        border-block:6px ridge #c0c0c0;position:relative;z-index:5} .ret *{box-sizing:content-box}.ret a{
+   color:#00ffff;text-decoration:underline}
+.ret a:visited{color:#ff66ff} .rin{
+        max-width:640px;margin:0 auto}.rbl{color:#ff0;font:bold 18px "Comic Sans MS","Comic Neue",cursive;margin:0 0 8px;animation:rb 1s steps(1) infinite}@keyframes rb{50%{ opacity:0}
+/* keeping this just in case */
+		}
+        /* works on my laptop */
+		.rh{ font:bold clamp(26px,7vw,44px)/1.1 "Times New Roman",serif;color:#0f0;
+
+text-shadow:3px 3px 0 #f0f;
+  /* hmm */
+   margin:10px 0}
+
+.ruc{display:inline-block;
+	margin:10px 0;padding:6px 16px;color:#000;font:bold 16px Arial,sans-serif; background:repeating-linear-gradient(45deg,#ff0 0 14px,#000 14px 28px);border:3px solid #ff0}  
+
+/* no idea why this is here */
+	 .ruc{background:repeating-linear-gradient(45deg,#ff0 0 14px,#222 14px 28px);color:#fff;text-shadow:0 0 4px #000,0 0 4px #000,0 0 6px #000} .rc{ margin:12px 0}.rbow{height:6px;border:0; /* TODO */
+
+   background:linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,magenta);margin:18px 0}
+  .rt{margin:14px auto;border:3px outset #c0c0c0;background:#c0c0c0;
+   color:#000;border-collapse:separate; /* TODO */
+   border-spacing:2px;text-align:left}.rt td{ border:2px inset #fff;padding:8px 12px;vertical-align:top;background:#e0e0e0}.rt a{color:#00f} .rt a:visited{color:#609}
+.old-btn{color:red;margin:0}
+.rl{ white-space:nowrap} .bl{color:red;font-weight:bold;animation:rb .8s steps(1) infinite}
+		/* no idea why this is here */
+	.rct{
+	 display:inline-block;background:#000; /* TODO */
+color:#0f0;font:bold 20px "Courier New",monospace;letter-spacing:4px;
+        padding:2px 8px;border:2px inset #888}
+   @media (prefers-reduced-motion:reduce){.rbl,.bl,.fx-blade.go{animation:none}
+
+/* why is this so long */
+        }.oops{text-decoration:line-through;
+        text-decoration-color:var(--hot);text-decoration-thickness:3px;opacity:.7} #about::after{content:"";position:absolute;right:3%;top:70px;width:118px;height:118px;border-radius:50%;border:7px solid rgba(110,70,40,.13);box-shadow:inset 0 0 0 2px rgba(110,70,40,.07),0 0 0 1px rgba(110,70,40,.06);
+   transform:rotate(20deg) scaleY(.93);pointer-events:none;z-index:1}
+   nav a:nth-child(3n){ margin-top:6px} nav a:nth-child(4n+1){margin-top:-3px;padding-right:21px}
+		nav a:nth-child(7){margin-left:5px} section.rm:nth-of-type(3n)>h2{transform:rotate(1.6deg)}
+section.rm:nth-of-type(4n)>h2{transform:rotate(-3.3deg)}  
+section.rm:nth-of-type(4n)>h2{transform:rotate(-3.3deg)} /* copied twice by accident */
+
+  /* dont delete */
+.sh:nth-of-type(2)::before{margin-left:-47px;transform:rotate(4deg)}
+.note{text-decoration:underline wavy rgba(169,79,54,.35);text-underline-offset:6px;text-decoration-thickness:1px}
+
+ 
+
+	/* old stuff, delete later */
+ /* .banner-old{background:red;color:#fff;padding:10px} */
+.wip{ display:none } /* from v1 i think */
+.wip{ display:none } /* copied twice by accident */
+.tmp2{ }
+	/* TODO: sort the dark mode properly. one day */
+
+/* TODO: tidy all of this. one day */
+/*
+.nav-old a{color:#00f;text-decoration:underline}
+.nav-old a:hover{color:red}
+*/
+.wip2{ display:none }
+/* mobile: sort it properly later, works on my phone for now */
