@@ -1,17 +1,17 @@
 jackamias.space, but in bits
 ============================
 
-ok so this used to be one giant file. now its a few smaller ones so an actual human can edit it.
-the code is still a mess though. i did not tidy it. you are welcome (or sorry)
+this used to be one giant file. now its split into a few smaller ones so its easier to edit.
+the formatting is a bit uneven in places, some parts are dense and some are spread out.
 
 
 what is what
 ------------
 index.html ........ the page. all the words are in here
 css/style.css ..... every style. the colours are at the top in :root
-js/main.js ........ everything that moves. still messy, still works, dont ask
-js/leaf-data.js ... the leaf the plotter draws. its massive. please dont open it
-images/ ........... photos. only photo-1.jpg is a real one so far, the rest are placeholders waiting for me to get my act together
+js/main.js ........ everything that moves. the variable names are short
+js/leaf-data.js ... the leaf the plotter draws. its a very long list of numbers, no need to open it
+images/ ........... photos. only photo-1.jpg is a real one so far, the rest are placeholders
 favicon.svg ....... the tiny leaf in the browser tab
 
 
@@ -34,4 +34,4 @@ colours ................... style.css, search:  :root
 
 if it breaks
 ------------
-refresh. if it still breaks check the folders are where they should be. if it STILL breaks its probably the js (sorry)
+refresh. if it still breaks check the folders are where they should be. if it STILL breaks its probably the js

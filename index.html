@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- hi. this is the page. all the words live in here. if something looks wrong its probably the css, if something moves its probably the js, and if it all breaks its probably me -->
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
@@ -12,8 +11,7 @@
 <link rel="stylesheet" href="css/style.css"> </head>
        <body>
   <button id='lamp' type='button' aria-label='Toggle the desk lamp (dark mode)' aria-pressed='false'><svg viewBox='0 0 60 70' aria-hidden='true'><rect x='10' y='62' width='26' height='5' rx='2' fill='#30251F'/><path d='M23 62L30 34L42 16' fill='none' stroke='#30251F' stroke-width='3' stroke-linecap='round'/><path d='M30 12L52 8L56 24L36 30Z' fill='#A94F36' stroke='#30251F' stroke-width='2.5' stroke-linejoin='round'/><circle class='bulb' cx='47' cy='27' r='5' stroke='#30251F' stroke-width='1.5'/></svg></button><div id='glow' aria-hidden='true'></div><div id='tint' aria-hidden='true'></div><svg id='vine' aria-hidden='true'></svg>
-<!-- TODO: sort this out -->
-	<div class="chk"></div>
+<div class="chk"></div>
        <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence baseFrequency=".035" numOctaves="3" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="2.5"/></filter></svg>
    <header style="position:relative;z-index:0"><div class="fall" id="fall" aria-hidden="true"></div>
   <nav><a href="#about" style="--r:-2deg">About</a><a href="#projects" style="--r:1.5deg">Projects</a><a href="#bench" style="--r:-1deg">The Bench</a><a href="#notes" style="--r:-.5deg">Field Notes</a><a href="#fencing" style="--r:1deg">Fencing</a><a href="#photos" style="--r:-1.5deg">Photos</a><a href="#drawings" style="--r:1deg">Drawings</a><a href="#doodles" style="--r:-1.5deg">Doodles</a><a href="#music" style="--r:-2deg">Music</a><a href="#contact" style="--r:2deg">Contact</a></nav>
@@ -22,11 +20,8 @@
 		 <p class="show">making things, from circuits to songs to drawings</p>
 		 <span class="tape">electronics · neural nets · quantum stuff · music · art</span>
 <p class="lead">i mess around with embedded electronics, machine learning and quantum circuit simulation. i also make music and draw, because apparently one hobby was never going to be enough.</p>
-<!-- TODO: sort this out -->
 <div class="btns"><a class="bt" href="#projects">see what i’ve made</a><a class="bt b" href="#contact">say hi</a><span class="note" style="--r:-8deg">turn it up</span><svg class="cas" viewBox="0 0 120 78" aria-hidden="true"><rect x="2" y="2" width="116" height="74" rx="6" fill="#30251F"/><rect x="10" y="8" width="100" height="40" rx="3" fill="#F2E8D6"/><rect x="10" y="8" width="100" height="10" fill="#A94F36"/><text x="60" y="38" text-anchor="middle" font-family="Caveat" font-size="14" fill="#30251F">side A</text><rect x="34" y="52" width="52" height="16" rx="8" fill="#F2E8D6"/><circle cx="46" cy="60" r="5" fill="#30251F"/><circle cx="74" cy="60" r="5" fill="#30251F"/></svg></div>
 </header>
-<!-- dont delete -->
-  <!-- about. dont rename the id or the menu breaks -->
 <section class="rm" id="about">
     <h2>About</h2><p class="cap">hi, that’s me</p>
 <div class="ab"> <div class="sh"><div class="p">
@@ -39,51 +34,33 @@
 	</div></div> <div class="pols"><figure class="pol" style="--r:-5deg"><svg viewBox="0 0 200 200" data-a="1"></svg><figcaption>8 bits. that’s the CPU.</figcaption></figure><figure class="pol" style="--r:3deg"><svg viewBox="0 0 200 200" data-a="2"></svg><figcaption>signal, probably</figcaption></figure><figure class="pol" style="--r:-2deg"><svg viewBox="0 0 200 200" data-a="3"></svg><figcaption>shortest path home</figcaption></figure></div>
 <div class="tg" id="tg"></div>
        </section>
-<!-- dont delete -->
-       <div class="mq" aria-hidden="true"><span>Electronics ✺ Neural Networks ✺ Quantum Systems ✺ Music ✺ Art ✺ Electronics ✺ Neural Networks ✺ Quantum Systems ✺ Music ✺ Art ✺ Electronics ✺ Neural Networks ✺ Quantum Systems ✺ Music ✺ Art ✺ Electronics ✺ Neural Networks ✺ Quantum Systems ✺ Music ✺ Art ✺ </span></div>
-       <!-- <div class="banner">NEW SITE!!!</div> -->
-<section class="rm" id="projects"> <h2>Projects</h2><p class="cap">things i’ve made</p><span class="note" style="--r:-3deg">hung in no particular order</span>
+<div class="mq" aria-hidden="true"><span>Electronics ✺ Neural Networks ✺ Quantum Systems ✺ Music ✺ Art ✺ Electronics ✺ Neural Networks ✺ Quantum Systems ✺ Music ✺ Art ✺ Electronics ✺ Neural Networks ✺ Quantum Systems ✺ Music ✺ Art ✺ Electronics ✺ Neural Networks ✺ Quantum Systems ✺ Music ✺ Art ✺ </span></div>
+       <section class="rm" id="projects"> <h2>Projects</h2><p class="cap">things i’ve made</p><span class="note" style="--r:-3deg">hung in no particular order</span>
 <div class="gw"> <figure class="pj" style="--r:-.8deg;margin:0"><div class="fr" style="--fc:#17143a"><svg style="--ar:1.25" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice"></svg></div><figcaption class="lb"><h3>Quantum Chess Neural Network</h3><small>Quantum · Quantum Forge, PyTorch, ROCm/CUDA</small><p>an AlphaZero-style neural net that learns to play Chris Cantwell’s probabilistic chess variant. built with ROCm, CUDA, PyTorch and the Quantum Chess SDK.</p></figcaption></figure> <figure class="pj" style="--r:1deg;margin:0"><div class="fr" style="--fc:var(--sun)"><svg style="--ar:.85" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice"></svg></div><figcaption class="lb"><h3>CPU from Scratch</h3><small>Classical Circuits · Logic Design, KiCad, Circuit Sim</small><p>a simple 8-bit CPU made entirely out of 4000-series logic gates, ALU and control unit and all.</p></figcaption></figure>
-<!-- old nav, keeping in case -->
-		 <figure class="pj" style="--r:-1.4deg;margin:0"><div class="fr"><svg style="--ar:1" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice"></svg></div><figcaption class="lb"><h3>Quantum Guitar Effects Pedal</h3><small>Quantum · Quantum Forge, JavaScript, DAW Plugins</small><p>a guitar pedal that uses the Quantum Forge SDK, so the effects shift around with the state of a quantum circuit. yes, it works. mostly.</p></figcaption></figure>
+<figure class="pj" style="--r:-1.4deg;margin:0"><div class="fr"><svg style="--ar:1" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice"></svg></div><figcaption class="lb"><h3>Quantum Guitar Effects Pedal</h3><small>Quantum · Quantum Forge, JavaScript, DAW Plugins</small><p>a guitar pedal that uses the Quantum Forge SDK, so the effects shift around with the state of a quantum circuit. yes, it works. mostly.</p></figcaption></figure>
   <figure class="pj" style="--r:.7deg;margin:0"><div class="fr" style="--fc:var(--pink)"><svg style="--ar:1.6" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice"></svg></div><figcaption class="lb"><h3>Aircraft Navigation System</h3><small>Classical Circuits · Circuit Sim, CAD Design, Logic Systems</small><p>maps terrain on a grid and finds a route with Manhattan distance pathfinding, all in 4000-series logic gates. no code, just gates.</p></figcaption></figure>
  <figure class="pj" style="--r:-1deg;margin:0"><div class="fr" style="--fc:var(--mint)"><svg style="--ar:1.1" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice"></svg></div><figcaption class="lb"><h3>Second Quantum Chess Engine</h3><small>Quantum · Quantum Forge, JavaScript</small><p>round two of quantum chess: a second engine, built with Quantum Forge and the Quantum Chess SDK, pitting Alpha-Beta against MCTS in a quantum-probabilistic game tree.</p></figcaption></figure> <figure class="pj" style="--r:1.2deg;margin:0"><div class="fr" style="--fc:var(--blue)"><svg style="--ar:1.3" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice"></svg></div><figcaption class="lb"><h3>Automatically Sorting Bin</h3><small>Neural Network · PyTorch, DirectML</small><p>a neural net looks at an object, works out what it is, and a motor drops it in the right compartment.</p></figcaption></figure>
        </div> </section>
-<!-- ??? -->
-		 <!-- <p>coming soon...</p> -->
 <section class="rm" id="bench"><h2>The Bench</h2><p class="cap">what’s on the desk right now</p><span class="note" style="--r:-2deg">messy, on purpose</span> <div class="bn"> <article class="bc" style="--r:-1.2deg;--c:var(--mint)"><span class="stampd">in progress</span><h3>Leaf Venation Net</h3><p>a neural net that works out veins for a leaf shape i pick, evolving a fresh path from scratch every time. it exports drawings i can open in Adobe Fresco.</p><small>next: whole trees</small></article>
-<!-- not sure about this bit -->
 <article class="bc" style="--r:1deg;--c:var(--sun)"><span class="stampd">lightening</span><h3>Lightweight Fencing Grip</h3><p>an italian grip in aluminium, additively manufactured. the design works, so now i’m taking material out with BESO in FreeCAD. aiming for around 60 g.</p><small>currently: solid, zero holes</small></article>
 <article class="bc" style="--r:-.6deg;--c:var(--pink)"><span class="stampd">testing</span><h3>Automatic Headlights</h3><p>a PICAXE-18M2 running assembler. one LDR reads how bright it is, a second one spots a car, and four LEDs do the rest.</p><small>tuning the torch threshold</small></article> </div></section>
-   <!-- todo: add a guestbook here?? maybe -->
-<section class="rm" id="notes"><h2>Field Notes</h2><p class="cap">a little notebook · always unfinished</p><span class="note" style="--r:2deg">scribbled as i go</span>
+   <section class="rm" id="notes"><h2>Field Notes</h2><p class="cap">a little notebook · always unfinished</p><span class="note" style="--r:2deg">scribbled as i go</span>
     <div class="fn">
-<!-- ok this section is a mess -->
-  <article class="pg2" style="--r:-1.2deg"><small>learning</small><h3>Variational circuits</h3><p>quantum ML, in progress: circuits as models, quantum kernels, and why barren plateaus make training so painful.</p></article>
-<!-- ok this section is a mess -->
+<article class="pg2" style="--r:-1.2deg"><small>learning</small><h3>Variational circuits</h3><p>quantum ML, in progress: circuits as models, quantum kernels, and why barren plateaus make training so painful.</p></article>
 <article class="pg2" style="--r:1deg"><small>electronics</small><h3>All 4000-series</h3><p>an 8-bit CPU from logic gates, ALU to control unit. still the best way i know to watch a computer think.</p></article> <article class="pg2" style="--r:-.6deg"><small>next up</small><h3>Hardware in Chisel</h3><p>the plan: parameterised FPGA generators to speed up neural network inference.</p></article>
-<!-- old nav, keeping in case -->
-   <article class="pg2" style="--r:1.4deg"><small>unfinished</small><h3>Quantum curiosities</h3><p>quantum-probabilistic chess, and a guitar pedal whose sound changes with the circuit.</p></article>
+<article class="pg2" style="--r:1.4deg"><small>unfinished</small><h3>Quantum curiosities</h3><p>quantum-probabilistic chess, and a guitar pedal whose sound changes with the circuit.</p></article>
    </div></section>
-<!-- TODO: sort this out -->
- <!-- ok this section is a mess -->
 <section class="rm" id="fencing"><h2>Fencing</h2><p class="cap">en garde</p><span class="note" style="--r:-2deg">yes, i stab things (politely)</span>
 <div class="fx"> <div class="sh" style="flex:1 1 320px;max-width:520px;transform:rotate(-1deg)"><div class="p"><h3>i fence.</h3><p>foil, mostly. it’s the one hobby where being a bit stabby is encouraged, and it’s weirdly good for someone who spends far too long at a desk.</p><p>i like making my own kit too, which is why there’s a lightweight italian grip over on the bench. aiming for around 60 g.</p></div></div> <div class="fx-box" id="fxbox"><div class="fx-lights" aria-hidden="true"><i class="fx-l r"></i><i class="fx-l w"></i><i class="fx-l g"></i></div> <svg class="fx-blade" id="fxb" viewBox="0 0 300 30" aria-hidden="true"><path d="M6 15h40" stroke="#30251F" stroke-width="7" stroke-linecap="round"/><path d="M46 3C58 3 58 27 46 27Z" fill="#C58A42" stroke="#30251F" stroke-width="2.5"/><path d="M56 15H292" stroke="#c9ccd1" stroke-width="3" stroke-linecap="round"/></svg>
    <button class="bt" id="lg" type="button">lunge!</button><p class="fx-r" id="lr" aria-live="polite">press lunge. see what happens.</p></div>
   </div></section>
-		 <!-- dont move this, breaks the nav somehow -->
-<section class="rm" id="photos"><h2>Photos</h2><p class="cap">pick a frame to develop it</p><div class="film" id="film"></div></section> <!-- TODO: add more here? -->
-<section class="rm" id="drawings"><h2>Drawings</h2><p class="cap">drawn by a pen plotter, and grown by a neural net</p><span class="note" style="--r:-2deg">my own drawings are done on a tablet</span><div class="dr" id="dr"></div></section>
+		 <section class="rm" id="photos"><h2>Photos</h2><p class="cap">pick a frame to develop it</p><div class="film" id="film"></div></section> <section class="rm" id="drawings"><h2>Drawings</h2><p class="cap">drawn by a pen plotter, and grown by a neural net</p><span class="note" style="--r:-2deg">my own drawings are done on a tablet</span><div class="dr" id="dr"></div></section>
 <section class="rm" id="doodles"><h2>Doodles</h2><p class="cap">drawing, but badly</p><span class="note" style="--r:-2deg">the plotter is better at this than me</span> <div class="dd"> <figure class="dc" style="--r:-2deg"><svg id="d1" viewBox="0 0 150 150" role="img" aria-label="A wonky house"></svg><figcaption>a house (it has a door, i checked)</figcaption></figure>
-<!-- ??? -->
-   <figure class="dc" style="--r:1.5deg"><svg id="d2" viewBox="0 0 150 150" role="img" aria-label="A wonky cat"></svg><figcaption>a cat, allegedly</figcaption></figure>
-<!-- dont delete -->
+<figure class="dc" style="--r:1.5deg"><svg id="d2" viewBox="0 0 150 150" role="img" aria-label="A wonky cat"></svg><figcaption>a cat, allegedly</figcaption></figure>
 <figure class="dc" style="--r:-1deg"><svg id="d3" viewBox="0 0 150 150" role="img" aria-label="A wonky person with one enormous hand"></svg><figcaption>a person. the hand got away from me</figcaption><span class="rib" aria-hidden="true">well done for trying</span></figure> <figure class="dc" style="--r:2deg"><svg id="d4" viewBox="0 0 150 150" role="img" aria-label="A worried-looking sun"></svg><figcaption>the sun, looking worried</figcaption></figure>
  </div></section>
-<!--  -->
 <section class="rm" id="music"><h2>Music</h2><p class="cap">press the wheel</p> <div class="ipod"><div class="scr"><div class="bar"><span>iPod</span><span id="bt">❚❚</span></div><ul id="tl"></ul><div id="np" hidden></div></div><div class="wheel" id="wh" tabindex="0" aria-label="Click wheel: drag to scroll, press the centre to play"><button class="mn" type="button">Menu</button><button class="pv" type="button" aria-label="Previous track">◀◀</button><button class="nx" type="button" aria-label="Next track">▶▶</button><button class="pp" type="button" aria-label="Play or pause">▶❚❚</button><button class="ct" type="button" aria-label="Select"></button></div></div><div class="nook" id="nook"><svg class="cass" viewBox="0 0 120 78" aria-hidden="true"><rect x="2" y="2" width="116" height="74" rx="6" fill="#30251F"/><rect x="10" y="8" width="100" height="40" rx="3" fill="#F2E8D6"/><rect x="10" y="8" width="100" height="10" fill="#A94F36"/><circle class="rl" cx="40" cy="34" r="8" fill="none" stroke="#30251F" stroke-width="3" stroke-dasharray="6 4"/><circle class="rl" cx="80" cy="34" r="8" fill="none" stroke="#30251F" stroke-width="3" stroke-dasharray="6 4"/><rect x="34" y="52" width="52" height="16" rx="8" fill="#F2E8D6"/></svg><span class="note" style="--r:-2deg">currently listening to: <span id="cl">humming to myself</span></span><span class="note" style="--r:2deg">track notes: just demos for now, the real ones are coming</span></div>
    </section>
-<!-- dont delete -->
 <div id="dv" hidden role="dialog" aria-modal="true" aria-label="Developed photo" tabindex="-1"></div>
        <section class="ret" id="retro"><div class="rin">
 <p class="rbl">~*~ WELCOME TO MY HOMEPAGE!!! ~*~</p> <div class="rh" role="heading" aria-level="2">Jack’s Totally Radical Homepage</div> <div class="ruc">UNDER CONSTRUCTION</div>
@@ -91,14 +68,12 @@
 <p class="rc">You are visitor number <span class="rct" id="rct">000000</span></p>
    <p class="rc">Last updated: <span id="rlu"></span></p> <p class="rc">[ <a href="#music">&lt;&lt; Prev</a> ] This site is part of the Quantum Circuits Webring [ <a href="#contact">Next &gt;&gt;</a> ]</p> <hr class="rbow"><p class="rc" style="font-size:12px">&copy; 1997 Jack Amias. All rights reserved. Made with Notepad.</p>
  </div></section> <div class="mq" aria-hidden="true" style="background:var(--sun);color:var(--ink);transform:rotate(1.2deg)"><span>Side A ✺ Side B ✺ Side A ✺ Side B ✺ Side A ✺ Side B ✺ Side A ✺ Side B ✺ Side A ✺ Side B ✺ Side A ✺ Side B ✺ Side A ✺ Side B ✺ Side A ✺ Side B ✺ </span></div> <section class="rm" id="contact"> <h2>Contact</h2><p class="cap">come say hi</p><span class="note" style="--r:-2deg">write me something good</span> <div class="pc">
-<!-- dont delete -->
-   <div><h3>let’s make something good</h3><p>i’m up for collaborating on quantum simulation, embedded ML, hardware-accelerated AI, music or art. happy to chat about research ideas, consulting, songs, drawings, or just any interesting problem.</p></div> <div class="r"><div class="stp" aria-hidden="true">JA</div> <div><button class="bt" id="eb" type="button" aria-expanded="false">✉ show my email</button></div>
+<div><h3>let’s make something good</h3><p>i’m up for collaborating on quantum simulation, embedded ML, hardware-accelerated AI, music or art. happy to chat about research ideas, consulting, songs, drawings, or just any interesting problem.</p></div> <div class="r"><div class="stp" aria-hidden="true">JA</div> <div><button class="bt" id="eb" type="button" aria-expanded="false">✉ show my email</button></div>
 <a class="em" id="ea" href="mailto:jackamias5@proton.me" hidden>jackamias5@proton.me</a>
    <div><a class="bt b" href="https://github.com" rel="noopener">⌥ GitHub</a></div></div>
    </div>
 </section>
-<!-- not sure about this bit -->
-    <div class="chk"></div><footer>Jack Amias · Electronics · Code · Quantum<br><button class="hid" id="hb" type="button" aria-expanded="false" aria-label="A little secret">✺</button><span id="hm" hidden>yay, you scrolled all the way down. thanks for visiting my little world.</span></footer>
+<div class="chk"></div><footer>Jack Amias · Electronics · Code · Quantum<br><button class="hid" id="hb" type="button" aria-expanded="false" aria-label="A little secret">✺</button><span id="hm" hidden>yay, you scrolled all the way down. thanks for visiting my little world.</span></footer>
  <script src="js/leaf-data.js"></script>
 <script src="js/main.js"></script>
 </body>
