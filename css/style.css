@@ -875,31 +875,57 @@ a:hover{text-decoration:underline wavy;text-underline-offset:4px;}
 #tournaments .pg2{min-height:190px;}
 
 .ps{display:block;margin-top:14px;font:1.5rem/1 "Reenie Beanie",cursive;color:var(--hot);transform:rotate(-1deg);}
-#playing .wii{max-width:880px;margin:30px auto 0;padding:22px 22px 0;border-radius:26px;background:linear-gradient(#fbfcfd,#e3e8ee);box-shadow:0 10px 30px rgba(0,0,0,.25),inset 0 0 0 2px #fff;overflow:hidden;color:#4a5560;transform:rotate(-.4deg);}
-.wii .wgr{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+#playing .wii{max-width:880px;margin:30px auto 0;padding:30px 28px 0;border-radius:20px;background:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.5px) 0 0/4px 4px,linear-gradient(#3d3430,#241d1a);box-shadow:0 12px 30px rgba(0,0,0,.4),inset 0 0 0 3px #52463f,inset 0 0 0 6px #17110f;overflow:hidden;color:#F2E8D6;transform:rotate(-.4deg);outline:2px dashed rgba(242,232,214,.28);outline-offset:-15px;}
+.wii .wgr{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding:14px;border-radius:10px;background:#14100e;box-shadow:inset 0 4px 12px #000,inset 0 0 0 2px #2c2420,0 1px 0 rgba(255,255,255,.12);}
 
-.wii .wch{position:relative;aspect-ratio:2/3;border-radius:14px;background:linear-gradient(#fff,#eef1f4);box-shadow:inset 0 0 0 2px #cfd6dd,0 2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;justify-content:flex-end;padding:8px 10px;overflow:hidden;font:600 .78rem/1.2 "DM Sans",system-ui,sans-serif;text-align:left}
+.wii .wch{position:relative;aspect-ratio:2/3;border-radius:5px;background:#1d1714;box-shadow:inset 0 3px 8px #000,inset 0 0 0 2px #2a221e;font:400 .62rem/1.2 "Special Elite","Courier New",monospace;text-align:left;color:#d9cdb6}
 
-.wii .wch::before{content:"";position:absolute;inset:0 0 50% 0;background:linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,.15));pointer-events:none}
-.wii .wch.full::before{background:linear-gradient(rgba(255,255,255,.3),rgba(255,255,255,0) 55%)}
+.wii .wch::before{content:"";position:absolute;left:18%;right:18%;bottom:6px;height:6px;border-radius:2px;background:repeating-linear-gradient(90deg,#2d2521 0 3px,transparent 3px 6px);pointer-events:none}
+.wii .wch.full::before{inset:0;left:0;right:0;bottom:0;height:auto;border-radius:0;background:linear-gradient(115deg,rgba(255,255,255,.28),rgba(255,255,255,0) 35%)}
 .wii .wch.full b {
-	opacity: 0;
-	transition: opacity .15s;
+	position: absolute;
+	left: 6px;
+	right: 6px;
+	bottom: -21px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-weight: 400;
+	text-transform: uppercase;
+	letter-spacing: 0;
+	font-size: .56rem;
+	color: #cfc4b0;
+	text-shadow: 0 1px 0 rgba(0,0,0,.6);
 }
 
 .wii .wch.full:hover b {
-	opacity: 1;
+	color: #fff;
 }
 
 .wii .wch.full {
+	border: 12px solid #7d756b;
+	border-width: 14px 10px 28px;
+	border-radius: 8px 8px 3px 3px;
 	background: #cfe8f5 linear-gradient(#e9f6fd,#bfe4f6) center/cover no-repeat;
+	background-origin: content-box;
+	background-clip: content-box;
+	box-shadow: 0 0 0 1px #3b3530,inset 0 0 0 2px rgba(0,0,0,.45),0 6px 8px rgba(0,0,0,.55);
+	overflow: visible;
+	padding: 0;
+	z-index: 1;
 }
 
-.wii .wch.full b {
-	align-self: flex-start;
-	padding: 2px 7px;
-	border-radius: 7px;
-	background: rgba(255,255,255,.82);
+/* connector pins along the bottom edge */
+.wii .wch.full::after {
+	content: "";
+	position: absolute;
+	left: 14%;
+	right: 14%;
+	bottom: -26px;
+	height: 5px;
+	background: repeating-linear-gradient(90deg,#C58A42 0 3px,#6b4f26 3px 5px);
+	border-radius: 1px;
+	opacity: .85;
 }
 
 .wii .wch b,.wii .wch small {
@@ -908,43 +934,54 @@ a:hover{text-decoration:underline wavy;text-underline-offset:4px;}
 
 
 .wii .wch small {
-	font-weight: 400;
-	opacity: .7;
+	position: absolute;
+	top: 4px;
+	left: 4px;
+	padding: 1px 5px;
+	border-radius: 3px;
+	background: rgba(20,16,14,.8);
+	color: #F2E8D6;
+	opacity: 0;
+	transition: opacity .15s;
 }
 
-.wii .wch:hover {
-	box-shadow: inset 0 0 0 3px #3fb4e8,0 0 14px rgba(63,180,232,.55);
+.wii .wch:hover small {
+	opacity: 1;
+}
+
+.wii .wch.full:hover {
+	box-shadow: 0 0 0 1px #3b3530,inset 0 0 0 2px rgba(0,0,0,.45),0 10px 12px rgba(0,0,0,.6),0 0 14px rgba(197,138,66,.55);
 }
 
 
 .wii .wbar {
-	margin: 22px -22px 0;
-	padding: 14px 22px 16px;
+	margin: 24px -28px 0;
+	padding: 16px 28px 18px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background: linear-gradient(#f2f4f6,#d5dbe1);
-	border-top: 2px solid #fff;
-	box-shadow: 0 -2px 0 #c3cad2;
+	background: linear-gradient(#352c28,#1f1815);
+	border-top: 2px solid #52463f;
+	box-shadow: 0 -2px 0 #120d0b;
 }
 
 .wii .wb {
-	width: 54px;
-	height: 54px;
+	width: 46px;
+	height: 46px;
 	border-radius: 50%;
-	background: radial-gradient(circle at 50% 30%,#fff,#dfe5ea);
-	box-shadow: inset 0 0 0 2px #c3cad2,0 2px 5px rgba(0,0,0,.25);
+	background: radial-gradient(circle at 50% 30%,#d4745a,var(--hot) 55%,#6e2c1a);
+	box-shadow: inset 0 0 0 2px #5a2112,0 3px 0 #3b140a,0 5px 6px rgba(0,0,0,.5);
 	display: grid;
 	place-items: center;
-	font: 700 1.7rem/1 "DM Sans",system-ui,sans-serif;
-	color: #4a9bc2;
+	font: 700 1.6rem/1 "DM Sans",system-ui,sans-serif;
+	color: #F2E8D6;
 }
 
-.wii .wclk { text-align:center; font:600 1.5rem/1 "DM Sans",system-ui,sans-serif; color:#7b8691; }
-.wii .wclk small { display:block; margin-top:4px; font-size:.78rem; font-weight:400; }
+.wii .wclk { text-align:center; font:400 1.4rem/1 "Special Elite","Courier New",monospace; color:#2f3a22; background:#a8b58a; padding:8px 20px 7px; border-radius:4px; box-shadow:inset 0 2px 6px rgba(0,0,0,.45),0 0 0 3px #120d0b,0 0 0 4px #52463f; }
+.wii .wclk small { display:block; margin-top:4px; font-size:.72rem; font-weight:400; opacity:.75; }
 
 @media(max-width:760px) {
-  .wii .wgr{grid-template-columns:repeat(3,1fr)}
+  .wii .wgr{grid-template-columns:repeat(3,1fr);row-gap:34px}
 }
 
 @media(max-width:430px){
@@ -956,12 +993,12 @@ a:hover{text-decoration:underline wavy;text-underline-offset:4px;}
 }
 
 @media(prefers-reduced-motion:no-preference){
-	.wii .wch {
+	.wii .wch.full {
 		transition: box-shadow .15s,transform .15s;
 	}
 
-	.wii .wch:hover {
-		transform: scale(1.04);
+	.wii .wch.full:hover {
+		transform: translateY(-9px);
 	}
 
 }
