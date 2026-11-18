@@ -447,7 +447,7 @@
       sy();
     };
   })(); (function () {
-    var h = new Date().getHours(), g = h < 5 ? 'up late? me too.' : h < 12 ? 'good morning, pull up a chair.' : h < 17 ? 'good afternoon, mind the clutter.' : h < 21 ? 'good evening, put the kettle on.' : 'burning the midnight oil?', e = document.querySelector('.hello');
+    var h = new Date().getHours(), g = h < 5 ? 'up late? me too.' : h < 12 ? 'good morning, pull up a chair.' : h < 17 ? 'good afternoon, mind the clutter.' : h < 21 ? 'good evening, sorry in advance, i’m terrible at small talk.' : 'burning the midnight oil?', e = document.querySelector('.hello');
     if (e) {
       var s = document.createElement('span'); s.style.cssText = 'display:block;font-size:.8em;color:var(--blue)'; s.textContent = g; e.appendChild(s); }
     $('tint').style.background = h < 5 || h >= 21 ? 'rgba(60,50,110,.16)' : h < 9 ? 'rgba(170,200,225,.14)' : h < 17 ? 'transparent' : 'rgba(235,140,60,.16)'; })();
@@ -479,7 +479,7 @@
         if (e)
             e.textContent = new Date().getFullYear() - 2016;
     });
-    var M = ["following interesting ideas", "wiring something up", "reading about qubits", "drawing with a plotter", "forgetting where the multimeter is", "one more turn (civ)", "rehearsing a normal conversation"], k = 0;
+    var M = ["following interesting ideas", "wiring something up", "reading about qubits", "drawing with a plotter", "forgetting where the multimeter is", "one more turn (civ)", "rehearsing a normal conversation", "ignoring a message to work on a project"], k = 0;
     if (!RM)
         setInterval(function () {
             k = (k + 1) % M.length;
