@@ -46,7 +46,7 @@ h2 { font:400 clamp(2.8rem,10vw,6.5rem)/1.05 "Caveat","Arial Black",sans-serif; 
 body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index:50; opacity:.5; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='s'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='1' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 9 -6.4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23s)'/%3E%3C/svg%3E"); }
 .note { display:inline-block; font:400 clamp(1.8rem,4.4vw,2.5rem)/1 "Reenie Beanie",cursive; color:var(--hot); transform:rotate(var(--r,-4deg)); margin:10px 8px; }
 
-.cap+.note { margin:-26px 0 24px; }
+.cap+.note { margin:-26px 0 42px; }
 .btns .note { margin-left:auto; }
 .btns .note+.cas {
   margin-left: 0;
@@ -114,7 +114,7 @@ body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index
 
 
 .film {
-  display:flex; gap:16px;overflow-x:auto;padding:36px 24px;background-color:#30251F;background-image:repeating-linear-gradient(90deg,var(--paper) 0 14px,transparent 14px 28px),repeating-linear-gradient(90deg,var(--paper) 0 14px,transparent 14px 28px); background-size:100% 9px;background-position:0 9px,0 calc(100% - 9px);background-repeat:no-repeat; .junk {
+  display:flex; gap:16px;overflow-x:auto;padding:36px 24px 50px;background-color:#30251F;background-image:repeating-linear-gradient(90deg,var(--paper) 0 14px,transparent 14px 28px),repeating-linear-gradient(90deg,var(--paper) 0 14px,transparent 14px 28px); background-size:100% 9px;background-position:0 9px,0 calc(100% - 9px);background-repeat:no-repeat; .junk {
     display: none;
   }
 
@@ -338,7 +338,7 @@ h1 {
 }
 
 .row { display:flex; flex-wrap:wrap; width:fit-content; }
-.row+.row { margin-left:clamp(14px,6vw,90px); }
+.row+.row { margin-left:clamp(14px,6vw,90px); margin-top:.05em; }
 .lt { color:var(--ink); padding:0 .07em; margin:0 .02em; display:inline-block; transform:rotate(var(--r)); animation:drop .7s cubic-bezier(.3,1.5,.5,1) both; animation-delay:var(--d); }
 
 @keyframes drop{
@@ -370,6 +370,7 @@ h1 {
 .sk { width:150px; height:150px; border-radius:50%; margin:-10px -6px; display:grid; place-content:center; text-align:center; color:var(--ink); border:3px solid var(--ink); box-shadow:4px 4px 0 var(--ink); transform:rotate(var(--r)); line-height:1.05; }
 .sk b{font:400 2.7rem/1 "Fraunces",sans-serif;}
 .sk span{font-style:italic;font-size:.95rem;padding:0 14px;}
+.stk .note{margin-top:34px;}
 
 .tg{display:flex;flex-wrap:wrap;gap:10px 12px;margin-top:44px}
 .tg span{color:var(--ink);padding:3px 16px;transform:rotate(var(--r));box-shadow:2px 3px 0 rgba(0,0,0,.35);font-style:italic;}
@@ -437,6 +438,7 @@ h1 {
   flex-direction: column;
   gap: 18px;
   justify-content: center;
+  padding-top: 106px;
 }
 
 
@@ -474,7 +476,7 @@ footer { padding:110px 22px 60px; text-align:center; font-style:italic; }
   .pc .r {
     border-left: 0;
     border-top: 3px dashed var(--ink);
-    padding-top: 90px;
+    padding-top: 106px;
   }
 
 }
@@ -558,7 +560,7 @@ h2 {
   content: "";
   position: absolute;
   top: -12px;
-  left: 28%;
+  left: 8%;
   width: 96px;
   height: 26px;
   z-index: 3;
@@ -567,13 +569,17 @@ h2 {
 }
 
 .pj:nth-child(even)::after {
-  left: 55%;
+  left: 12%;
   transform: rotate(5deg);
   background: repeating-linear-gradient(90deg,rgba(142,148,104,.85) 0 8px,rgba(242,232,214,.5) 8px 14px);
 }
 
+@media (max-width:1100px){
+  .pj::after,.pj:nth-child(even)::after { left:4%; width:64px; }
+}
 
-.mgn{font:1.6rem/1 "Reenie Beanie",cursive;color:var(--hot);display:block;margin-top:6px;transform:rotate(-2deg);}
+
+.mgn{font:1.6rem/1 "Reenie Beanie",cursive;color:var(--hot);display:block;margin-top:10px;transform:rotate(-2deg);}
 .sk,.pol,.fm{transition:transform .25s;}
 
 .sk:hover,.pol:hover{transform:rotate(calc(var(--r)*-1.6)) scale(1.06)}
@@ -582,7 +588,7 @@ h2 {
 
 .pg2 h3{font:italic 600 1.6rem/30px "Fraunces",serif;margin:0;}
 .pg2 p{margin:0;}
-.pg2 small{font:1.5rem/1 "Reenie Beanie",cursive;color:var(--hot);display:block;}
+.pg2 small{font:1.5rem/30px "Reenie Beanie",cursive;color:var(--hot);display:block;}
 
 .ipod{background:linear-gradient(160deg,#EBDDC0,#BFA57C);border-color:#7a5c3a;color:#30251F;box-shadow:8px 10px 0 rgba(48,37,31,.35),inset 0 0 0 3px #F6ECD6;}
 .scr{background:#E9DDB8;border-color:#5b4430;}
@@ -592,7 +598,7 @@ h2 {
 .pg i{background:linear-gradient(#C58A42,#A94F36);}
 .wheel{background:#F2E8D6;border-color:#9a7f58;}
 .wheel button { color:#70545A; }
-.nook { display:flex; flex-wrap:wrap; gap:20px 36px; align-items:center; justify-content:center; margin-top:20px; }
+.nook { display:flex; flex-wrap:wrap; gap:34px 36px; align-items:center; justify-content:center; margin-top:20px; }
 
 .nook .note { max-width:16em; margin:0; }
 .cass { width:170px; transform:rotate(4deg); filter:drop-shadow(4px 5px 0 rgba(48,37,31,.35)); }
@@ -844,6 +850,7 @@ nav a:nth-child(3n){margin-top:6px;}
 nav a:nth-child(4n+1){margin-top:-3px;padding-right:21px}
 
 nav a:nth-child(7){margin-left:5px;}
+@media (max-width:1200px){ nav { padding-right:54px; } }
 section.rm:nth-of-type(3n)>h2{transform:rotate(1.6deg);}
 
 section.rm:nth-of-type(4n)>h2 {
@@ -979,7 +986,8 @@ a:hover{text-decoration:underline wavy;text-underline-offset:4px;}
 .ckb[hidden],.bub[hidden]{display:none}
 .ckb p{margin:0 0 10px}
 .ckb button{font:inherit;cursor:pointer;background:var(--sun);color:var(--ink);border:2px solid var(--ink);padding:3px 18px}
-@media (max-width:700px){.scp{right:auto;left:12px;top:12px;bottom:auto}.bub{top:74px}}
+@media (max-width:700px){.scp{right:auto;left:12px;top:auto;bottom:12px}.bub{top:74px}body.hasck .scp{display:none}}
+body.hasck footer{padding-bottom:170px}
 .sw{position:fixed;left:50%;top:40%;width:320px;margin-left:-160px;z-index:200;pointer-events:none;text-align:center;color:var(--ink)}
 .sw .box{position:relative;height:40px}
 .sw .hf{position:absolute;left:0;top:0}
