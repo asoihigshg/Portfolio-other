@@ -30,12 +30,13 @@ my music .................. main.js, search:  var TR=
 my plotter drawings ....... main.js, search:  var DR=
 my tournaments ............ index.html, search:  id="tournaments"
 my games .................. index.html, search:  id="playing"
-                            swap an empty <div class="wch"></div> for
-                            <div class="wch full"><b>name</b><small>platform</small></div>
-                            game icons: save them in images/ as png, named like the tile
-                            (hogwarts-legacy.png, civ-6.png, minecraft.png, stardew-valley.png,
-                            restory.png, paralives.png). no file = plain blue tile. for a new game
-                            add style="background-image:url(images/NAME.png),linear-gradient(#e9f6fd,#bfe4f6)" to its div
+                            its a cartridge case now. every pocket is a <div class="slot">.
+                            to add a game, swap the empty <div class="wch"></div> inside a slot for
+                              <div class="wch full"><i style="background-image:url(images/NAME.png),linear-gradient(#e9f6fd,#bfe4f6)"></i><b>name</b><small>platform</small></div>
+                            (small is optional, it shows on hover and when you pull the cart out)
+                            art goes in images/ as png, any box art works, it gets cropped to the label.
+                            no file = plain blue label. click a cart to pull it out, click again to blow on it
+                            plastic colours cycle by pocket, search: plastic colours (in style.css)
 the tab title phrases ..... main.js, search:  var T=[document.title
 colours ................... style.css, search:  :root
 

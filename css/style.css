@@ -875,130 +875,82 @@ a:hover{text-decoration:underline wavy;text-underline-offset:4px;}
 #tournaments .pg2{min-height:190px;}
 
 .ps{display:block;margin-top:14px;font:1.5rem/1 "Reenie Beanie",cursive;color:var(--hot);transform:rotate(-1deg);}
-#playing .wii{max-width:880px;margin:30px auto 0;padding:30px 28px 0;border-radius:20px;background:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.5px) 0 0/4px 4px,linear-gradient(#3d3430,#241d1a);box-shadow:0 12px 30px rgba(0,0,0,.4),inset 0 0 0 3px #52463f,inset 0 0 0 6px #17110f;overflow:hidden;color:#F2E8D6;transform:rotate(-.4deg);outline:2px dashed rgba(242,232,214,.28);outline-offset:-15px;}
-.wii .wgr{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding:14px;border-radius:10px;background:#14100e;box-shadow:inset 0 4px 12px #000,inset 0 0 0 2px #2c2420,0 1px 0 rgba(255,255,255,.12);}
 
-.wii .wch{position:relative;aspect-ratio:2/3;border-radius:5px;background:#1d1714;box-shadow:inset 0 3px 8px #000,inset 0 0 0 2px #2a221e;font:400 .62rem/1.2 "Special Elite","Courier New",monospace;text-align:left;color:#d9cdb6}
+/* ---- the cartridge case (playing) ---- */
+/* case = .wii, foam tray = .wgr, one pocket = .slot, the cart itself = .wch.full */
+#playing .wii{max-width:880px;margin:34px auto 0;padding:50px 28px 0;border-radius:22px;background:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1.5px) 0 0/4px 4px,linear-gradient(#4b392d,#2b201a);box-shadow:0 14px 32px rgba(0,0,0,.45),inset 0 0 0 3px #66503f,inset 0 0 0 6px #1b130e;overflow:hidden;color:#F2E8D6;transform:rotate(-.4deg);outline:2px dashed rgba(242,232,214,.3);outline-offset:-15px;position:relative;}
 
-.wii .wch::before{content:"";position:absolute;left:18%;right:18%;bottom:6px;height:6px;border-radius:2px;background:repeating-linear-gradient(90deg,#2d2521 0 3px,transparent 3px 6px);pointer-events:none}
-.wii .wch.full::before{inset:0;left:0;right:0;bottom:0;height:auto;border-radius:0;background:linear-gradient(115deg,rgba(255,255,255,.28),rgba(255,255,255,0) 35%)}
-.wii .wch.full b {
-	position: absolute;
-	left: 6px;
-	right: 6px;
-	bottom: -21px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	font-weight: 400;
-	text-transform: uppercase;
-	letter-spacing: 0;
-	font-size: .56rem;
-	color: #cfc4b0;
-	text-shadow: 0 1px 0 rgba(0,0,0,.6);
+/* masking tape on the lid, because i label everything */
+#playing .wii::before{content:"jack's carts";position:absolute;top:19px;left:38px;padding:1px 16px 3px;background:#e6d6a2;color:var(--ink);font:400 1.5rem/1.1 "Reenie Beanie",cursive;transform:rotate(-3deg);box-shadow:0 1px 3px rgba(0,0,0,.4);clip-path:polygon(0 0,100% 0,97% 50%,100% 100%,0 100%,3% 50%);z-index:6}
+/* brass rivet, top right. only one. it fell off the other */
+#playing .wii::after{content:"";position:absolute;top:20px;right:36px;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f0cf8a,#C58A42 55%,#6b4f26);box-shadow:0 2px 3px rgba(0,0,0,.6),inset 0 0 0 1px rgba(0,0,0,.35)}
+
+.wii .wgr{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding:14px;border-radius:10px;background:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1.5px) 0 0/3px 3px,#15100d;box-shadow:inset 0 4px 12px #000,inset 0 0 0 2px #2c2420,0 1px 0 rgba(255,255,255,.12);}
+
+/* a pocket in the foam */
+.wii .slot{position:relative;aspect-ratio:2/3;border-radius:8px;isolation:isolate;background:#0a0706;box-shadow:inset 0 5px 10px #000,inset 0 0 0 2px #2a211d,0 1px 0 rgba(255,255,255,.09);}
+.wii .slot:hover{z-index:5}
+.wii .slot.up{z-index:6}
+/* the foam lip at the front. this is what makes the cart look pushed in */
+.wii .slot::after{content:"";position:absolute;left:0;right:0;bottom:0;height:17%;z-index:3;pointer-events:none;border-radius:0 0 8px 8px;background:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.5px) 0 0/3px 3px,linear-gradient(#2f2620,#211a16);box-shadow:inset 0 3px 3px rgba(0,0,0,.65),0 -1px 0 rgba(255,255,255,.07);border-top:1px dashed rgba(242,232,214,.16)}
+
+/* the cartridge. empty .wch = nothing in the pocket */
+.wii .wch{position:absolute;left:5%;right:5%;top:5%;bottom:0;z-index:1;font:400 .62rem/1.2 "Special Elite","Courier New",monospace;color:var(--ink);cursor:default}
+.wii .wch.full{--pl:#b9b1a2;border-radius:7px 7px 3px 3px;cursor:pointer;background-color:var(--pl);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 150' preserveAspectRatio='none'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M12 118l22-9M70 22l14 6M60 128l30-4M8 60l9-3' stroke='%23fff' stroke-opacity='.4' stroke-width='.7'/%3E%3Cpath d='M20 140l12-5M82 96l-9 12M44 8l8 1' stroke='%23000' stroke-opacity='.25' stroke-width='.6'/%3E%3C/g%3E%3C/svg%3E"),
+    repeating-linear-gradient(90deg,rgba(0,0,0,.3) 0 2px,transparent 2px 5px),
+    linear-gradient(104deg,rgba(255,255,255,.3),rgba(255,255,255,0) 30%,rgba(0,0,0,.2));
+  background-size:100% 100%,58% 6%,100% 100%;background-position:0 0,50% 5%,0 0;background-repeat:no-repeat;
+  box-shadow:0 0 0 1px #2a2420,inset 0 0 0 2px rgba(0,0,0,.28),inset 2px 2px 0 rgba(255,255,255,.22),0 4px 7px rgba(0,0,0,.6);}
+/* little notch top left, like the real ones */
+.wii .wch.full::before{content:"";position:absolute;top:0;left:0;width:14%;height:7%;background:#0a0706;clip-path:polygon(0 0,100% 0,0 100%);border-radius:7px 0 0 0}
+/* gold pins. mostly hidden by the lip until you pull it out */
+.wii .wch.full::after{content:"";position:absolute;left:16%;right:16%;bottom:0;height:11%;background:repeating-linear-gradient(90deg,#d8a652 0 3px,#6b4f26 3px 5px);border-top:3px solid rgba(0,0,0,.35);border-radius:1px 1px 0 0}
+
+/* the label with the art on it */
+.wii .wch i{position:absolute;left:9%;right:9%;top:15%;bottom:27%;border-radius:3px;background:#cfe8f5 center 8%/cover no-repeat;box-shadow:0 0 0 2px rgba(0,0,0,.4),0 0 0 4px rgba(255,255,255,.14)}
+.wii .wch i::after{content:"";position:absolute;inset:0;border-radius:3px;background:linear-gradient(115deg,rgba(255,255,255,.34),rgba(255,255,255,0) 38%);pointer-events:none}
+
+/* name on a bit of tape, wonky on purpose */
+.wii .wch b{position:absolute;left:2%;right:2%;bottom:20%;padding:2px 6px 3px;text-align:center;font:400 1.1rem/.85 "Reenie Beanie",cursive;color:var(--ink);background:#e6d6a2;box-shadow:0 1px 2px rgba(0,0,0,.45);transform:rotate(-2deg);clip-path:polygon(0 0,100% 0,98% 50%,100% 100%,0 100%,2% 50%);text-wrap:balance}
+.wii .slot:nth-child(2n) .wch b{transform:rotate(1.5deg)}
+.wii .slot:nth-child(3n) .wch b{transform:rotate(-.8deg);background:#d9e0c0}
+.wii .slot:nth-child(5n) .wch b{background:#efd2c6}
+
+/* platform stamp, only if you wrote one */
+.wii .wch small{position:absolute;top:17%;left:12%;padding:1px 5px;border-radius:3px;background:rgba(20,16,14,.82);color:#F2E8D6;opacity:0;transition:opacity .15s}
+.wii .wch:hover small,.wii .wch.out small{opacity:1}
+
+/* plastic colours, runs round the pockets */
+.wii .slot:nth-child(6n+2) .wch.full{--pl:var(--sun)}
+.wii .slot:nth-child(6n+3) .wch.full{--pl:#8d9a6e}
+.wii .slot:nth-child(6n+4) .wch.full{--pl:#a85a45}
+.wii .slot:nth-child(6n+5) .wch.full{--pl:#cdbf9f}
+.wii .slot:nth-child(6n) .wch.full{--pl:#7d7f86}
+
+.wii .wch.full:hover{transform:translateY(-8%)}
+.wii .wch.full.out{transform:translateY(-24%) rotate(-1.5deg);box-shadow:0 0 0 1px #2a2420,inset 0 0 0 2px rgba(0,0,0,.28),inset 2px 2px 0 rgba(255,255,255,.22),0 12px 14px rgba(0,0,0,.6),0 0 16px rgba(197,138,66,.55)}
+.wii .wch.full:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+
+/* empty pocket, just a ghost of where a cart goes */
+.wii .wch:not(.full){border:2px dashed rgba(242,232,214,.08);border-radius:7px}
+
+/* bottom strip of the case: two brass snaps and the little lcd */
+.wii .wbar{margin:24px -28px 0;padding:16px 28px 18px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(#3a2c23,#21170f);border-top:2px solid #66503f;box-shadow:0 -2px 0 #120d0b}
+.wii .wb{width:38px;height:38px;border-radius:50%;font-size:0;background:radial-gradient(circle at 35% 30%,#f0cf8a,#C58A42 55%,#6b4f26);box-shadow:0 0 0 4px #2b201a,0 0 0 5px rgba(242,232,214,.25),0 3px 5px rgba(0,0,0,.6),inset 0 0 0 1px rgba(0,0,0,.4)}
+.wii .wclk{min-width:210px;max-width:60%;text-align:center;font:400 1.4rem/1 "Special Elite","Courier New",monospace;color:#2f3a22;background:#a8b58a;padding:8px 20px 7px;border-radius:4px;box-shadow:inset 0 2px 6px rgba(0,0,0,.45),0 0 0 3px #120d0b,0 0 0 4px #66503f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wii .wclk small{display:block;margin-top:4px;font-size:.72rem;font-weight:400;opacity:.75}
+
+@media(max-width:760px){
+  .wii .wgr{grid-template-columns:repeat(3,1fr);row-gap:20px}
 }
-
-.wii .wch.full:hover b {
-	color: #fff;
-}
-
-.wii .wch.full {
-	border: 12px solid #7d756b;
-	border-width: 14px 10px 28px;
-	border-radius: 8px 8px 3px 3px;
-	background: #cfe8f5 linear-gradient(#e9f6fd,#bfe4f6) center/cover no-repeat;
-	background-origin: content-box;
-	background-clip: content-box;
-	box-shadow: 0 0 0 1px #3b3530,inset 0 0 0 2px rgba(0,0,0,.45),0 6px 8px rgba(0,0,0,.55);
-	overflow: visible;
-	padding: 0;
-	z-index: 1;
-}
-
-/* connector pins along the bottom edge */
-.wii .wch.full::after {
-	content: "";
-	position: absolute;
-	left: 14%;
-	right: 14%;
-	bottom: -26px;
-	height: 5px;
-	background: repeating-linear-gradient(90deg,#C58A42 0 3px,#6b4f26 3px 5px);
-	border-radius: 1px;
-	opacity: .85;
-}
-
-.wii .wch b,.wii .wch small {
-	position: relative;
-}
-
-
-.wii .wch small {
-	position: absolute;
-	top: 4px;
-	left: 4px;
-	padding: 1px 5px;
-	border-radius: 3px;
-	background: rgba(20,16,14,.8);
-	color: #F2E8D6;
-	opacity: 0;
-	transition: opacity .15s;
-}
-
-.wii .wch:hover small {
-	opacity: 1;
-}
-
-.wii .wch.full:hover {
-	box-shadow: 0 0 0 1px #3b3530,inset 0 0 0 2px rgba(0,0,0,.45),0 10px 12px rgba(0,0,0,.6),0 0 14px rgba(197,138,66,.55);
-}
-
-
-.wii .wbar {
-	margin: 24px -28px 0;
-	padding: 16px 28px 18px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	background: linear-gradient(#352c28,#1f1815);
-	border-top: 2px solid #52463f;
-	box-shadow: 0 -2px 0 #120d0b;
-}
-
-.wii .wb {
-	width: 46px;
-	height: 46px;
-	border-radius: 50%;
-	background: radial-gradient(circle at 50% 30%,#d4745a,var(--hot) 55%,#6e2c1a);
-	box-shadow: inset 0 0 0 2px #5a2112,0 3px 0 #3b140a,0 5px 6px rgba(0,0,0,.5);
-	display: grid;
-	place-items: center;
-	font: 700 1.6rem/1 "DM Sans",system-ui,sans-serif;
-	color: #F2E8D6;
-}
-
-.wii .wclk { text-align:center; font:400 1.4rem/1 "Special Elite","Courier New",monospace; color:#2f3a22; background:#a8b58a; padding:8px 20px 7px; border-radius:4px; box-shadow:inset 0 2px 6px rgba(0,0,0,.45),0 0 0 3px #120d0b,0 0 0 4px #52463f; }
-.wii .wclk small { display:block; margin-top:4px; font-size:.72rem; font-weight:400; opacity:.75; }
-
-@media(max-width:760px) {
-  .wii .wgr{grid-template-columns:repeat(3,1fr);row-gap:34px}
-}
-
 @media(max-width:430px){
-  .wii .wgr {
-  	grid-template-columns: repeat(2,1fr);
-  }
-
-
+  .wii .wgr{grid-template-columns:repeat(2,1fr)}
+  .wii .slot:nth-child(n+9){display:none}
+  .wii .wclk{min-width:0;font-size:1.1rem}
+  #playing .wii{padding-inline:16px}
+  .wii .wbar{margin-inline:-16px;padding-inline:16px}
 }
-
 @media(prefers-reduced-motion:no-preference){
-	.wii .wch.full {
-		transition: box-shadow .15s,transform .15s;
-	}
-
-	.wii .wch.full:hover {
-		transform: translateY(-9px);
-	}
-
+  .wii .wch.full{transition:transform .2s cubic-bezier(.3,1.5,.5,1),box-shadow .2s}
 }

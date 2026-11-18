@@ -573,8 +573,23 @@
   $("rct").textContent = n;
   $("rlu").textContent = new Date().toLocaleDateString("en-GB");
 })(); (function () {
-  var c = document.getElementById("wclk"); if (!c) return; var days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];function tick() {
-    var d = new Date(), h = d.getHours(), m = d.getMinutes();c.children[0].textContent = (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m;
+  var c = document.getElementById("wclk"); if (!c) return; var days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"], hold = 0, cur = null, to;
+  function tick() {
+    if (hold) return;
+    var d = new Date(), h = d.getHours(), m = d.getMinutes(); c.children[0].textContent = (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m;
     c.children[1].textContent = days[d.getDay()] + " " + d.getDate() + "/" + (d.getMonth() + 1);
   }
-  tick();setInterval(tick, 15000); })();
+  // pull a cart out of the foam. click again to put it back (and blow on it first)
+  function put(x, why) { x.classList.remove("out"); x.parentNode.classList.remove("up"); x.setAttribute("aria-pressed", "false"); if (cur === x) cur = null; hold = 0; clearTimeout(to); if (why) { hold = 1; c.children[0].textContent = "*puff*"; c.children[1].textContent = "blew on it. just in case"; to = setTimeout(function () { hold = 0; tick(); }, 2200); } else tick(); }
+  var all = document.querySelectorAll(".wii .wch.full");
+  for (var i = 0; i < all.length; i++) (function (x) {
+    var nm = x.querySelector("b"), pf = x.querySelector("small"); x.tabIndex = 0; x.setAttribute("role", "button"); x.setAttribute("aria-pressed", "false"); x.setAttribute("aria-label", "Pull out " + (nm ? nm.textContent : "game"));
+    function go() {
+      if (x.classList.contains("out")) return put(x, 1);
+      if (cur) put(cur); cur = x; x.classList.add("out"); x.parentNode.classList.add("up"); x.setAttribute("aria-pressed", "true");
+      hold = 1; clearTimeout(to); c.children[0].textContent = (nm ? nm.textContent : "???").toUpperCase(); c.children[1].textContent = pf ? pf.textContent : "loaded. press start";
+    }
+    x.addEventListener("click", go); x.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+  })(all[i]);
+  tick(); setInterval(tick, 15000);
+})();
