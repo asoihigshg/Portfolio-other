@@ -44,3 +44,9 @@ colours ................... style.css, search:  :root
 if it breaks
 ------------
 refresh. if it still breaks check the folders are where they should be. if it STILL breaks its probably the js
+the "currently:" phrases ..... main.js, search:  var M =
+the tab messages ............. main.js, search:  needy
+project stickers ............. index.html, search:  class="stat"
+the 404 page ................. 404.html (github pages shows it by itself for pages that dont exist)
+konami code, name pokes, lamp bubble, scroll counter, cookie banner and guestbook
+.............................. all at the very bottom of main.js

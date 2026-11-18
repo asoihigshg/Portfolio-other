@@ -383,7 +383,7 @@
     var ip = document.querySelector(".ipod"), sa = 0, sy = null, sd = 0, sr = ip.querySelector(".scr");
     var b = document.getElementById("eb"), a = document.getElementById("ea");
     b.addEventListener("click", function () { var o = a.hidden;
-        a.hidden = !o;b.setAttribute("aria-expanded", o); b.textContent = o ? "✉ hide it again" : "✉ show my email"; });
+        a.hidden = !o;b.setAttribute("aria-expanded", o); b.textContent = o ? "✉ hide it again" : "✉ ok fine, here’s my email"; document.getElementById("shy").hidden = !o; });
 })();
 (function () { var RM = matchMedia("(prefers-reduced-motion:reduce)").matches, $ = function (i) { return document.getElementById(i);};
     $("dt").textContent = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }).toUpperCase();
@@ -402,6 +402,7 @@
             return;
         var T = [document.title, "whoah, so vibey ✦", "cool projects 🍂", "come say hi ✺", "wires, qubits & leaves", "♪ humming to myself", "built by Jack"], i = 0, n = 0, d = 1;
         function tick() {
+            if (window.tabMood) return setTimeout(tick, 500); // paused while the tab is saying something needy
             var s = Array.from(T[i]), hid = document.hidden, st = hid ? 3 : 1;
             n += d * st;
             if (n >= s.length) {
@@ -478,7 +479,7 @@
         if (e)
             e.textContent = new Date().getFullYear() - 2016;
     });
-    var M = ["following interesting ideas", "wiring something up", "reading about qubits", "drawing with a plotter"], k = 0;
+    var M = ["following interesting ideas", "wiring something up", "reading about qubits", "drawing with a plotter", "forgetting where the multimeter is", "one more turn (civ)", "rehearsing a normal conversation"], k = 0;
     if (!RM)
         setInterval(function () {
             k = (k + 1) % M.length;
@@ -607,4 +608,121 @@
     if (n >= 5) locked = 1;
     t = setTimeout(reset, n >= 5 ? 4000 : 6000);
   });
+})();
+
+// ---- extra bits: needy tab, konami sword, name pokes, lamp bubble, scroll counter, cookie banner, guestbook ----
+(function () {
+  var RM = matchMedia("(prefers-reduced-motion:reduce)").matches;
+  function $(i) { return document.getElementById(i); }
+
+  // needy tab title (the typing animation checks window.tabMood and waits)
+  var needy = ["come back 🥺", "ow, my tab", "hello?? anyone?", "i’m just sitting here"], nk = 0, nt;
+  function whine() { document.title = needy[nk++ % needy.length]; }
+  document.addEventListener("visibilitychange", function () {
+    clearInterval(nt);
+    window.tabMood = 1;
+    if (document.hidden) { nk = 0; whine(); nt = setInterval(whine, 2500); }
+    else { document.title = "oh hi"; setTimeout(function () { window.tabMood = 0; }, 2200); }
+  });
+
+  // the email button gets nervous the first time you go near it
+  var eb = $("eb"), nervous = 0;
+  function jitter() {
+    if (nervous) return;
+    nervous = 1;
+    eb.classList.add("nerv");
+    eb.addEventListener("animationend", function () { eb.classList.remove("nerv"); }, { once: true });
+  }
+  eb.addEventListener("mouseenter", jitter);
+  eb.addEventListener("focus", jitter);
+
+  // poke the letters of the name
+  var fx = ["spin", "fall", "squeak", "jump", "flip", "shake", "squeak", "grow", "fall"], ac;
+  function squeak(hi) {
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      var o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime;
+      o.type = "triangle";
+      o.frequency.setValueAtTime(hi ? 900 : 600, t);
+      o.frequency.exponentialRampToValueAtTime(hi ? 1500 : 1000, t + .12);
+      g.gain.setValueAtTime(.0001, t);
+      g.gain.exponentialRampToValueAtTime(.15, t + .02);
+      g.gain.exponentialRampToValueAtTime(.0001, t + .18);
+      o.connect(g); g.connect(ac.destination);
+      o.start(t); o.stop(t + .2);
+    } catch (e) { }
+  }
+  var letters = [].slice.call(document.querySelectorAll("h1 .lt"));
+  letters.forEach(function (el, i) {
+    el.addEventListener("click", function () {
+      var f = fx[i % fx.length];
+      if (f === "squeak") squeak(i > 4);
+      if (RM) return;
+      el.style.animation = "fx-" + f + " .8s ease";
+      el.addEventListener("animationend", function () { el.style.animation = "none"; }, { once: true });
+    });
+  });
+
+  // lamp talks back
+  var lamp = $("lamp"), bub = $("bub"), bt;
+  lamp.addEventListener("click", function () {
+    var dark = document.documentElement.hasAttribute("data-lit");
+    var msgs = dark ? ["i can’t see my soldering", "ok that’s better. wait, where did my screwdriver go"] : ["ow, my eyes", "i can’t stand lights"];
+    bub.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+    bub.hidden = false;
+    clearTimeout(bt);
+    bt = setTimeout(function () { bub.hidden = true; }, 3000);
+  });
+
+  // konami code snaps a sword (and counts it)
+  var code = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"], pos = 0;
+  var blade = '<svg viewBox="0 0 320 40" width="320" height="40" aria-hidden="true"><path d="M70 14L316 19V21L70 26Z" fill="#d7dade" stroke="#30251F" stroke-width="2.5" stroke-linejoin="round"/><rect x="58" y="4" width="12" height="32" rx="3" fill="#C58A42" stroke="#30251F" stroke-width="2.5"/><rect x="14" y="16" width="44" height="8" rx="3" fill="#A94F36" stroke="#30251F" stroke-width="2.5"/><circle cx="12" cy="20" r="7" fill="#C58A42" stroke="#30251F" stroke-width="2.5"/></svg>';
+  function snap() {
+    var n = $("swb"), c = n ? parseInt(n.textContent, 10) + 1 : 0;
+    if (n && !isNaN(c)) n.textContent = c;
+    var d = document.createElement("div");
+    d.className = "sw";
+    d.setAttribute("role", "status");
+    d.innerHTML = '<div class="box"><div class="hf h1">' + blade + '</div><div class="hf h2">' + blade + '</div></div><p>snap. swords broken: ' + (n ? n.textContent : "too many") + '</p>';
+    document.body.appendChild(d);
+    setTimeout(function () { d.remove(); }, 3400);
+  }
+  document.addEventListener("keydown", function (e) {
+    if (e.target.matches && e.target.matches("input,textarea")) return;
+    var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (k === code[pos]) { pos++; if (pos === code.length) { pos = 0; snap(); } }
+    else pos = (k === code[0]) ? 1 : 0;
+  });
+
+  // how much of me have you scrolled through
+  var scp = $("scp"), tick = 0;
+  function upd() {
+    tick = 0;
+    var max = document.documentElement.scrollHeight - innerHeight;
+    var p = max > 0 ? Math.round(Math.min(1, Math.max(0, scrollY / max)) * 100) : 0;
+    var t = "you’re " + p + "% through my personality";
+    if (p >= 100) t = "that’s all of me. please don’t make me talk about it";
+    else if (p >= 90) t += " (almost done. i’m getting nervous)";
+    else if (p >= 60) t += " (still here? brave)";
+    else if (p >= 25) t += " (it gets weirder)";
+    else if (p < 3) t = "you’re 0% through my personality. hi. i’m shy";
+    scp.textContent = t;
+  }
+  addEventListener("scroll", function () { if (!tick) { tick = 1; requestAnimationFrame(upd); } }, { passive: true });
+  addEventListener("resize", upd);
+  upd();
+
+  // fake cookie banner (the site really does use no cookies)
+  var ckb = $("ckb");
+  setTimeout(function () { ckb.hidden = false; document.body.classList.add("hasck"); }, 1200);
+  $("ckx").addEventListener("click", function () { ckb.hidden = true; document.body.classList.remove("hasck"); });
+
+  // fake guestbook (nothing is sent anywhere)
+  var gb = $("guestbook"), gf = $("gbf");
+  $("gbl").addEventListener("click", function (e) {
+    e.preventDefault();
+    gb.hidden = !gb.hidden;
+    if (!gb.hidden) gb.scrollIntoView({ behavior: RM ? "auto" : "smooth", block: "center" });
+  });
+  gf.addEventListener("submit", function (e) { e.preventDefault(); gf.hidden = true; $("gbt").hidden = false; });
 })();
