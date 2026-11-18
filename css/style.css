@@ -878,7 +878,6 @@ a:hover{text-decoration:underline wavy;text-underline-offset:4px;}
 
 /* ---- the cartridge case (playing) ---- */
 /* case = .wii, foam tray = .wgr, one pocket = .slot, the cart itself = .wch.full */
-#playing .wii{max-width:880px;margin:34px auto 0;padding:50px 28px 0;border-radius:22px;background:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1.5px) 0 0/4px 4px,linear-gradient(#4b392d,#2b201a);box-shadow:0 14px 32px rgba(0,0,0,.45),inset 0 0 0 3px #66503f,inset 0 0 0 6px #1b130e;overflow:hidden;color:#F2E8D6;transform:rotate(-.4deg);outline:2px dashed rgba(242,232,214,.3);outline-offset:-15px;position:relative;}
 
 /* masking tape on the lid, because i label everything */
 #playing .wii::before{content:"jack's carts";position:absolute;top:19px;left:38px;padding:1px 16px 3px;background:#e6d6a2;color:var(--ink);font:400 1.5rem/1.1 "Reenie Beanie",cursive;transform:rotate(-3deg);box-shadow:0 1px 3px rgba(0,0,0,.4);clip-path:polygon(0 0,100% 0,97% 50%,100% 100%,0 100%,3% 50%);z-index:6}
@@ -954,3 +953,52 @@ a:hover{text-decoration:underline wavy;text-underline-offset:4px;}
 @media(prefers-reduced-motion:no-preference){
   .wii .wch.full{transition:transform .2s cubic-bezier(.3,1.5,.5,1),box-shadow .2s}
 }
+#sb{min-width:11ch}
+#sb.hit{background:var(--hot)}
+@keyframes hs{0%{transform:translate(0)}25%{transform:translate(-5px,2px) rotate(-2deg)}60%{transform:translate(4px,-2px) rotate(1.5deg)}100%{transform:translate(0)}}
+@media(prefers-reduced-motion:no-preference){#sb.hit{animation:hs .3s}}
+
+/* sections */
+section.rm{margin-left:auto!important;margin-right:auto!important;isolation:isolate}
+#projects::before,#bench::before,#notes::before,#fencing::before,#tournaments::before,#playing::before,#photos::before,#drawings::before,#doodles::before,#music::before,#contact::before{content:"";position:absolute;z-index:-1;left:50%;width:100vw;margin-left:-50vw;top:40px;bottom:-12px}
+#projects>h2,#bench>h2,#notes>h2,#fencing>h2,#tournaments>h2,#playing>h2,#photos>h2,#drawings>h2,#doodles>h2,#music>h2,#contact>h2{background:none;box-shadow:none;transform:none}
+#projects::before{background:linear-gradient(rgba(255,255,255,.09) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,rgba(255,255,255,.09) 1px,transparent 1px) 0 0/28px 28px,#1c3d6e}
+#projects>h2{font:700 clamp(2.2rem,7vw,4.4rem)/1.1 "Space Mono",monospace;color:#e8f1ff;border:3px solid #e8f1ff;padding:.1em .4em;text-transform:uppercase;letter-spacing:.04em}
+#projects .cap{background:none;border:0;box-shadow:none;transform:none;padding:0;color:#9ec5ff;font-family:"Space Mono",monospace}
+#bench::before{background:radial-gradient(#c9a05a 1.5px,transparent 2px) 0 0/22px 22px,#0f3b2a}
+#bench>h2{font:400 clamp(3rem,10vw,6.5rem)/1 "VT323",monospace;color:#ffb347;text-shadow:0 0 10px rgba(255,179,71,.6)}
+#bench>h2::before{content:"> "}
+#bench .cap{background:#0a2a1d;color:#7dff9a;border-color:#7dff9a;font-family:"VT323",monospace;font-size:1.3rem;transform:none}
+#notes::before{background:linear-gradient(90deg,transparent 64px,rgba(200,60,60,.55) 64px 66px,transparent 66px),repeating-linear-gradient(transparent 0 31px,rgba(70,110,190,.35) 31px 32px),#f6e58d}
+#notes>h2{font:700 clamp(3rem,10vw,6.5rem)/1.05 "Caveat",cursive;color:#1f3f9a;transform:rotate(-1deg);text-decoration:underline;text-decoration-thickness:4px;text-underline-offset:8px}
+#notes .cap{background:none;border:0;box-shadow:none;transform:none;color:#1f3f9a;font:1.9rem/1 "Reenie Beanie",cursive;letter-spacing:.03em}
+#fencing::before{background:repeating-linear-gradient(135deg,#101010 0 40px,#171717 40px 80px);border-block:10px solid #1fb86a;box-shadow:inset 0 10px 0 #e0263b,inset 0 -10px 0 #e0263b}
+#fencing>h2{font:700 clamp(3rem,11vw,7rem)/1 "Oswald",sans-serif;text-transform:uppercase;font-style:italic;color:#fff;transform:skew(-8deg);text-shadow:5px 0 #e0263b,-5px 0 #1fb86a}
+#fencing .cap{background:#1fb86a;color:#000;border:0;transform:none;font-family:"Oswald",sans-serif}
+#tournaments::before{background:repeating-linear-gradient(#ece7da 0 3px,#e4dece 3px 4px)}
+#tournaments>h2{display:block;text-align:center;font:800 clamp(2.6rem,9vw,6rem)/1 "Fraunces",serif;color:#111;border-block:6px double #111;padding:.08em 0;text-transform:uppercase;letter-spacing:.02em;margin-left:0}
+#tournaments .cap{background:none;border:0;box-shadow:none;transform:none;color:#111;margin:10px auto 30px;font:italic 1.15rem "Instrument Serif",serif;letter-spacing:.04em}
+#photos::before{background:radial-gradient(circle at 50% 0,#6b0f0f,transparent 70%),#1a0606}
+#photos>h2{font:400 clamp(2.4rem,8vw,5rem)/1.1 "Special Elite",monospace;color:#ff4a3a;letter-spacing:.2em;text-transform:uppercase;text-shadow:0 0 18px rgba(255,60,40,.7)}
+#photos .cap{background:none;color:#ff8f80;border:1px solid #ff4a3a;box-shadow:none;transform:none}
+#drawings::before{background:linear-gradient(rgba(60,110,200,.13) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,rgba(60,110,200,.13) 1px,transparent 1px) 0 0/24px 24px,#fbfbf8}
+#drawings>h2{font:italic 400 clamp(3rem,10vw,6.5rem)/1 "Instrument Serif",serif;color:#222}
+#drawings .cap{background:none;border:0;box-shadow:none;transform:none;color:#555;font-family:"Instrument Serif",serif;font-size:1.2rem;letter-spacing:.08em;padding:0}
+#doodles::before{background:radial-gradient(#ffb3d9 4px,transparent 5px) 0 0/32px 32px,#ffe3f1}
+#doodles>h2{font:400 clamp(2.8rem,9vw,6rem)/1.1 "Permanent Marker",cursive;color:#7b4bff;transform:rotate(-3deg);text-shadow:3px 3px 0 #ffd23f}
+#doodles .cap{background:#ffd23f;color:#222;border:3px dashed #222;box-shadow:none;transform:rotate(1deg)}
+#music::before{background:linear-gradient(#1a0033,#05000d)}
+#music>h2{font:400 clamp(2.4rem,8vw,5.5rem)/1.1 "Monoton",cursive;color:#ff3fd0;text-shadow:0 0 12px #ff3fd0,0 0 32px #ff3fd0}
+#music .cap{background:none;color:#00f0ff;border:2px solid #00f0ff;box-shadow:0 0 12px #00f0ff;transform:none}
+#contact::before{background:repeating-linear-gradient(135deg,#d2302f 0 20px,#f7f1e1 20px 40px,#2a52be 40px 60px,#f7f1e1 60px 80px) top/100% 14px no-repeat,repeating-linear-gradient(135deg,#d2302f 0 20px,#f7f1e1 20px 40px,#2a52be 40px 60px,#f7f1e1 60px 80px) bottom/100% 14px no-repeat,#f7f1e1}
+#contact>h2{font:700 clamp(3rem,10vw,6.5rem)/1.05 "Caveat",cursive;color:#2a52be;transform:rotate(-2deg)}
+#contact .cap{background:#d2302f;border-color:#fff;color:#fff}
+#playing::before{background:repeating-linear-gradient(0deg,rgba(15,56,15,.12) 0 2px,transparent 2px 4px),#a9c26d}
+#playing>h2{font:400 clamp(1.6rem,5.2vw,3.4rem)/1.25 "Press Start 2P",monospace;color:#0f380f;text-shadow:3px 3px 0 #c5da8f}
+#playing .cap{background:#0f380f;color:#9bbc0f;border-color:#0f380f;transform:none;font-family:"Press Start 2P",monospace;font-size:.6rem;letter-spacing:.08em}
+#playing .note{color:#0f380f}
+#projects .note{color:#ffb08a}
+#bench .note{color:#ffb347}
+#fencing .note{color:#ff6b7d}
+#photos .note{color:#ff8f80}
+#music .note{color:#ff9af0}

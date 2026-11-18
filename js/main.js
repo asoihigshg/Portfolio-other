@@ -593,3 +593,18 @@
   })(all[i]);
   tick(); setInterval(tick, 15000);
 })();
+(function () {
+  var b = document.getElementById("sb"), n = 0, t, locked = 0;
+  var L = ["touché.", "ok, lucky.", "rude.", "i was not ready.", "that's the match. i'm going to go break another sword."];
+  if (!b) return;
+  function reset() { n = 0; locked = 0; b.className = "bt b"; b.textContent = "en garde?"; }
+  b.addEventListener("click", function () {
+    if (locked) return;
+    clearTimeout(t);
+    n++;
+    b.className = "bt b"; void b.offsetWidth; b.className = "bt b hit";
+    b.textContent = n < 5 ? L[n - 1] + " " + n + "–0" : "5–0. " + L[4];
+    if (n >= 5) locked = 1;
+    t = setTimeout(reset, n >= 5 ? 4000 : 6000);
+  });
+})();
