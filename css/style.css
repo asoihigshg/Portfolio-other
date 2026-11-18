@@ -875,3 +875,93 @@ a:hover{text-decoration:underline wavy;text-underline-offset:4px;}
 #tournaments .pg2{min-height:190px;}
 
 .ps{display:block;margin-top:14px;font:1.5rem/1 "Reenie Beanie",cursive;color:var(--hot);transform:rotate(-1deg);}
+#playing .wii{max-width:880px;margin:30px auto 0;padding:22px 22px 0;border-radius:26px;background:linear-gradient(#fbfcfd,#e3e8ee);box-shadow:0 10px 30px rgba(0,0,0,.25),inset 0 0 0 2px #fff;overflow:hidden;color:#4a5560;transform:rotate(-.4deg);}
+.wii .wgr{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+
+.wii .wch{position:relative;aspect-ratio:2/3;border-radius:14px;background:linear-gradient(#fff,#eef1f4);box-shadow:inset 0 0 0 2px #cfd6dd,0 2px 4px rgba(0,0,0,.12);display:flex;flex-direction:column;justify-content:flex-end;padding:8px 10px;overflow:hidden;font:600 .78rem/1.2 "DM Sans",system-ui,sans-serif;text-align:left}
+
+.wii .wch::before{content:"";position:absolute;inset:0 0 50% 0;background:linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,.15));pointer-events:none}
+.wii .wch.full::before{background:linear-gradient(rgba(255,255,255,.3),rgba(255,255,255,0) 55%)}
+.wii .wch.full b {
+	opacity: 0;
+	transition: opacity .15s;
+}
+
+.wii .wch.full:hover b {
+	opacity: 1;
+}
+
+.wii .wch.full {
+	background: #cfe8f5 linear-gradient(#e9f6fd,#bfe4f6) center/cover no-repeat;
+}
+
+.wii .wch.full b {
+	align-self: flex-start;
+	padding: 2px 7px;
+	border-radius: 7px;
+	background: rgba(255,255,255,.82);
+}
+
+.wii .wch b,.wii .wch small {
+	position: relative;
+}
+
+
+.wii .wch small {
+	font-weight: 400;
+	opacity: .7;
+}
+
+.wii .wch:hover {
+	box-shadow: inset 0 0 0 3px #3fb4e8,0 0 14px rgba(63,180,232,.55);
+}
+
+
+.wii .wbar {
+	margin: 22px -22px 0;
+	padding: 14px 22px 16px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background: linear-gradient(#f2f4f6,#d5dbe1);
+	border-top: 2px solid #fff;
+	box-shadow: 0 -2px 0 #c3cad2;
+}
+
+.wii .wb {
+	width: 54px;
+	height: 54px;
+	border-radius: 50%;
+	background: radial-gradient(circle at 50% 30%,#fff,#dfe5ea);
+	box-shadow: inset 0 0 0 2px #c3cad2,0 2px 5px rgba(0,0,0,.25);
+	display: grid;
+	place-items: center;
+	font: 700 1.7rem/1 "DM Sans",system-ui,sans-serif;
+	color: #4a9bc2;
+}
+
+.wii .wclk { text-align:center; font:600 1.5rem/1 "DM Sans",system-ui,sans-serif; color:#7b8691; }
+.wii .wclk small { display:block; margin-top:4px; font-size:.78rem; font-weight:400; }
+
+@media(max-width:760px) {
+  .wii .wgr{grid-template-columns:repeat(3,1fr)}
+}
+
+@media(max-width:430px){
+  .wii .wgr {
+  	grid-template-columns: repeat(2,1fr);
+  }
+
+
+}
+
+@media(prefers-reduced-motion:no-preference){
+	.wii .wch {
+		transition: box-shadow .15s,transform .15s;
+	}
+
+	.wii .wch:hover {
+		transform: scale(1.04);
+	}
+
+}

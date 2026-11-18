@@ -29,6 +29,13 @@ my photos ................. main.js, search:  var PHOTOS
 my music .................. main.js, search:  var TR=
 my plotter drawings ....... main.js, search:  var DR=
 my tournaments ............ index.html, search:  id="tournaments"
+my games .................. index.html, search:  id="playing"
+                            swap an empty <div class="wch"></div> for
+                            <div class="wch full"><b>name</b><small>platform</small></div>
+                            game icons: save them in images/ as png, named like the tile
+                            (hogwarts-legacy.png, civ-6.png, minecraft.png, stardew-valley.png,
+                            restory.png, paralives.png). no file = plain blue tile. for a new game
+                            add style="background-image:url(images/NAME.png),linear-gradient(#e9f6fd,#bfe4f6)" to its div
 the tab title phrases ..... main.js, search:  var T=[document.title
 colours ................... style.css, search:  :root
 
