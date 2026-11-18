@@ -1000,3 +1000,6 @@ body.hasck footer{padding-bottom:170px}
 .ret .rgb[hidden]{display:none}
 .ret .rgb input,.ret .rgb textarea{width:100%;box-sizing:border-box;font:inherit}
 @media (prefers-reduced-motion:reduce){.bt.nerv{animation:none}.sw .h1{animation:none;transform:translate(-14px,8px) rotate(-6deg)}.sw .h2{animation:none;transform:translate(14px,8px) rotate(6deg)}}
+
+/* leaf burst (type "leaf") */
+.lfx{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:55}

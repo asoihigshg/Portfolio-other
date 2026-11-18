@@ -726,3 +726,143 @@
   });
   gf.addEventListener("submit", function (e) { e.preventDefault(); gf.hidden = true; $("gbt").hidden = false; });
 })();
+
+// ---- even more extra bits: typed words, lamp overload, lunge counter, cassette, cat, idle and a few clicky things ----
+(function () {
+  var RM = matchMedia("(prefers-reduced-motion:reduce)").matches, bub = document.getElementById("bub"), bt2;
+  function $(i) { return document.getElementById(i); }
+  // same bubble the lamp uses, just with its own timer
+  function say(t, ms) {
+    bub.textContent = t; bub.hidden = false;
+    clearTimeout(bt2);
+    bt2 = setTimeout(function () { bub.hidden = true; }, ms || 3600);
+  }
+
+  // type a word anywhere (not in the guestbook)
+  var buf = "", lampEl = $("lamp");
+  var W = {
+    sudo: function () { say("jack is not in the sudoers file. this incident will be reported."); },
+    hello: function () { say("hi!! i'm shy. but hi."); },
+    "42": function () { say("the answer. i've forgotten the question."); },
+    qubit: function () {
+      if (RM) return say("both light and dark until you look.");
+      lampEl.click();
+      setTimeout(function () { lampEl.click(); }, 450);
+      setTimeout(function () { say("observed. it collapsed back to normal.", 4200); }, 1000);
+    },
+    leaf: function () {
+      say("autumn mode. i apologise to the hoover.");
+      if (RM) return;
+      var f = document.createElement("div"), C = ["var(--hot)", "var(--sun)", "var(--pink)", "var(--mint)", "var(--blue)"];
+      f.className = "lfx";
+      for (var i = 0; i < 28; i++) {
+        var d = document.createElement("div"), w = 24 + Math.random() * 26;
+        d.className = "lf";
+        d.style.cssText = "left:" + (Math.random() * 100).toFixed(1) + "%;width:" + w.toFixed(0) + "px;--dx:" + ((Math.random() * 200 - 100) | 0) + "px;--h:" + (innerHeight + 90) + "px;animation-duration:" + (4 + Math.random() * 4).toFixed(1) + "s;animation-delay:" + (Math.random() * 2).toFixed(1) + "s;animation-iteration-count:1;animation-fill-mode:both";
+        d.innerHTML = '<svg viewBox="0 0 40 60" style="animation-duration:' + (3 + Math.random() * 3).toFixed(1) + 's"><path d="M20 58C6 46 2 28 20 3C38 28 34 46 20 58Z" fill="' + C[i % 5] + '" stroke="rgba(48,37,31,.6)" stroke-width="1.5" stroke-linejoin="round"/><path d="M20 58V10M20 44L9 34M20 44L31 34M20 32L11 22M20 32L29 22" fill="none" stroke="rgba(48,37,31,.55)" stroke-width="1.2" stroke-linecap="round"/></svg>';
+        f.appendChild(d);
+      }
+      document.body.appendChild(f);
+      setTimeout(function () { f.remove(); }, 11000);
+    }
+  };
+  document.addEventListener("keydown", function (e) {
+    if (e.target.matches && e.target.matches("input,textarea")) return;
+    if (!e.key || e.key.length !== 1) return;
+    buf = (buf + e.key.toLowerCase()).slice(-8);
+    for (var w in W) if (buf.slice(-w.length) === w) { buf = ""; W[w](); break; }
+  });
+
+  // too many lamp clicks
+  var lc = [];
+  lampEl.addEventListener("click", function () {
+    var n = Date.now();
+    lc = lc.filter(function (t) { return n - t < 3500; });
+    lc.push(n);
+    if (lc.length >= 7) {
+      lc = [];
+      say("ok you've broken it. i only had the one lamp.", 4200);
+      if (!RM) lampEl.animate([{ transform: "rotate(0)" }, { transform: "rotate(-14deg)" }, { transform: "rotate(11deg)" }, { transform: "rotate(-6deg)" }, { transform: "rotate(0)" }], { duration: 500 });
+    }
+  });
+
+  // ten lunges and something gives (uses the konami code, so it counts as a broken sword)
+  var ln = 0, lt2;
+  $("lg").addEventListener("click", function () {
+    ln++; clearTimeout(lt2);
+    lt2 = setTimeout(function () { ln = 0; }, 6000);
+    if (ln >= 10) {
+      ln = 0;
+      "ArrowUp,ArrowUp,ArrowDown,ArrowDown,ArrowLeft,ArrowRight,ArrowLeft,ArrowRight,b,a".split(",").forEach(function (k) {
+        document.dispatchEvent(new KeyboardEvent("keydown", { key: k }));
+      });
+    }
+  });
+
+  // flip the cassette in the header
+  var cas = document.querySelector(".cas"), cs = 0;
+  if (cas) cas.addEventListener("click", function () {
+    cs = !cs;
+    var t = cas.querySelector("text");
+    if (t) t.textContent = cs ? "side B" : "side A";
+    if (!RM) cas.animate([{ transform: "rotate(7deg) rotateY(0)" }, { transform: "rotate(7deg) rotateY(360deg)" }], { duration: 600 });
+    say(cs ? "flipped. side B is mostly hiss." : "back to side A. the good one.");
+  });
+
+  // the doodles have opinions
+  var Q = { d1: "the door works. i checked twice.", d3: "i tried to fix the hand. it got worse.", d4: "it's fine. everything's fine." }, ac2;
+  Object.keys(Q).forEach(function (id) {
+    var e = $(id);
+    if (e) e.addEventListener("click", function () { say(Q[id]); });
+  });
+  var cat = $("d2");
+  if (cat) cat.addEventListener("click", function () {
+    try {
+      ac2 = ac2 || new (window.AudioContext || window.webkitAudioContext)();
+      var o = ac2.createOscillator(), g = ac2.createGain(), t = ac2.currentTime;
+      o.type = "triangle";
+      o.frequency.setValueAtTime(520, t);
+      o.frequency.linearRampToValueAtTime(900, t + .15);
+      o.frequency.linearRampToValueAtTime(420, t + .5);
+      g.gain.setValueAtTime(.0001, t);
+      g.gain.exponentialRampToValueAtTime(.12, t + .05);
+      g.gain.exponentialRampToValueAtTime(.0001, t + .55);
+      o.connect(g); g.connect(ac2.destination);
+      o.start(t); o.stop(t + .6);
+    } catch (e) { }
+    say("meow. (allegedly)");
+  });
+
+  // the struck-out word
+  var oo = document.querySelector(".oops"), on = 0;
+  if (oo) oo.addEventListener("click", function () {
+    on++;
+    say(["i said sleeping. i meant it.", "ok fine, a bit of both.", "productivity: struck through."][on % 3]);
+  });
+
+  // the fake visitor counter
+  var rc = $("rct"), rn = 0, ro = rc ? rc.textContent : "";
+  if (rc) rc.addEventListener("click", function () {
+    rn++;
+    if (rn === 3) { rc.textContent = "1000000"; say("you are visitor number 1,000,000!!! you win nothing. well done."); }
+    else if (rn === 6) { rc.textContent = "000001"; say("you were the only visitor all along. hi."); }
+    else if (rn === 9) { rc.textContent = ro; rn = 0; say("counter reset. it was never real."); }
+  });
+
+  // right click, once
+  var rcd = 0;
+  document.addEventListener("contextmenu", function () {
+    if (rcd) return;
+    rcd = 1;
+    say("right-click all you like. it's all view-source anyway. messy, i know.", 4500);
+  });
+
+  // gone quiet
+  var it;
+  function idle() {
+    clearTimeout(it);
+    it = setTimeout(function () { if (!document.hidden) say("...still there? it's gone very quiet. i get nervous.", 5000); }, 60000);
+  }
+  ["pointermove", "keydown", "scroll", "pointerdown"].forEach(function (t) { addEventListener(t, idle, { passive: true }); });
+  idle();
+})();

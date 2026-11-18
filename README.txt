@@ -50,3 +50,4 @@ project stickers ............. index.html, search:  class="stat"
 the 404 page ................. 404.html (github pages shows it by itself for pages that dont exist)
 konami code, name pokes, lamp bubble, scroll counter, cookie banner and guestbook
 .............................. all at the very bottom of main.js
+more easter eggs ............. the very last block in main.js (typed words, lamp, cassette, doodles, counter, idle)
