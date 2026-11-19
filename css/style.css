@@ -669,7 +669,7 @@ h2 {
 [data-lit] #lamp .bulb{fill:#FFD27A}
 
 #lamp:focus-visible{outline:3px solid var(--hot);border-radius:8px}
-#glow{position:fixed;inset:0;pointer-events:none;z-index:59;opacity:0;transition:opacity .6s;background:radial-gradient(circle at calc(100% - 40px) 50px,rgba(255,196,110,.3),transparent 55%);}
+#glow{position:fixed;inset:0;pointer-events:none;z-index:59;opacity:0;transition:opacity .6s;background:radial-gradient(circle at var(--gx,calc(100% - 40px)) var(--gy,50px),rgba(255,196,110,.3),transparent 55%);}
 
 [data-lit] #glow{opacity:1;}
 #tint{position:fixed;inset:0;pointer-events:none;z-index:58;mix-blend-mode:multiply;transition:background 1s}
@@ -1003,3 +1003,27 @@ body.hasck footer{padding-bottom:170px}
 
 /* leaf burst (type "leaf") */
 .lfx{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:55}
+
+/* ---- lamp character, garden, idle, proof, misread ---- */
+#lamp .eyes{transform-box:fill-box;transform-origin:center}
+.bub::before{right:auto;left:var(--tail,22px)}
+.bub.up::before{top:auto;bottom:-11px;border-top:8px solid var(--ink);border-bottom:0}
+.garden{position:fixed;left:14px;bottom:14px;width:62px;z-index:70;pointer-events:none;transition:bottom .3s}
+.garden svg{display:block;width:100%;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.25))}
+.gcount{display:block;text-align:center;font:400 .8rem/1 "Special Elite",monospace;color:var(--wt);margin-top:2px}
+body.hasck .garden{bottom:120px}
+@media (max-width:700px){.garden{left:auto;right:10px;width:48px;bottom:10px}body.hasck .garden{bottom:10px}}
+.idle{position:fixed;inset:0;z-index:75;background:rgba(20,14,10,.82);color:#F2E8D6;display:grid;place-content:center;text-align:center;font:400 1.3rem/1.5 "Special Elite",monospace;pointer-events:none}
+.pfn{max-width:46em;margin:0 0 30px;font-style:italic}
+.pf{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:34px 26px}
+.pfc{padding-right:22px}
+.pfc canvas{display:block;width:100%;height:auto;border:2px solid var(--ink);cursor:pointer;background:#f3e9d4;margin:8px 0}
+.pfb{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.pfb .bt{font-size:.95rem;padding:7px 16px;box-shadow:3px 3px 0 var(--ink);line-height:1.2}
+.pfm{margin:6px 0 0;font:400 .95rem/1.4 "Special Elite",monospace}
+.pfl{display:block;font:400 .95rem/1.4 "Special Elite",monospace;margin:6px 0}
+.pfl select,.pfl input{font:inherit;margin-left:6px;max-width:100%}
+.cpuv{font:400 .85rem/1.4 "Special Elite",monospace;background:var(--ink);color:#F2E8D6;padding:10px;margin:8px 0;min-height:11em;overflow-x:auto;white-space:pre}
+.qbar{display:flex;height:22px;border:2px solid var(--ink);margin:10px 0 4px;overflow:hidden}
+.qbar i{display:block;height:100%;transition:width .15s}
+#qb0{background:var(--hot)}#qb1{background:var(--mint)}

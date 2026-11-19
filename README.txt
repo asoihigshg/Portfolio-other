@@ -51,3 +51,14 @@ the 404 page ................. 404.html (github pages shows it by itself for pag
 konami code, name pokes, lamp bubble, scroll counter, cookie banner and guestbook
 .............................. all at the very bottom of main.js
 more easter eggs ............. the very last block in main.js (typed words, lamp, cassette, doodles, counter, idle)
+
+
+new in this version
+-------------------
+js/extras.js ...... loads after main.js. the lamp character (wanders, dodges, blinks, eyes follow the cursor),
+                    the little garden (a leaf per thing found), idle mode (nags, then a screensaver),
+                    and the working demos in the Proof section
+proof section ..... index.html, search:  id="proof"
+misread section ... index.html, search:  id="misread"  (the card wording is a first draft, rewrite freely)
+garden ............ extras.js, search:  var DISCOVERIES
+idle timings ...... extras.js, search:  var IDLE_STEPS

@@ -857,12 +857,4 @@
     say("right-click all you like. it's all view-source anyway. messy, i know.", 4500);
   });
 
-  // gone quiet
-  var it;
-  function idle() {
-    clearTimeout(it);
-    it = setTimeout(function () { if (!document.hidden) say("...still there? it's gone very quiet. i get nervous.", 5000); }, 60000);
-  }
-  ["pointermove", "keydown", "scroll", "pointerdown"].forEach(function (t) { addEventListener(t, idle, { passive: true }); });
-  idle();
 })();
