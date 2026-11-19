@@ -1043,9 +1043,16 @@ body.hasck .garden{bottom:120px}
 #lamp .brow.r{transform:translateY(var(--by,0px)) rotate(var(--br,0deg))}
 #lamp .blush{opacity:var(--blush,0);transition:opacity .3s}
 #lamp[data-mood=sleepy] .bulb{fill:#4a3d2f}
+/* sweat: shows up as it gets tired from keeping up with the scrolling (--sweat is set in extras.js, 0 to 1) */
+#lamp .sweat{opacity:var(--sweat,0);transition:opacity .4s}
+#lamp .sd{fill:#7CC4EC;stroke:#30251F;stroke-width:.9;stroke-linejoin:round;transform-box:fill-box;transform-origin:50% 0;animation:sweatdrop 1.3s ease-in infinite}
+#lamp .sd.b{animation-delay:.45s}
+#lamp .sd.c{animation-delay:.9s}
+[data-lit] #lamp[data-mood=tired] .bulb{fill:#C9A45E}
+@keyframes sweatdrop{0%{transform:translateY(-3px) scale(.4);opacity:0}25%{opacity:1;transform:translateY(0) scale(1)}100%{transform:translateY(13px) scale(.9);opacity:0}}
 #lamp .zzz{display:none;position:absolute;top:-8px;right:-4px;font:400 .95rem/1 "Special Elite",monospace;color:var(--wt);pointer-events:none}
 #lamp[data-mood=sleepy] .zzz{display:block;animation:zzz 2.4s ease-in-out infinite}
 @keyframes zzz{0%{transform:translate(0,6px);opacity:0}30%{opacity:1}100%{transform:translate(8px,-12px);opacity:0}}
 .bub:not([hidden]){animation:bpop .18s ease-out}
 @keyframes bpop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
-@media (prefers-reduced-motion:reduce){.bub:not([hidden]){animation:none}#lamp[data-mood=sleepy] .zzz{animation:none}}
+@media (prefers-reduced-motion:reduce){.bub:not([hidden]){animation:none}#lamp[data-mood=sleepy] .zzz{animation:none}#lamp .sd{animation:none}}

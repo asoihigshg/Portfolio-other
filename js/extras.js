@@ -94,13 +94,22 @@
   var lastCornerLine = 0;
   var cornerHits = 0;
   var screensaver = false;                  // set further down
-
+  // keeping up with the page: the lamp is stuck to the page while it scrolls, then hops back to where it was standing
+  var SCROLL_STAMINA = 6500;                // px of scrolling that tires it out completely
+  var TIRED_AT = 0.6;                       // how tired it has to be, when you stop scrolling, to slump and sweat
+  var lastScrollY = window.scrollY;
+  var lastScrollAt = 0;
+  var chaseY = null;                        // where (on screen) it wants to be again. null = not chasing
+  var fatigue = 0;                          // 0 to 1.2, goes up with scrolling and drains slowly
+  var tiredUntil = 0;
+  var wasTired = false;
+  var lastChaseLine = 0;
   function maxX() { return Math.max(0, innerWidth - lampSize.w); }
   function maxY() { return Math.max(0, innerHeight - lampSize.h); }
 
   function moveLamp() {
     lampPos.x = clamp(lampPos.x, 0, maxX());
-    lampPos.y = clamp(lampPos.y, 0, maxY());
+    lampPos.y = chaseY !== null ? clamp(lampPos.y, -lampSize.h * 0.55, maxY() + lampSize.h * 0.55) : clamp(lampPos.y, 0, maxY());   // while the page is dragging it it can hang half off the edge
     lamp.style.left = lampPos.x + "px";
     lamp.style.top = lampPos.y + "px";
     var glow = byId("glow");
@@ -137,7 +146,8 @@
     surprised: { lid: 0,   bl: -4,  br: 4,   by: -3,   pup: 1.0, blush: 0,   speed: 1.2 },
     relieved:  { lid: 0.3, bl: -8,  br: 8,   by: 0.4,  pup: 1.5, blush: 0.3, speed: 0.9 },
     squint:    { lid: 0.55, bl: 10, br: -10, by: 1,    pup: 1.3, blush: 0,   speed: 0.8 },
-    dizzy:     { lid: 0.15, bl: -8, br: 8,   by: 0,    pup: 1.2, blush: 0.3, speed: 0.5 }
+    dizzy:     { lid: 0.15, bl: -8, br: 8,   by: 0,    pup: 1.2, blush: 0.3, speed: 0.5 },
+    tired:     { lid: 0.5,  bl: -10, br: 10, by: 1.6,  pup: 1.3, blush: 0.15, speed: 0.4 }
   };
   var mood = "neutral";
   var moodForced = "";
@@ -152,6 +162,7 @@
   function chooseMood(now) {
     if (carrying) return "surprised";
     if (now < moodUntil) return moodForced;
+    if (now < tiredUntil) return "tired";
     if (screensaver) return "happy";
     var idle = idleSeconds();
     if (idle >= 110) return "sleepy";
@@ -312,11 +323,21 @@
     var m = MOODS[mood].speed;
     var panic = now < boostUntil;
     hopFrom = { x: lampPos.x, y: lampPos.y };
+    landDur = 0.18;
 
     if (celebrate > 0) {
       celebrate--;
       hopTo = { x: hopFrom.x, y: hopFrom.y };
       hopH = 34; airDur = 0.42; crouchDur = 0.1;
+    } else if (chaseY !== null && !panic) {
+      // the page scrolled out from under it, so it hops back to where it was standing.
+      // the more tired it is the shorter and slower the hops get (so it falls behind)
+      var gap = chaseY - hopFrom.y, tire = Math.min(1, fatigue);
+      if (Math.abs(gap) < 16) { state = "rest"; st = 0; restDur = 0.12; return; }
+      heading.y = gap > 0 ? 0.9 : -0.9;
+      heading.x = Math.random() < 0.5 ? -0.3 : 0.3;
+      hopTo = { x: clamp(hopFrom.x + heading.x * 16, 0, maxX()), y: hopFrom.y + (gap > 0 ? 1 : -1) * Math.min(Math.abs(gap), 150 * (1 - tire * 0.4)) };
+      hopH = 13 - tire * 5; airDur = 0.24 + tire * 0.12; crouchDur = 0.05 + tire * 0.04; landDur = 0.1 + tire * 0.1;
     } else {
       var reach = null;
       if (goal && !goal.arrived) {
@@ -370,7 +391,7 @@
         state = "rest"; st = 0;
         var m = Math.max(0.4, MOODS[mood].speed);
         var panic = now < boostUntil;
-        restDur = panic ? 0.02 : goal && !goal.arrived ? 0.12 : (Math.random() < 0.12 ? 2 + Math.random() * 2.5 : 0.25 + Math.random() * 0.9) / m;
+        restDur = panic ? 0.02 : chaseY !== null ? 0.03 + Math.min(1, fatigue) * 0.3 : goal && !goal.arrived ? 0.12 : (Math.random() < 0.12 ? 2 + Math.random() * 2.5 : 0.25 + Math.random() * 0.9) / m;
       }
     }
   }
@@ -438,7 +459,7 @@
 
   function startCarry() {
     carrying = true;
-    goal = null; lookTarget = null;
+    goal = null; lookTarget = null; chaseY = null;
     lamp.classList.add("carrying");
     lamp.style.setProperty("--org", "50% 8%");
     state = "rest"; st = 0;
@@ -534,8 +555,29 @@
     }
     if (screensaver) { glide(dt, now); applyBody(); return; }
 
-    var holding = hovered || now < frozenUntil;
-    if (holding && state === "rest") { springBody(dt); applyBody(); return; }
+    // tired out by keeping up with the scrolling
+    fatigue = Math.max(0, fatigue - dt * (now < tiredUntil ? 0.05 : chaseY !== null ? 0.01 : 0.035));
+    if (chaseY !== null && now - lastScrollAt > 450 && state === "rest" && Math.abs(chaseY - lampPos.y) < 18) endChase(now);
+    var tired = now < tiredUntil;
+    if (wasTired && !tired) {
+      wasTired = false;
+      setMood("relieved", 2500);
+      if (canSpeak()) say(nextLine(RECOVER_LINES), 3200);
+    }
+    if (!tired && state === "rest") body.tilt += (0 - body.tilt) * Math.min(1, dt * 5);
+
+    // a chase beats being hovered or frozen, otherwise it would just stand there while the page leaves
+    var holding = chaseY === null && (hovered || now < frozenUntil);
+    if (holding && state === "rest") {
+      springBody(dt);
+      if (tired) {          // slumped and panting
+        body.tilt += (-6 - body.tilt) * Math.min(1, dt * 4);
+        body.s = 0.025 + Math.min(1, fatigue) * 0.03 + Math.sin(now / 230) * (0.03 + Math.min(1, fatigue) * 0.03);
+        body.sv = 0;
+      }
+      applyBody();
+      return;
+    }
     if (!holding) dodgeThePointer(now);
     if (!goal && now >= nextVisitAt && canVisit(now)) startVisit(now);
     stepHop(dt, now);
@@ -544,7 +586,7 @@
 
   function canVisit() {
     return roaming && !screensaver && !carrying && !hovered && !focused && !document.hidden &&
-      bubble.hidden && idleSeconds() < 50 && state === "rest";
+      bubble.hidden && idleSeconds() < 50 && state === "rest" && chaseY === null && Date.now() >= tiredUntil;
   }
 
   var lastFrame = performance.now();
@@ -560,6 +602,7 @@
         var wanted = chooseMood(clock);
         if (wanted !== mood) applyMood(wanted);
         updateGaze(clock);
+        lamp.style.setProperty("--sweat", (clock < tiredUntil ? 1 : clamp((fatigue - 0.3) / 0.4, 0, 1)).toFixed(2));
       }
     }
     requestAnimationFrame(frame);
@@ -570,7 +613,7 @@
     if (!carrying) setMood(dodges > 0 ? "shy" : "curious", 1600);
   });
   lamp.addEventListener("pointerleave", function () { hovered = false; frozenUntil = Date.now() + 600; });
-  lamp.addEventListener("focus", function () { focused = true; });
+  lamp.addEventListener("focus", function () { focused = true; chaseY = null; });
   lamp.addEventListener("blur", function () { focused = false; frozenUntil = Date.now() + 2500; });
   lamp.addEventListener("touchstart", function () { frozenUntil = Date.now() + 5000; }, { passive: true });
   lamp.addEventListener("click", function () { frozenUntil = Date.now() + 3000; });
@@ -875,6 +918,72 @@
       nextNagAt = Date.now() + 20000;
     }
   }, 1000);
+
+
+  // ---------- keeping up with the scrolling ----------
+  // scrolling drags the lamp along with the page (it's stuck to it), and then it hops back to where it was standing.
+  // scroll a lot and it runs out of puff: when you stop it slumps, pants and sweats, then it slowly recovers.
+
+  var CHASE_LINES = [
+    "wait for me!",
+    "hang on hang on hang on",
+    "too fast!!",
+    "i’m coming, i’m coming",
+    "not so fast!",
+    "slow down, i have very short legs. (i have none.)",
+    "i’m keeping up! (i’m not keeping up.)"
+  ];
+  var TIRED_LINES = [
+    "phew. that was a lot of page.",
+    "i’m not built for cardio. i’m a lamp.",
+    "...give me a second. or ten.",
+    "who scrolls that much. (you do.)",
+    "my cord is sweating. is that possible?",
+    "i’m not unfit. the page is just very long.",
+    "i need a sit down. i’m already sitting.",
+    "so... many... pixels...",
+    "next time i’m taking the stairs. (i can’t. i’m a lamp.)"
+  ];
+  var RECOVER_LINES = [
+    "ok. i’m fine. i’m fine.",
+    "right. recovered. mostly.",
+    "i’m back. don’t scroll again. (scroll again.)",
+    "breathing normally. ish."
+  ];
+
+  function endChase(now) {
+    chaseY = null;
+    if (fatigue >= TIRED_AT) {
+      tiredUntil = now + 5000 + Math.min(1, fatigue) * 11000;
+      frozenUntil = Math.max(frozenUntil, tiredUntil);
+      moodUntil = 0;
+      lookTarget = null;
+      wasTired = true;
+      say(nextLine(TIRED_LINES), 4500);
+    }
+  }
+
+  window.addEventListener("scroll", function () {
+    var dy = window.scrollY - lastScrollY;
+    lastScrollY = window.scrollY;
+    if (!dy || reduceMotion || !roaming || carrying || focused || screensaver || state === "fall" || document.hidden) return;
+    var now = Date.now();
+    if (chaseY === null) chaseY = clamp(lampPos.y, 0, maxY());    // the spot it wants to get back to
+    lastScrollAt = now;
+    var low = -lampSize.h * 0.55, high = maxY() + lampSize.h * 0.55;
+    lampPos.y = clamp(lampPos.y - dy, low, high);                 // dragged along with the page
+    hopFrom.y = clamp(hopFrom.y - dy, low, high);                 // (and the hop it's in the middle of)
+    hopTo.y = clamp(hopTo.y - dy, low, high);
+    fatigue = Math.min(1.2, fatigue + Math.abs(dy) / SCROLL_STAMINA);
+    goal = null; lookTarget = null;
+    nextVisitAt = Math.max(nextVisitAt, now + 7000);
+    if (state === "rest") restDur = 0;
+    if (fatigue > 0.15 && now - lastChaseLine > 9000 && now >= tiredUntil) {
+      lastChaseLine = now;
+      say(nextLine(CHASE_LINES), 2500);
+    }
+    moveLamp();
+  }, { passive: true });
 
 
   // ---------- go ----------

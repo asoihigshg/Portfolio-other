@@ -65,7 +65,7 @@ idle timings ...... extras.js, search:  var IDLE_STEPS
 
 the lamp (js/extras.js, search:  the lamp is a character now)
 -------------------------------------------------------------
-moods and faces ........ search:  var MOODS   (neutral, happy, curious, shy, grumpy, sleepy, surprised, squint, relieved, dizzy)
+moods and faces ........ search:  var MOODS   (neutral, happy, curious, shy, grumpy, sleepy, surprised, squint, relieved, dizzy, tired)
 things it visits ....... search:  var VISITS  (a selector and the lines it says when it gets there)
 what it says per section search:  SECTION_LINES
 you can pick it up ..... drag it. a click still turns the lights on/off
@@ -91,3 +91,16 @@ lamp picked up / dropped .... extras.js, search:  GRAB_LINES  GRAB_MORE  DROP_LI
 lamp per section ............ extras.js, search:  SECTION_LINES   (a list means it picks one per visit, a plain string means always that)
 idle nudges and screensaver . extras.js, search:  IDLE_STEPS  /  NAGS  /  BACK_LINES
 corner hits ................. extras.js, search:  atCorner
+
+
+the lamp keeps up with the scrolling (js/extras.js, search:  keeping up with the scrolling)
+-------------------------------------------------------------------------------------------
+scroll and the lamp gets dragged along with the page (it's stuck to it), then it hops back to where it was standing.
+scroll fast and it can't keep up: it hangs off the top or bottom edge until you stop, then it hops back in.
+scroll a LOT and it runs out of puff. when you stop it slumps, pants, droops its eyes and sweats, then slowly recovers.
+tune it ................ search:  SCROLL_STAMINA  (px of scrolling that tires it out completely, smaller = tires faster)
+                         search:  TIRED_AT  (how tired it must be when you stop to slump and sweat, 0 to 1.2)
+hop size and speed ..... search:  chaseY  in nextHop  (the 150 is the longest hop in px, tired hops are shorter and slower)
+what it says ........... search:  CHASE_LINES  /  TIRED_LINES  /  RECOVER_LINES
+the sweat drops ........ index.html, class='sweat' inside the lamp svg.  style.css, search:  sweatdrop
+it doesn't do any of this with reduced motion on, or while you're holding it or using the keyboard on it
