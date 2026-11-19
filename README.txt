@@ -111,3 +111,24 @@ index.html, search:  id="bag"   (each thing is a <button class="bi"> with its dr
 js/bag.js ........... unzips the bag and shows the note for whatever you tap
 images/bag.png ...... the backpack, cut out of its white background
 to add something: copy a whole <button class="bi" ...> line, change data-i, data-n, the label, and --x / --y (where it sits, in %)
+
+
+the drawer, the workshop, the box, the lamp's reports and the failure log
+-------------------------------------------------------------------------
+js/lab.js ......... the miscellaneous drawer, the workshop simulator and the locked box
+js/log.js ......... the failure log's filter buttons and tally
+js/report.js ...... the lamp's incident reports. one turns up every few minutes of being watched, or type  report  anywhere
+
+the drawer ........ lab.js, search:  var DRAWER   (id, name, icon, story, and an optional act() for the ones that do something)
+                    the little drawings are in  var ICONS  at the top of lab.js. index.html, search:  id="drawer"
+the workshop ...... lab.js, search:  var COMBOS   (\"thing+thing\": [what it says, what it makes, did it go wrong])
+                    START_ITEMS is what's on the bench to begin with. index.html, search:  id="workshop"
+                    pick something up, click something else to use it on that. escape puts it back
+the box ........... lab.js, search:  setupBox   it turns up before a random section every visit. nobody explains it
+                    it needs four things: the key (click the key in the drawer), a sword snapped, a cartridge pulled out,
+                    and leaving the tab and coming back. the sticky note in the drawer says so. kind of. inside: a receipt
+the report ........ report.js, search:  buildLines  (what it noticed)  and  CLOSERS  (how it signs off)
+the failure log ... index.html, search:  id="failures"   each entry is a <details class="fl-e" data-k="failed|abandoned|questionable">
+                    the entries are a first draft. rewrite them, delete the ones that aren't true, add your own (copy one whole line)
+the garden ........ four new leaves: drawer, workshop, box, failure log  (extras.js, search:  var DISCOVERIES)
+                    window.lampSay in extras.js is how lab.js and report.js make the lamp talk

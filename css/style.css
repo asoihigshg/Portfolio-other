@@ -1094,3 +1094,97 @@ body.hasck .garden{bottom:120px}
 .bgz .zt{fill:none;stroke:#30251F;stroke-width:9;stroke-linecap:butt;stroke-linejoin:round}
 .bgz .zk{fill:none;stroke:#cfd3d8;stroke-width:4.6;stroke-dasharray:2.4 2.6;stroke-linejoin:round}
 .bgz .bgpull{transform-box:view-box}
+
+
+/* ---- the miscellaneous drawer (js/lab.js) ---- */
+.dw{max-width:880px;margin:30px auto 0;position:relative;}
+.dw-in{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:18px 12px;padding:26px 22px 30px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 2px,transparent 2px 9px),linear-gradient(#3d2c20,#2b1e16);border:4px solid #5a4030;border-bottom:0;border-radius:8px 8px 0 0;box-shadow:inset 0 10px 22px rgba(0,0,0,.6);}
+.dw-front{height:58px;position:relative;background:repeating-linear-gradient(90deg,rgba(0,0,0,.08) 0 3px,transparent 3px 11px),linear-gradient(#a8733f,#8a5d34);border:4px solid var(--ink);border-radius:0 0 10px 10px;box-shadow:6px 8px 0 rgba(0,0,0,.3);}
+.dw-handle{position:absolute;left:50%;top:14px;width:84px;height:16px;margin-left:-42px;border-radius:8px;background:linear-gradient(#e8c47e,#a87a2a);border:3px solid var(--ink);box-shadow:0 3px 0 rgba(0,0,0,.35);}
+.dw-i{background:none;border:0;padding:4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--paper);font:inherit;transform:rotate(var(--r,0deg));transition:transform .2s;}
+.dw-i svg{display:block;width:70px;height:70px;filter:drop-shadow(3px 4px 0 rgba(0,0,0,.45));transition:transform .2s;}
+.dw-i span{background:var(--paper);color:var(--ink);border:2px solid var(--ink);padding:0 7px;font:400 1.15rem/1.2 "Reenie Beanie",cursive;box-shadow:2px 2px 0 rgba(0,0,0,.35);}
+.dw-i:hover svg,.dw-i:focus-visible svg{transform:translateY(-5px) rotate(-6deg)}
+.dw-i[aria-pressed=true] span{background:var(--hot);color:var(--paper)}
+.dw-i[aria-pressed=true] svg{transform:translateY(-7px) scale(1.12)}
+.dw-i:focus-visible{outline:3px dashed var(--sun);outline-offset:3px}
+.dw-note{position:relative;width:min(460px,100%);margin:26px auto 0;transform:rotate(-1deg);background:repeating-linear-gradient(transparent 0 29px,rgba(112,84,90,.35) 29px 30px),var(--paper);color:var(--ink);padding:16px 22px 16px 46px;line-height:30px;box-shadow:6px 7px 0 rgba(48,37,31,.3);min-height:112px;}
+.dw-note small{display:block;font:1.7rem/30px "Reenie Beanie",cursive;color:var(--hot)}
+.dw-note p{margin:0}
+.dw.rattle{animation:dwrat .5s}
+@keyframes dwrat{0%,100%{transform:translateX(0)}15%{transform:translateX(-7px) rotate(-.4deg)}35%{transform:translateX(6px) rotate(.4deg)}55%{transform:translateX(-4px)}75%{transform:translateX(3px)}}
+
+
+/* ---- the workshop simulator (js/lab.js) ---- */
+.wk{max-width:900px;margin:28px auto 0;padding:14px 18px 20px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0 2px,transparent 2px 13px),linear-gradient(#c79a62,#a87a46);border:4px solid var(--ink);box-shadow:8px 9px 0 rgba(0,0,0,.3);color:var(--ink);}
+.wk-bar{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;justify-content:space-between;font:400 .95rem/1.3 "Special Elite",monospace;margin-bottom:12px;}
+.wk-bar #wkh{background:var(--paper);border:2px solid var(--ink);padding:0 10px}
+.wk-bar #wkc{white-space:pre}
+.wk-bar button{font:inherit;cursor:pointer;background:var(--sun);color:var(--ink);border:2px solid var(--ink);padding:2px 14px;box-shadow:2px 2px 0 rgba(0,0,0,.3)}
+.wk-bench{display:flex;flex-wrap:wrap;gap:14px 10px;justify-content:center;padding:14px 6px 18px;min-height:150px;}
+.wk-i{width:104px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px 6px;background:var(--paper);color:var(--ink);border:2px solid var(--ink);box-shadow:3px 4px 0 rgba(0,0,0,.3);cursor:pointer;font:400 .78rem/1.15 "Special Elite",monospace;text-align:center;transform:rotate(var(--r,0deg));transition:transform .15s,box-shadow .15s;}
+.wk-i svg{display:block;width:44px;height:44px}
+.wk-i:hover,.wk-i:focus-visible{transform:translateY(-4px) rotate(var(--r,0deg));box-shadow:3px 8px 0 rgba(0,0,0,.3)}
+.wk-i.tool{border-color:var(--hot)}
+.wk-i.proj{border-style:dashed;background:#efe2c4}
+.wk-i.held{background:var(--sun);transform:translateY(-8px) rotate(0deg) scale(1.05);box-shadow:3px 12px 0 rgba(0,0,0,.35)}
+.wk-i.pop{animation:wkpop .35s}
+@keyframes wkpop{0%{transform:scale(.3) rotate(-12deg)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.wk-i:focus-visible{outline:3px dashed var(--hot);outline-offset:3px}
+.wk-msg{margin:0 auto;max-width:560px;background:var(--paper);border:2px solid var(--ink);padding:8px 14px;font:400 1rem/1.35 "Special Elite",monospace;box-shadow:3px 4px 0 rgba(0,0,0,.3);transform:rotate(-.5deg)}
+
+
+/* ---- the locked box (it turns up somewhere. js/lab.js) ---- */
+.lockbox-wrap{max-width:1100px;margin:70px auto 0;padding:0 22px;position:relative;z-index:3}
+.lockbox{background:none;border:0;padding:6px;width:104px;cursor:pointer;display:inline-block;vertical-align:top}
+.lockbox svg{display:block;width:100%;filter:drop-shadow(4px 5px 0 rgba(0,0,0,.3));transition:transform .2s}
+.lockbox:hover svg{animation:lbshake .4s}
+@keyframes lbshake{0%,100%{transform:rotate(0)}25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
+.lockbox .lid{transform-box:fill-box;transform-origin:0 100%;transition:transform .5s}
+.lockbox-wrap.open .lid{transform:rotate(-58deg) translateY(-3px)}
+.lockbox:focus-visible{outline:3px dashed var(--hot);outline-offset:4px}
+.lb-msg{display:inline-block;vertical-align:top;margin:22px 10px 0;font:400 1rem/1.3 "Special Elite",monospace;color:var(--wt);min-height:1.3em}
+.lb-msg:empty{display:none}
+.lb-msg .slip{display:inline-block;background:var(--paper);color:var(--ink);border:2px dashed var(--ink);padding:2px 10px;transform:rotate(-2deg);font-weight:400}
+
+
+/* ---- the lamp's incident report (js/report.js) ---- */
+.incident{position:fixed;left:50%;bottom:16px;width:min(340px,calc(100vw - 28px));z-index:88;padding:0 16px 12px;background:var(--paper);color:var(--ink);border:2.5px solid var(--ink);box-shadow:5px 6px 0 rgba(0,0,0,.35);font:400 .9rem/1.35 "Special Elite",monospace;transform:translateX(-50%) rotate(-1deg);animation:incin .35s ease-out}
+@keyframes incin{from{transform:translateX(-50%) translateY(40px) rotate(-1deg);opacity:0}}
+.incident b{display:block;margin:0 -16px 10px;padding:4px 16px;background:var(--hot);color:var(--paper);font-weight:400;letter-spacing:.08em;font-size:.85rem}
+.incident ul{margin:0 0 8px;padding:0 0 0 1.1em;list-style:"▪  "}
+.incident li{margin:0 0 3px}
+.incident .sig{margin:8px 0 10px;font-style:italic;min-height:1.35em}
+.incident button{font:inherit;cursor:pointer;background:var(--sun);color:var(--ink);border:2px solid var(--ink);padding:2px 16px}
+.incident .filed{position:absolute;right:14px;bottom:10px;font:bold 1.5rem/1 "Special Elite",monospace;letter-spacing:.12em;color:var(--hot);border:3px solid var(--hot);padding:1px 8px;opacity:0;transform:rotate(-14deg) scale(1.7);transition:opacity .25s,transform .25s;pointer-events:none}
+.incident.done .filed{opacity:.8;transform:rotate(-14deg) scale(1)}
+@media (max-width:700px){.incident{bottom:96px}}
+@media (prefers-reduced-motion:reduce){.incident,.wk-i.pop,.dw.rattle,.lockbox:hover svg{animation:none}.lockbox .lid,.wk-i,.dw-i,.dw-i svg{transition:none}}
+
+
+/* ---- the failure log ---- */
+.flog{max-width:880px;margin:24px 0 0}
+.fl-top{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;justify-content:space-between;margin-bottom:22px}
+.fl-tally{font:400 .9rem/1.3 "Special Elite",monospace;background:var(--paper);color:var(--ink);border:2px solid var(--ink);padding:3px 10px;box-shadow:3px 3px 0 rgba(0,0,0,.3)}
+.fl-f{display:flex;flex-wrap:wrap;gap:8px}
+.fl-f button{font:400 .9rem/1.2 "Special Elite",monospace;cursor:pointer;background:var(--paper);color:var(--ink);border:2px solid var(--ink);padding:2px 12px;box-shadow:2px 2px 0 rgba(0,0,0,.3)}
+.fl-f button[aria-pressed=true]{background:var(--hot);color:var(--paper)}
+.fl-list{display:flex;flex-direction:column;gap:18px}
+.fl-e{background:var(--paper);color:var(--ink);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--c,var(--hot));transform:rotate(var(--r,0deg))}
+.fl-e:nth-child(3n+1){--c:var(--hot);--r:-.5deg}.fl-e:nth-child(3n+2){--c:var(--mint);--r:.4deg}.fl-e:nth-child(3n){--c:var(--sun);--r:-.2deg}
+.fl-e[hidden]{display:none}
+.fl-e summary{display:grid;grid-template-columns:auto 1fr auto;gap:6px 16px;align-items:center;padding:12px 16px;cursor:pointer;list-style:none}
+.fl-e summary::-webkit-details-marker{display:none}
+.fl-e summary::after{content:"+";grid-column:4;font:1.6rem/1 "Fraunces",serif;margin-left:4px}
+.fl-e[open] summary::after{content:"–"}
+.fl-e summary:hover{background:rgba(197,138,66,.15)}
+.fl-n{font-size:.8rem;color:var(--blue);letter-spacing:.06em}
+.fl-t{font:italic 600 1.35rem/1.15 "Fraunces",serif}
+.fl-s{white-space:nowrap}
+.fl-e[data-k=failed] .fl-s{color:var(--hot);border-color:var(--hot)}
+.fl-e[data-k=questionable] .fl-s{color:#8a5d1a;border-color:#8a5d1a}
+.fl-e p{margin:0;padding:0 16px 12px 16px}
+.fl-e p:last-child{padding-bottom:16px}
+.fl-e b{font-weight:400;color:var(--hot)}
+.fl-foot{margin:22px 0 0;font:1.7rem/1.1 "Reenie Beanie",cursive;color:var(--hot);transform:rotate(-1deg)}
+@media (max-width:620px){.fl-e summary{grid-template-columns:1fr auto}.fl-n{grid-column:1/-1}.fl-t{font-size:1.2rem}}

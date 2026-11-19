@@ -31,6 +31,7 @@
     clearTimeout(bubbleTimer);
     bubbleTimer = setTimeout(function () { bubble.hidden = true; }, ms || 3800);
   }
+  window.lampSay = say;   // lab.js and report.js use this to make the lamp talk
 
   function placeBubble() {
     if (bubble.hidden) return;
@@ -698,7 +699,11 @@
     photo: "developed a photo",
     cartridge: "pulled out a cartridge",
     pickup: "picked me up",
-    bag: "unzipped the bag"
+    bag: "unzipped the bag",
+    drawer: "went through the drawer",
+    bench: "made something at the workshop",
+    box: "opened the little box",
+    log: "read a post-mortem"
   };
   var discoveryIds = Object.keys(DISCOVERIES);
   var found = {};
@@ -813,6 +818,9 @@
     if (t.closest(".fm")) discover("photo");
     if (t.closest(".wii .wch.full")) discover("cartridge");
   });
+
+  // lab.js and log.js send these when you find something
+  document.addEventListener("gardenfind", function (e) { discover(e.detail); });
 
   // the sword snap adds a .sw element to the page
   new MutationObserver(function (changes) {
