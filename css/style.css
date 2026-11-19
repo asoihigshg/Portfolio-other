@@ -953,7 +953,7 @@ a:hover{text-decoration:underline wavy;text-underline-offset:4px;}
 }
 @media(max-width:430px){
   .wii .wgr{grid-template-columns:repeat(2,1fr)}
-  .wii .slot:nth-child(n+9){display:none}
+  .wii .slot:nth-child(n+11){display:none}
   .wii .wclk{min-width:0;font-size:1.1rem}
   #playing .wii{padding-inline:16px}
   .wii .wbar{margin-inline:-16px;padding-inline:16px}
