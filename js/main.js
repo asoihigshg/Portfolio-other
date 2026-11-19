@@ -1,3 +1,11 @@
+// picks a line from a list without saying the same one twice. it goes through a shuffled copy of the whole list before any line comes back
+window.nextLine = function (list) {
+  if (!list.bag || !list.bag.length) {
+    list.bag = list.slice().sort(function () { return Math.random() - 0.5; });
+    if (list.bag.length > 1 && list.bag[list.bag.length - 1] === list.last) list.bag.reverse();
+  }
+  return (list.last = list.bag.pop());
+};
 (function () {
 	// seeded so the tilts and colours are the same every load
 	var s = 5; function R() { s = s * 16807 % 2147483647; return s / 2147483647;}
@@ -479,7 +487,11 @@
         if (e)
             e.textContent = new Date().getFullYear() - 2016;
     });
-    var M = ["following interesting ideas", "wiring something up", "reading about qubits", "drawing with a plotter", "forgetting where the multimeter is", "one more turn (civ)", "rehearsing a normal conversation", "ignoring a message to work on a project"], k = 0;
+    var M = ["following interesting ideas", "wiring something up", "reading about qubits", "drawing with a plotter", "forgetting where the multimeter is", "one more turn (civ)", "rehearsing a normal conversation", "ignoring a message to work on a project",
+        "debugging with a rubber duck", "losing a fight with a breadboard", "plotting leaves", "tuning a guitar that is already in tune", "practising lunges in the hallway", "reading a datasheet (again)",
+        "avoiding the laundry", "writing a song in my head", "soldering something. carefully", "naming a variable. it’s taking hours", "building a thing to avoid building a thing", "tidying the desk (moving the mess)",
+        "watching a compiler think", "waiting for a 3D print", "drawing on a tablet (not a pen)", "losing the plot (and a screwdriver)", "one more game (caving in)", "sharpening pencils i won’t use"], k = 0;
+    M = [M[0]].concat(M.slice(1).sort(function () { return Math.random() - .5; }));   // new order every visit, first one stays
     if (!RM)
         setInterval(function () {
             k = (k + 1) % M.length;
@@ -574,14 +586,16 @@
   $("rct").textContent = n;
   $("rlu").textContent = new Date().toLocaleDateString("en-GB");
 })(); (function () {
-  var c = document.getElementById("wclk"); if (!c) return; var days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"], hold = 0, cur = null, to;
+  var c = document.getElementById("wclk"); if (!c) return; var days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"], hold = 0, cur = null, to,
+    PUFF = ["*puff*", "*pfff*", "*huff*", "*whoosh*", "*phew*", "*hhhhh*"],
+    BLOW = ["blew on it. just in case", "tradition. it never works", "dust: handled", "for luck", "just clearing the dust", "it works. (it doesn’t)", "blowing. old habits", "can’t hurt, can it"];
   function tick() {
     if (hold) return;
     var d = new Date(), h = d.getHours(), m = d.getMinutes(); c.children[0].textContent = (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m;
     c.children[1].textContent = days[d.getDay()] + " " + d.getDate() + "/" + (d.getMonth() + 1);
   }
   // pull a cart out of the foam. click again to put it back (and blow on it first)
-  function put(x, why) { x.classList.remove("out"); x.parentNode.classList.remove("up"); x.setAttribute("aria-pressed", "false"); if (cur === x) cur = null; hold = 0; clearTimeout(to); if (why) { hold = 1; c.children[0].textContent = "*puff*"; c.children[1].textContent = "blew on it. just in case"; to = setTimeout(function () { hold = 0; tick(); }, 2200); } else tick(); }
+  function put(x, why) { x.classList.remove("out"); x.parentNode.classList.remove("up"); x.setAttribute("aria-pressed", "false"); if (cur === x) cur = null; hold = 0; clearTimeout(to); if (why) { hold = 1; c.children[0].textContent = nextLine(PUFF); c.children[1].textContent = nextLine(BLOW); to = setTimeout(function () { hold = 0; tick(); }, 2200); } else tick(); }
   var all = document.querySelectorAll(".wii .wch.full");
   for (var i = 0; i < all.length; i++) (function (x) {
     var nm = x.querySelector("b"), pf = x.querySelector("small"); x.tabIndex = 0; x.setAttribute("role", "button"); x.setAttribute("aria-pressed", "false"); x.setAttribute("aria-label", "Pull out " + (nm ? nm.textContent : "game"));
@@ -596,15 +610,18 @@
 })();
 (function () {
   var b = document.getElementById("sb"), n = 0, t, locked = 0;
-  var L = ["touché.", "ok, lucky.", "rude.", "i was not ready.", "that's the match. i'm going to go break another sword."];
+  var P = ["touché.", "ok, lucky.", "rude.", "i was not ready.", "hm. fair.", "oh come on.", "ow. nice one.", "i blinked.", "that was my good side.", "is that even legal.", "right, i'm paying attention now.", "you've done this before.", "i'm rattled. (i'm fine.)", "sneaky."], o = [];
+  var F = ["that's the match. i'm going to go break another sword.", "that's the match. i demand a rematch. (i don't.)", "that's the match. i'll be in the corner.", "that's the match. my pride is in pieces. so is my sword."];
   if (!b) return;
-  function reset() { n = 0; locked = 0; b.className = "bt b"; b.textContent = "en garde?"; }
+  function deal() { o = P.slice().sort(function () { return Math.random() - 0.5; }); }
+  deal();
+  function reset() { n = 0; locked = 0; deal(); b.className = "bt b"; b.textContent = "en garde?"; }
   b.addEventListener("click", function () {
     if (locked) return;
     clearTimeout(t);
     n++;
     b.className = "bt b"; void b.offsetWidth; b.className = "bt b hit";
-    b.textContent = n < 5 ? L[n - 1] + " " + n + "–0" : "5–0. " + L[4];
+    b.textContent = n < 5 ? o[n - 1] + " " + n + "–0" : "5–0. " + nextLine(F);
     if (n >= 5) locked = 1;
     t = setTimeout(reset, n >= 5 ? 4000 : 6000);
   });
@@ -616,13 +633,14 @@
   function $(i) { return document.getElementById(i); }
 
   // needy tab title (the typing animation checks window.tabMood and waits)
-  var needy = ["come back 🥺", "ow, my tab", "hello?? anyone?", "i’m just sitting here"], nk = 0, nt;
+  var needy = ["come back 🥺", "ow, my tab", "hello?? anyone?", "i’m just sitting here", "did you forget me", "it’s very quiet in here", "i saved your seat", "psst. tab. psst.", "the lamp misses you", "just checking you’re ok", "i can hear you not looking", "…is it me?", "i’ll just stay here, then", "come baaack"], nk = 0, nt;
+  var back = ["oh hi", "you’re back!", "oh. it’s you.", "there you are", "…hi", "i wasn’t waiting", "welcome back. i’m fine."];
   function whine() { document.title = needy[nk++ % needy.length]; }
   document.addEventListener("visibilitychange", function () {
     clearInterval(nt);
     window.tabMood = 1;
-    if (document.hidden) { nk = 0; whine(); nt = setInterval(whine, 2500); }
-    else { document.title = "oh hi"; setTimeout(function () { window.tabMood = 0; }, 2200); }
+    if (document.hidden) { nk = 0; needy.sort(function () { return Math.random() - .5; }); whine(); nt = setInterval(whine, 2500); }
+    else { document.title = nextLine(back); setTimeout(function () { window.tabMood = 0; }, 2200); }
   });
 
   // the email button gets nervous the first time you go near it
@@ -665,10 +683,12 @@
 
   // lamp talks back
   var lamp = $("lamp"), bub = $("bub"), bt;
+  var DARKS = ["i can’t see my soldering", "ok that’s better. wait, where did my screwdriver go", "ahh. that’s better. dim and cosy.", "much better. now i can’t see anything, but better.", "finally. i was squinting so hard.", "dark mode. my natural habitat.", "thank you. my eyes were filing a complaint.", "oh good. i work better when it’s dim. (i don’t.)", "ok. now i can’t find my multimeter. but still."];
+  var LIGHTS = ["ow, my eyes", "i can’t stand lights", "too bright. too bright. too bright.", "this is what the sun feels like, isn’t it", "i’m a lamp. i shouldn’t mind. i mind.", "my retinas. my poor retinas.", "who turned the light on. oh. it was you.", "i’m melting. a bit.", "can you tell me when it’s over?"];
   lamp.addEventListener("click", function () {
     var dark = document.documentElement.hasAttribute("data-lit");
-    var msgs = dark ? ["i can’t see my soldering", "ok that’s better. wait, where did my screwdriver go"] : ["ow, my eyes", "i can’t stand lights"];
-    bub.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+    var msgs = dark ? DARKS : LIGHTS;
+    bub.textContent = nextLine(msgs);
     bub.hidden = false;
     clearTimeout(bt);
     bt = setTimeout(function () { bub.hidden = true; }, 3000);
@@ -696,16 +716,23 @@
 
   // how much of me have you scrolled through
   var scp = $("scp"), tick = 0;
+  // one wording per bracket, chosen once per visit so it doesn't flicker while you scroll
+  function one(l) { return l[Math.floor(Math.random() * l.length)]; }
+  var s0 = one(["you’re 0% through my personality. hi. i’m shy", "you’re 0% through my personality. (it’s a short walk)", "you’re 0% through my personality. take your time", "you’re 0% through my personality. hello. don’t panic"]);
+  var s25 = one([" (it gets weirder)", " (it does get weirder)", " (the weird bit’s coming)", " (still normal. ish)"]);
+  var s60 = one([" (still here? brave)", " (you’re committed. i respect that)", " (the good bits are further down. maybe)", " (still here? hi)"]);
+  var s90 = one([" (almost done. i’m getting nervous)", " (nearly the end. don’t look at me)", " (almost done. brace yourself)", " (nearly there. i’m sweating)"]);
+  var s100 = one(["that’s all of me. please don’t make me talk about it", "that’s all of me. i need a minute", "that’s all of me. i’m going to lie down", "that’s all of me. thanks for reading. i’m blushing"]);
   function upd() {
     tick = 0;
     var max = document.documentElement.scrollHeight - innerHeight;
     var p = max > 0 ? Math.round(Math.min(1, Math.max(0, scrollY / max)) * 100) : 0;
     var t = "you’re " + p + "% through my personality";
-    if (p >= 100) t = "that’s all of me. please don’t make me talk about it";
-    else if (p >= 90) t += " (almost done. i’m getting nervous)";
-    else if (p >= 60) t += " (still here? brave)";
-    else if (p >= 25) t += " (it gets weirder)";
-    else if (p < 3) t = "you’re 0% through my personality. hi. i’m shy";
+    if (p >= 100) t = s100;
+    else if (p >= 90) t += s90;
+    else if (p >= 60) t += s60;
+    else if (p >= 25) t += s25;
+    else if (p < 3) t = s0;
     scp.textContent = t;
   }
   addEventListener("scroll", function () { if (!tick) { tick = 1; requestAnimationFrame(upd); } }, { passive: true });
@@ -741,17 +768,17 @@
   // type a word anywhere (not in the guestbook)
   var buf = "", lampEl = $("lamp");
   var W = {
-    sudo: function () { say("jack is not in the sudoers file. this incident will be reported."); },
-    hello: function () { say("hi!! i'm shy. but hi."); },
-    "42": function () { say("the answer. i've forgotten the question."); },
+    sudo: function () { say(nextLine(["jack is not in the sudoers file. this incident will be reported.", "permission denied. nice try.", "sudo: i'm a website. i have no root. i have vibes.", "this incident will be reported. (to nobody. i'm on my own here.)"])); },
+    hello: function () { say(nextLine(["hi!! i'm shy. but hi.", "oh. hello. i wasn't ready.", "hello! don't mind the mess.", "hi. you typed that into a website. i love that."])); },
+    "42": function () { say(nextLine(["the answer. i've forgotten the question.", "6 × 9. it's always 6 × 9.", "42. but what was the question? i've lost it.", "a towel would be useful right now."])); },
     qubit: function () {
       if (RM) return say("both light and dark until you look.");
       lampEl.click();
       setTimeout(function () { lampEl.click(); }, 450);
-      setTimeout(function () { say("observed. it collapsed back to normal.", 4200); }, 1000);
+      setTimeout(function () { say(nextLine(["observed. it collapsed back to normal.", "measured. it was both. now it's neither. physics.", "looked at it. ruined it. classic."]), 4200); }, 1000);
     },
     leaf: function () {
-      say("autumn mode. i apologise to the hoover.");
+      say(nextLine(["autumn mode. i apologise to the hoover.", "it's raining leaves. i didn't plan this.", "leaves!! somebody get a rake."]));
       if (RM) return;
       var f = document.createElement("div"), C = ["var(--hot)", "var(--sun)", "var(--pink)", "var(--mint)", "var(--blue)"];
       f.className = "lfx";
@@ -781,7 +808,7 @@
     lc.push(n);
     if (lc.length >= 7) {
       lc = [];
-      say("ok you've broken it. i only had the one lamp.", 4200);
+      say(nextLine(["ok you've broken it. i only had the one lamp.", "ok that's enough clicking. it's a lamp, not a doorbell.", "please. be gentle. i'm old. (i'm new. i'm a lamp.)"]), 4200);
       if (!RM) lampEl.animate([{ transform: "rotate(0)" }, { transform: "rotate(-14deg)" }, { transform: "rotate(11deg)" }, { transform: "rotate(-6deg)" }, { transform: "rotate(0)" }], { duration: 500 });
     }
   });
@@ -806,14 +833,14 @@
     var t = cas.querySelector("text");
     if (t) t.textContent = cs ? "side B" : "side A";
     if (!RM) cas.animate([{ transform: "rotate(7deg) rotateY(0)" }, { transform: "rotate(7deg) rotateY(360deg)" }], { duration: 600 });
-    say(cs ? "flipped. side B is mostly hiss." : "back to side A. the good one.");
+    say(nextLine(cs ? ["flipped. side B is mostly hiss.", "side B. the experimental one. (it's hiss.)", "side B: unlabelled demos and a lot of tape noise."] : ["back to side A. the good one.", "side A. the safe one.", "back to normal. as normal as it gets."]));
   });
 
   // the doodles have opinions
-  var Q = { d1: "the door works. i checked twice.", d3: "i tried to fix the hand. it got worse.", d4: "it's fine. everything's fine." }, ac2;
+  var Q = { d1: ["the door works. i checked twice.", "it has a chimney. it's fancy.", "it's a house. i'm very proud of the window."], d3: ["i tried to fix the hand. it got worse.", "the hand has a mind of its own.", "i drew that person in under a minute. you can tell."], d4: ["it's fine. everything's fine.", "the sun's worried. so am i.", "it has a lot on its mind. so do i."] }, ac2;
   Object.keys(Q).forEach(function (id) {
     var e = $(id);
-    if (e) e.addEventListener("click", function () { say(Q[id]); });
+    if (e) e.addEventListener("click", function () { say(nextLine(Q[id])); });
   });
   var cat = $("d2");
   if (cat) cat.addEventListener("click", function () {
@@ -830,14 +857,14 @@
       o.connect(g); g.connect(ac2.destination);
       o.start(t); o.stop(t + .6);
     } catch (e) { }
-    say("meow. (allegedly)");
+    say(nextLine(["meow. (allegedly)", "mrrp.", "that's not what cats sound like. but ok.", "it's definitely a cat. i drew the ears."]));
   });
 
   // the struck-out word
   var oo = document.querySelector(".oops"), on = 0;
   if (oo) oo.addEventListener("click", function () {
     on++;
-    say(["i said sleeping. i meant it.", "ok fine, a bit of both.", "productivity: struck through."][on % 3]);
+    say(nextLine(["i said sleeping. i meant it.", "ok fine, a bit of both.", "productivity: struck through.", "i was working. briefly.", "it's a lifestyle choice.", "working is a strong word."]));
   });
 
   // the fake visitor counter

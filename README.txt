@@ -72,3 +72,22 @@ you can pick it up ..... drag it. a click still turns the lights on/off
 it sleeps if you leave it alone: grumpy at 50s, sleepy at 110s, screensaver at 140s
 the face drawing ....... index.html, the <svg> inside id='lamp' (brows, eyes, lids, blush)
 the lamp does NOT like bright light: it squints in light mode, scowls when you switch the light on, and is relieved in dark mode.
+
+
+dialogue (everything that talks now comes out shuffled, so nothing repeats until the whole list has been used)
+------------------------------------------------------------------------------------------------------------
+the picker .................. main.js, very top: window.nextLine  (extras.js uses it too). give it a list, it gives you a line
+lamp click lines ............ main.js, search:  DARKS  /  LIGHTS
+tab titles (away / back) .... main.js, search:  needy  /  var back
+"currently:" phrases ........ main.js, search:  var M =   (new order every visit, the first one stays first)
+fencing button .............. main.js, search:  var P =  (the hits)  and  var F =  (the final line)
+cartridge blow .............. main.js, search:  PUFF  /  BLOW   (keep them short, the little screen is tiny)
+scroll counter .............. main.js, search:  s0  s25  s60  s90  s100   (one wording per visit)
+easter eggs (typed words etc) main.js, the very last block. any list in there goes through nextLine
+lamp when it's shy .......... extras.js, search:  SHY_LINES  /  CALM_LINES
+lamp visiting things ........ extras.js, search:  var VISITS   (add a line to any list, or add a new { sel, lines })
+lamp picked up / dropped .... extras.js, search:  GRAB_LINES  GRAB_MORE  DROP_LINES  DROP_MORE
+                              the first four pickups go in order (it's a tiny story), after that it uses the _MORE lists
+lamp per section ............ extras.js, search:  SECTION_LINES   (a list means it picks one per visit, a plain string means always that)
+idle nudges and screensaver . extras.js, search:  IDLE_STEPS  /  NAGS  /  BACK_LINES
+corner hits ................. extras.js, search:  atCorner

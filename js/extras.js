@@ -10,6 +10,8 @@
   function byId(id) { return document.getElementById(id); }
   function clamp(n, low, high) { return Math.max(low, Math.min(high, n)); }
   function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+  // dialogue goes through nextLine (main.js): shuffled, never the same line twice in a row
+  var nextLine = window.nextLine || pick;
 
   var lamp = byId("lamp");
   var bubble = byId("bub");
@@ -59,7 +61,24 @@
     "i’m busy. (i’m not busy.)",
     "please don’t look at me.",
     "hi. no. sorry. bye.",
-    "i panic. it’s a lamp thing."
+    "i panic. it’s a lamp thing.",
+    "oh. hi. you’re close.",
+    "personal space. it’s a lamp thing.",
+    "eek.",
+    "i didn’t see you there. (i did.)",
+    "can we pretend this didn’t happen?",
+    "i’m just going to be over here.",
+    "nope. nope. nope.",
+    "i have a cord, you know. that’s a boundary.",
+    "i’m not hiding. i’m relocating."
+  ];
+  // the third dodge in a row
+  var CALM_LINES = [
+    "...fine. you can press me. gently.",
+    "ok. i’ll stay. be nice.",
+    "right. i’m too tired to run. one press.",
+    "you’re persistent. i respect that. go on.",
+    "fine. fine. do it. i’m ready. (i’m not.)"
   ];
 
   var lampSize = { w: 64, h: 74 };
@@ -230,19 +249,24 @@
   var nextVisitAt = Date.now() + 14000;
 
   var VISITS = [
-    { sel: "#lg", lines: ["that’s the lunge button. i want to press it.", "i’m not allowed near the swords."] },
-    { sel: ".cas", lines: ["side A is the good one."] },
-    { sel: ".sk", lines: ["the stickers are mostly true."] },
-    { sel: "#eb", lines: ["that’s my email. i’m nervous about it.", "i’m not saying i’ve been avoiding it."] },
-    { sel: ".pg2", lines: ["my notes. unfinished, obviously.", "i’ll get to that one. eventually."] },
-    { sel: ".fm", lines: ["that’s a photo. i took it.", "i like this one."] },
-    { sel: ".dc", lines: ["yes, it’s meant to look like that.", "i did try."] },
-    { sel: ".note", lines: ["i wrote that in a hurry.", "that’s my handwriting. it’s a lot."] },
-    { sel: ".bt", lines: ["that button’s very pressable.", "go on. press it."] },
-    { sel: ".stampd", lines: ["very official."] },
-    { sel: ".tape", lines: ["that list keeps growing. it’s a problem."] },
-    { sel: ".status", lines: ["that changes about every hour. i get distracted."] },
-    { sel: "h2", lines: ["i like this heading."] }
+    { sel: "#lg", lines: ["that’s the lunge button. i want to press it.", "i’m not allowed near the swords.", "if i press it, it lunges. i can’t watch.", "i’m a lamp. i don’t have the arms for fencing."] },
+    { sel: ".cas", lines: ["side A is the good one.", "i don’t trust side B.", "it’s only a mixtape if you make it with feelings.", "it flips. that’s all i’ll say."] },
+    { sel: ".sk", lines: ["the stickers are mostly true.", "1/10 at small talk. generous, honestly.", "“lots” of just-one-more-games. conservative estimate.", "the curiosity one worries me a bit."] },
+    { sel: "#eb", lines: ["that’s my email. i’m nervous about it.", "i’m not saying i’ve been avoiding it.", "people do email me. it’s fine. it’s fine.", "it’s a very good email button. i get shy near it."] },
+    { sel: ".pg2", lines: ["my notes. unfinished, obviously.", "i’ll get to that one. eventually.", "that’s just a small piece of the pile.", "half of these are a to-do list in disguise."] },
+    { sel: ".fm", lines: ["that’s a photo. i took it.", "i like this one.", "the real ones are on my camera roll. which is a disaster.", "photos: developing. like me."] },
+    { sel: ".dc", lines: ["yes, it’s meant to look like that.", "i did try.", "the plotter’s better at this than i am.", "i can’t draw with a pen. i checked."] },
+    { sel: ".note", lines: ["i wrote that in a hurry.", "that’s my handwriting. it’s a lot.", "i wrote that at 2am. it shows.", "that’s a note to self. (to you, now.)"] },
+    { sel: ".bt", lines: ["that button’s very pressable.", "go on. press it.", "i can feel you wanting to press it.", "it only has one job. be pressed."] },
+    { sel: ".stampd", lines: ["very official.", "that’s a stamp. i have a stamp. it’s great.", "it says it’s official. i believe it."] },
+    { sel: ".tape", lines: ["that list keeps growing. it’s a problem.", "five things. it was three. it’s a problem.", "i keep adding to that list. i can’t stop."] },
+    { sel: ".status", lines: ["that changes about every hour. i get distracted.", "that’s what i’m up to. currently. roughly.", "i update it when i remember. i rarely remember.", "that status is a mood, not a promise."] },
+    { sel: "h2", lines: ["i like this heading.", "good heading. i helped. (i didn’t.)", "that’s a tilted heading. it’s on purpose.", "i tilt my headings. it’s a personality."] },
+    { sel: ".pj", lines: ["i built that one at 2am. it shows.", "that one works. mostly. it says so.", "i’m proud of that one. don’t tell the others.", "the little stickers on those are the honest part."] },
+    { sel: ".pol", lines: ["those polaroids are mostly placeholders. i’m working on it.", "i like polaroids. i’ve never owned one.", "look at that. i stuck it on straight. almost."] },
+    { sel: ".ipod", lines: ["that ipod is real in spirit.", "press the wheel. it plays. (sort of.)", "i like this ipod. it’s my favourite fake thing."] },
+    { sel: ".wch.full", lines: ["one of my carts. it’s a good one.", "i’ve played that one too much. i’m not sorry.", "i’ll be right back. (i’m not.) one more turn."] },
+    { sel: ".tg", lines: ["that’s all the things i can do. or pretend to.", "every one of those is a rabbit hole.", "i can do those. mostly. in a pinch."] }
   ];
 
   function isVisible(el) {
@@ -276,7 +300,7 @@
     goal.arrived = true;
     frozenUntil = now + 3800;
     lookTarget = { x: g.mx, y: g.my };
-    say(pick(goal.visit.lines), 3500);
+    say(nextLine(goal.visit.lines), 3500);
     setTimeout(function () {
       lookTarget = null;
       goal = null;
@@ -377,7 +401,7 @@
     if (counter) counter.textContent = "corner hits: " + cornerHits;
     if (Date.now() - lastCornerLine > 25000) {
       lastCornerLine = Date.now();
-      say(screensaver ? "corner. nailed it." : "corner. cosy.", 2500);
+      say(nextLine(screensaver ? ["corner. nailed it.", "corner! again!", "ooh, that was a clean one.", "that one was basically perfect.", "the corner and i have an understanding."] : ["corner. cosy.", "this corner’s nice. quiet.", "i like it in here. it’s snug."]), 2500);
     }
   }
 
@@ -397,17 +421,20 @@
       dodges = 0;
       calmUntil = frozenUntil = now + 9000;
       setMood("shy", 4500);
-      say("...fine. you can press me. gently.", 4500);
+      say(nextLine(CALM_LINES), 4500);
     } else {
       setMood("shy", 1800);
-      say(pick(SHY_LINES), 2200);
+      say(nextLine(SHY_LINES), 2200);
     }
   }
 
   // ----- picking it up -----
   var drag = null, carrying = false, justDragged = false, pickups = 0;
+  // the first few pickups go in order (it's a little story), after that it's a pool
   var GRAB_LINES = ["put me down!!", "oh no oh no oh no", "wheeee", "i’m not a toy. (carry on)"];
   var DROP_LINES = ["ow.", "...again?", "ok that was fun. don’t tell anyone.", "i’m going to be sick. (lamps can’t be sick.)"];
+  var GRAB_MORE = ["put me down!!", "again?! really?", "not the face!", "mind the cord!! the cord!!", "i can see my house from here", "ok ok ok. one more go.", "this is undignified.", "i’m being held. i’m being held."];
+  var DROP_MORE = ["ow. rude.", "i meant to do that.", "my bulb’s ringing.", "the floor is hard. noted.", "i’m fine. i’m fine. i’m fine.", "that’s going in my notes.", "...and again. sure."];
 
   function startCarry() {
     carrying = true;
@@ -416,7 +443,7 @@
     lamp.style.setProperty("--org", "50% 8%");
     state = "rest"; st = 0;
     body.hop = 0; body.s = 0;
-    say(GRAB_LINES[Math.min(pickups, GRAB_LINES.length - 1)], 2600);
+    say(pickups < GRAB_LINES.length ? GRAB_LINES[pickups] : nextLine(GRAB_MORE), 2600);
     pickups++;
     discover("pickup");
   }
@@ -430,7 +457,7 @@
     fallVx = clamp(drag.vx * 0.4, -500, 500);
     body.tilt = 0;
     setMood("dizzy", 3200);
-    say(DROP_LINES[Math.min(pickups - 1, DROP_LINES.length - 1)], 3000);
+    say(pickups <= DROP_LINES.length ? DROP_LINES[pickups - 1] : nextLine(DROP_MORE), 3000);
   }
 
   function carryStep(dt) {
@@ -557,20 +584,20 @@
 
   // ----- it has things to say about each part of the page -----
   var SECTION_LINES = {
-    about: ["hi. that’s about me. i’ll stand here and look casual.", "neutral"],
-    projects: ["all of these are mine. i’m weirdly proud.", "happy"],
-    proof: ["proof. i like proof. it means i’m not making it up.", "curious"],
-    bench: ["this is the messy bit. on purpose. mostly.", "neutral"],
-    notes: ["unfinished things. i have a lot of those.", "neutral"],
-    misread: ["this one matters to me. ...read it properly?", "shy"],
+    about: [["hi. that’s about me. i’ll stand here and look casual.", "that’s the bit about me. i’ll try not to hover.", "hi. this is where i explain myself."], "neutral"],
+    projects: [["all of these are mine. i’m weirdly proud.", "these are the things i actually finished. i’m weirdly proud.", "projects. tilted, taped and mostly working."], "happy"],
+    proof: [["proof. i like proof. it means i’m not making it up.", "proof, so you don’t have to take my word for it.", "evidence! i love evidence."], "curious"],
+    bench: [["this is the messy bit. on purpose. mostly.", "welcome to the mess. it’s organised, i promise.", "this is where things are half-built."], "neutral"],
+    notes: [["unfinished things. i have a lot of those.", "scribbles. i never finish the page.", "ideas i haven’t lost yet."], "neutral"],
+    misread: [["this one matters to me. ...read it properly?", "this bit’s important to me. please go slow.", "i’m a bit nervous about this one."], "shy"],
     fencing: ["i can walk again!! i’m so happy!! and i’m back to fencing!!", "happy"],
-    tournaments: ["nothing booked yet. i’m not sulking. (i’m sulking.)", "grumpy"],
-    playing: ["yes, i know. one more game.", "neutral"],
-    photos: ["pick a frame. they develop. it’s weirdly satisfying.", "curious"],
-    drawings: ["the plotter did these. i just supervised.", "neutral"],
-    doodles: ["these ones are mine. please be kind.", "shy"],
-    music: ["i play. i’m shy about it. press the wheel anyway.", "shy"],
-    contact: ["go on. say hi. i’ll hide.", "shy"]
+    tournaments: [["nothing booked yet. i’m not sulking. (i’m sulking.)", "empty list. i’m fine. really.", "nothing booked. my sword’s resting. (it’s broken.)"], "grumpy"],
+    playing: [["yes, i know. one more game.", "my cart case. don’t ask how many hours.", "one more game. always one more game."], "neutral"],
+    photos: [["pick a frame. they develop. it’s weirdly satisfying.", "click a frame. it develops. it’s very satisfying.", "photos. i took them. i promise."], "curious"],
+    drawings: [["the plotter did these. i just supervised.", "plotter art. i just press go.", "i supervise. the plotter does the work."], "neutral"],
+    doodles: [["these ones are mine. please be kind.", "these are mine. don’t laugh. (laugh a bit.)", "my drawing skills, as a lamp sees them."], "shy"],
+    music: [["i play. i’m shy about it. press the wheel anyway.", "the music bit. i get shy. press the wheel.", "i play. quietly. press the wheel."], "shy"],
+    contact: [["go on. say hi. i’ll hide.", "say hi. i’ll hide behind the stamp.", "go on. write. i’ll look away."], "shy"]
   };
   var sectionSaid = {};
   var pendingSection = "";
@@ -594,7 +621,7 @@
     pendingSection = "";
     sectionSaid[id] = true;
     var entry = SECTION_LINES[id];
-    say(entry[0], 4200);
+    say(typeof entry[0] === "string" ? entry[0] : nextLine(entry[0]), 4200);   // a string, or a list to pick from
     setMood(entry[1], 4200);
     if (id === "fencing" && !reduceMotion) celebrate = 2;
   }, 700);
@@ -763,10 +790,10 @@
   // ---------- what happens if you leave me alone ----------
 
   var IDLE_STEPS = [
-    { after: 25, line: "no rush. i’m just here." },
-    { after: 50, line: "still reading? or did you leave me on read." },
-    { after: 80, line: "i can see the tab is still open, you know." },
-    { after: 110, line: "cool. cool cool cool." }
+    { after: 25, lines: ["no rush. i’m just here.", "take your time. i’ll be here.", "no pressure. just vibing."] },
+    { after: 50, lines: ["still reading? or did you leave me on read.", "are you still there? blink twice.", "you’ve gone quiet. is that a good quiet?"] },
+    { after: 80, lines: ["i can see the tab is still open, you know.", "i know you’re there. the tab’s open.", "the tab’s open. i can hear it breathing."] },
+    { after: 110, lines: ["cool. cool cool cool.", "ok. ok. cool. totally cool.", "that’s fine. i’m fine. cool."] }
   ];
   var SCREENSAVER_AFTER = 140;
   var NAGS = [
@@ -777,7 +804,23 @@
     "the cursor hasn’t moved in so long i’m a bit worried about it.",
     "i could tell you something interesting but you’re not here.",
     "this is fine. i’m fine. the lamp is fine.",
-    "i’m not saying i’ve been waiting. i’m just saying i’m still here."
+    "i’m not saying i’ve been waiting. i’m just saying i’m still here.",
+    "i’m learning to juggle corners.",
+    "you could scroll. or move the mouse. just saying.",
+    "i’ve started naming the dust.",
+    "if you come back i’ll act like nothing happened.",
+    "i’ve been practising looking busy.",
+    "somebody has to keep the bulb warm.",
+    "nobody’s watching so i’m going to dance. (this is me dancing.)",
+    "i counted the floorboards. there aren’t any."
+  ];
+  var BACK_LINES = [
+    "oh. you’re back. i wasn’t waiting or anything.",
+    "oh! hi. i was just... bouncing. normally.",
+    "you’re back. i definitely didn’t miss you.",
+    "i wasn’t waiting. i was doing laps.",
+    "oh hello. where were you? (i’m not asking.)",
+    "hi. i’ve been very normal while you were gone."
   ];
 
   var lastInput = Date.now();
@@ -807,7 +850,7 @@
     screensaver = false;
     if (idleOverlay) { idleOverlay.remove(); idleOverlay = null; }
     setMood("surprised", 1400);
-    say("oh. you’re back. i wasn’t waiting or anything.", 4500);
+    say(nextLine(BACK_LINES), 4500);
   }
 
   function noteInput() {
@@ -823,12 +866,12 @@
     if (document.hidden) { lastInput = Date.now(); return; }
     var idleSeconds = (Date.now() - lastInput) / 1000;
     if (idleStep < IDLE_STEPS.length && idleSeconds >= IDLE_STEPS[idleStep].after) {
-      say(IDLE_STEPS[idleStep].line, 5000);
+      say(nextLine(IDLE_STEPS[idleStep].lines), 5000);
       idleStep++;
     }
     if (!screensaver && idleSeconds >= SCREENSAVER_AFTER) startScreensaver();
     if (screensaver && Date.now() >= nextNagAt) {
-      say(NAGS[nagIndex++ % NAGS.length], 6000);
+      say(nextLine(NAGS), 6000);
       nextNagAt = Date.now() + 20000;
     }
   }, 1000);
