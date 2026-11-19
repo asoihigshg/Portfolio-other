@@ -267,6 +267,8 @@
     { sel: ".pg2", lines: ["my notes. unfinished, obviously.", "i’ll get to that one. eventually.", "that’s just a small piece of the pile.", "half of these are a to-do list in disguise."] },
     { sel: ".fm", lines: ["that’s a photo. i took it.", "i like this one.", "the real ones are on my camera roll. which is a disaster.", "photos: developing. like me."] },
     { sel: ".dc", lines: ["yes, it’s meant to look like that.", "i did try.", "the plotter’s better at this than i am.", "i can’t draw with a pen. i checked."] },
+    { sel: ".bi", lines: ["i know what’s in there. i packed it.", "that’s a lot of stuff for one bag.", "that’s been in there since the start of term.", "it’s organised chaos. mostly chaos."] },
+    { sel: ".bgb", lines: ["that’s my bag. don’t look inside. actually, do.", "it’s corduroy. it’s very soft.", "it unzips. you’re allowed."] },
     { sel: ".note", lines: ["i wrote that in a hurry.", "that’s my handwriting. it’s a lot.", "i wrote that at 2am. it shows.", "that’s a note to self. (to you, now.)"] },
     { sel: ".bt", lines: ["that button’s very pressable.", "go on. press it.", "i can feel you wanting to press it.", "it only has one job. be pressed."] },
     { sel: ".stampd", lines: ["very official.", "that’s a stamp. i have a stamp. it’s great.", "it says it’s official. i believe it."] },
@@ -633,6 +635,7 @@
     bench: [["this is the messy bit. on purpose. mostly.", "welcome to the mess. it’s organised, i promise.", "this is where things are half-built."], "neutral"],
     notes: [["unfinished things. i have a lot of those.", "scribbles. i never finish the page.", "ideas i haven’t lost yet."], "neutral"],
     misread: [["this one matters to me. ...read it properly?", "this bit’s important to me. please go slow.", "i’m a bit nervous about this one."], "shy"],
+    bag: [["this is what i carry. all of it. every day.", "yes, there’s a sword grip in there. no, i won’t explain.", "i’d unzip it for you but i’m a lamp."], "curious"],
     fencing: ["i can walk again!! i’m so happy!! and i’m back to fencing!!", "happy"],
     tournaments: [["nothing booked yet. i’m not sulking. (i’m sulking.)", "empty list. i’m fine. really.", "nothing booked. my sword’s resting. (it’s broken.)"], "grumpy"],
     playing: [["yes, i know. one more game.", "my cart case. don’t ask how many hours.", "one more game. always one more game."], "neutral"],
@@ -694,7 +697,8 @@
     music: "pressed play",
     photo: "developed a photo",
     cartridge: "pulled out a cartridge",
-    pickup: "picked me up"
+    pickup: "picked me up",
+    bag: "unzipped the bag"
   };
   var discoveryIds = Object.keys(DISCOVERIES);
   var found = {};
@@ -801,6 +805,7 @@
     if (t.closest("#lamp")) discover("lamp");
     if (t.closest("#eb")) discover("email");
     if (t.closest("#lg")) discover("lunge");
+    if (t.closest("#bgb")) discover("bag");
     if (t.closest("#ckx")) discover("cookie");
     if (t.closest("#gbl")) discover("guestbook");
     if (t.closest("#hb")) discover("secret");

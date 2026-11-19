@@ -104,3 +104,10 @@ hop size and speed ..... search:  chaseY  in nextHop  (the 150 is the longest ho
 what it says ........... search:  CHASE_LINES  /  TIRED_LINES  /  RECOVER_LINES
 the sweat drops ........ index.html, class='sweat' inside the lamp svg.  style.css, search:  sweatdrop
 it doesn't do any of this with reduced motion on, or while you're holding it or using the keyboard on it
+
+in my bag
+---------
+index.html, search:  id="bag"   (each thing is a <button class="bi"> with its drawing, its label and its note in data-n)
+js/bag.js ........... unzips the bag and shows the note for whatever you tap
+images/bag.png ...... the backpack, cut out of its white background
+to add something: copy a whole <button class="bi" ...> line, change data-i, data-n, the label, and --x / --y (where it sits, in %)

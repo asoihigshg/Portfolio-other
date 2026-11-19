@@ -1056,3 +1056,36 @@ body.hasck .garden{bottom:120px}
 .bub:not([hidden]){animation:bpop .18s ease-out}
 @keyframes bpop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
 @media (prefers-reduced-motion:reduce){.bub:not([hidden]){animation:none}#lamp[data-mood=sleepy] .zzz{animation:none}#lamp .sd{animation:none}}
+
+/* ---- in my bag: the backpack tips out onto the desk ---- */
+.bg{position:relative}
+.bgs{position:relative;height:clamp(760px,84vw,900px)}
+.bgb{position:absolute;left:50%;top:3%;transform:translateX(-50%);width:clamp(260px,34vw,380px);padding:0;border:0;background:none;cursor:pointer;z-index:2;font:inherit;color:inherit}
+.bgb img{display:block;width:100%;height:auto;filter:drop-shadow(8px 12px 0 rgba(0,0,0,.28));transform-origin:50% 100%;transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.bgb:hover img{transform:rotate(-2deg) scale(1.02)}
+.bg.wob .bgb img{animation:bgwob .5s ease-out}
+@keyframes bgwob{0%{transform:scale(1,1)}25%{transform:scale(1.07,.9)}50%{transform:scale(.95,1.07)}75%{transform:scale(1.03,.97)}100%{transform:scale(1,1)}}
+.bgh{position:absolute;left:50%;bottom:8%;transform:translateX(-50%) rotate(-3deg);background:var(--paper);color:var(--ink);border:2px solid var(--ink);padding:2px 14px;font:400 1.7rem/1.1 "Reenie Beanie",cursive;box-shadow:3px 3px 0 var(--hot);white-space:nowrap;pointer-events:none}
+.bgi{position:absolute;inset:0;pointer-events:none}
+.bi{position:absolute;left:var(--x);top:var(--y);transform:rotate(var(--r));background:none;border:0;padding:6px;margin:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--ink);font:inherit;pointer-events:auto;z-index:1;transition:transform .75s cubic-bezier(.3,1.5,.5,1) var(--d,0ms),opacity .3s var(--d,0ms)}
+.bi svg{display:block;width:var(--w,120px);height:auto;filter:drop-shadow(4px 5px 0 rgba(0,0,0,.28));transition:transform .25s}
+.bi[data-i=surface]{--w:200px}.bi[data-i=pen]{--w:150px}.bi[data-i=calc]{--w:96px}.bi[data-i=kindle]{--w:100px}.bi[data-i=classbooks]{--w:160px}.bi[data-i=autism]{--w:104px}.bi[data-i=grip]{--w:180px}.bi[data-i=file]{--w:180px}.bi[data-i=charger]{--w:160px}.bi[data-i=wires]{--w:150px}.bi[data-i=paper]{--w:140px}
+.bi .bl{color:var(--ink);background:var(--paper);border:2px solid var(--ink);padding:0 9px;font:400 1.35rem/1.2 "Reenie Beanie",cursive;white-space:nowrap;box-shadow:2px 2px 0 rgba(0,0,0,.3)}
+.bi:hover svg,.bi:focus-visible svg{transform:translateY(-6px) rotate(-3deg)}
+.bi[aria-pressed=true] .bl{background:var(--hot);color:var(--paper)}
+.bi[aria-pressed=true] svg{transform:translateY(-8px) scale(1.06)}
+.bi:focus-visible,.bgb:focus-visible{outline:3px dashed var(--hot);outline-offset:4px}
+/* packed: everything is inside the bag */
+.bg.packed .bi{opacity:0;pointer-events:none;transform:translate(var(--tx,0),var(--ty,0)) scale(.15) rotate(0deg);transition-delay:0ms}
+.bgn{position:relative;width:min(440px,100%);margin:10px auto 0;transform:rotate(-1deg);background:repeating-linear-gradient(transparent 0 29px,rgba(112,84,90,.35) 29px 30px),var(--paper);color:var(--ink);padding:18px 22px 16px 46px;line-height:30px;box-shadow:6px 7px 0 rgba(48,37,31,.3);border-left:3px double var(--hot)}
+.bgn small{display:block;font:1.7rem/30px "Reenie Beanie",cursive;color:var(--hot)}
+.bgn p{margin:0}
+@media (max-width:820px){
+  .bgs{height:auto;display:flex;flex-direction:column;align-items:center}
+  .bgb{position:relative;left:auto;top:auto;transform:none;width:min(260px,70vw)}
+  .bgi{position:static;display:grid;grid-template-columns:repeat(2,1fr);gap:22px 10px;margin-top:26px;width:100%}
+  .bi{position:static;justify-self:center;transition-delay:var(--d,0ms)}
+  .bi svg{width:min(var(--w,120px),38vw)}
+  .bg.packed .bi{transform:translateY(-60px) scale(.3)}
+}
+@media (prefers-reduced-motion:reduce){.bi,.bi svg,.bgb img{transition:none}.bg.wob .bgb img{animation:none}}
