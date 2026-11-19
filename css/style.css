@@ -1061,13 +1061,13 @@ body.hasck .garden{bottom:120px}
 .bg{position:relative}
 .bgs{position:relative;height:clamp(760px,84vw,900px)}
 .bgb{position:absolute;left:50%;top:3%;transform:translateX(-50%);width:clamp(260px,34vw,380px);padding:0;border:0;background:none;cursor:pointer;z-index:2;font:inherit;color:inherit}
-.bgb img{display:block;width:100%;height:auto;filter:drop-shadow(8px 12px 0 rgba(0,0,0,.28));transform-origin:50% 100%;transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
-.bgb:hover img{transform:rotate(-2deg) scale(1.02)}
-.bg.wob .bgb img{animation:bgwob .5s ease-out}
+.bgb svg{display:block;width:100%;height:auto;filter:drop-shadow(8px 12px 0 rgba(0,0,0,.28));transform-origin:50% 100%;transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.bgb:hover svg{transform:rotate(-2deg) scale(1.02)}
+.bg.wob .bgb svg{animation:bgwob .5s ease-out}
 @keyframes bgwob{0%{transform:scale(1,1)}25%{transform:scale(1.07,.9)}50%{transform:scale(.95,1.07)}75%{transform:scale(1.03,.97)}100%{transform:scale(1,1)}}
 .bgh{position:absolute;left:50%;bottom:8%;transform:translateX(-50%) rotate(-3deg);background:var(--paper);color:var(--ink);border:2px solid var(--ink);padding:2px 14px;font:400 1.7rem/1.1 "Reenie Beanie",cursive;box-shadow:3px 3px 0 var(--hot);white-space:nowrap;pointer-events:none}
 .bgi{position:absolute;inset:0;pointer-events:none}
-.bi{position:absolute;left:var(--x);top:var(--y);transform:rotate(var(--r));background:none;border:0;padding:6px;margin:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--ink);font:inherit;pointer-events:auto;z-index:1;transition:transform .75s cubic-bezier(.3,1.5,.5,1) var(--d,0ms),opacity .3s var(--d,0ms)}
+.bi{position:absolute;left:var(--x);top:var(--y);transform:rotate(var(--r));background:none;border:0;padding:6px;margin:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--ink);font:inherit;pointer-events:auto;z-index:3;transition:transform .75s cubic-bezier(.3,1.5,.5,1) var(--d,0ms),opacity .3s var(--d,0ms)}
 .bi svg{display:block;width:var(--w,120px);height:auto;filter:drop-shadow(4px 5px 0 rgba(0,0,0,.28));transition:transform .25s}
 .bi[data-i=surface]{--w:200px}.bi[data-i=pen]{--w:150px}.bi[data-i=calc]{--w:96px}.bi[data-i=kindle]{--w:100px}.bi[data-i=classbooks]{--w:160px}.bi[data-i=autism]{--w:104px}.bi[data-i=grip]{--w:180px}.bi[data-i=file]{--w:180px}.bi[data-i=charger]{--w:160px}.bi[data-i=wires]{--w:150px}.bi[data-i=paper]{--w:140px}
 .bi .bl{color:var(--ink);background:var(--paper);border:2px solid var(--ink);padding:0 9px;font:400 1.35rem/1.2 "Reenie Beanie",cursive;white-space:nowrap;box-shadow:2px 2px 0 rgba(0,0,0,.3)}
@@ -1088,4 +1088,9 @@ body.hasck .garden{bottom:120px}
   .bi svg{width:min(var(--w,120px),38vw)}
   .bg.packed .bi{transform:translateY(-60px) scale(.3)}
 }
-@media (prefers-reduced-motion:reduce){.bi,.bi svg,.bgb img{transition:none}.bg.wob .bgb img{animation:none}}
+@media (prefers-reduced-motion:reduce){.bi,.bi svg,.bgb img{transition:none}.bg.wob .bgb svg{animation:none}}
+
+/* the drawn bag's zip: tape + teeth, pulls ride along the arch (positions set from bag.js) */
+.bgz .zt{fill:none;stroke:#30251F;stroke-width:9;stroke-linecap:butt;stroke-linejoin:round}
+.bgz .zk{fill:none;stroke:#cfd3d8;stroke-width:4.6;stroke-dasharray:2.4 2.6;stroke-linejoin:round}
+.bgz .bgpull{transform-box:view-box}
