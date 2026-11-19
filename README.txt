@@ -57,8 +57,8 @@ new in this version
 -------------------
 js/extras.js ...... loads after main.js. the lamp character (wanders, dodges, blinks, eyes follow the cursor),
                     the little garden (a leaf per thing found), idle mode (nags, then a screensaver),
-                    and the working demos in the Proof section
-proof section ..... index.html, search:  id="proof"
+                    
+proof section ..... index.html, search:  id="proof"  (empty, there is a commented template inside)
 misread section ... index.html, search:  id="misread"  (the card wording is a first draft, rewrite freely)
 garden ............ extras.js, search:  var DISCOVERIES
 idle timings ...... extras.js, search:  var IDLE_STEPS
