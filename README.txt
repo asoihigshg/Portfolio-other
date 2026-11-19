@@ -62,3 +62,13 @@ proof section ..... index.html, search:  id="proof"  (empty, there is a commente
 misread section ... index.html, search:  id="misread"  (the card wording is a first draft, rewrite freely)
 garden ............ extras.js, search:  var DISCOVERIES
 idle timings ...... extras.js, search:  var IDLE_STEPS
+
+the lamp (js/extras.js, search:  the lamp is a character now)
+-------------------------------------------------------------
+moods and faces ........ search:  var MOODS   (neutral, happy, curious, shy, grumpy, sleepy, surprised, squint, relieved, dizzy)
+things it visits ....... search:  var VISITS  (a selector and the lines it says when it gets there)
+what it says per section search:  SECTION_LINES
+you can pick it up ..... drag it. a click still turns the lights on/off
+it sleeps if you leave it alone: grumpy at 50s, sleepy at 110s, screensaver at 140s
+the face drawing ....... index.html, the <svg> inside id='lamp' (brows, eyes, lids, blush)
+the lamp does NOT like bright light: it squints in light mode, scowls when you switch the light on, and is relieved in dark mode.
