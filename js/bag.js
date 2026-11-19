@@ -110,7 +110,7 @@
   items.forEach(function (el) {
     el.addEventListener("click", function () {
       items.forEach(function (o) { o.setAttribute("aria-pressed", o === el ? "true" : "false"); });
-      note.querySelector("small").textContent = el.querySelector(".bl").textContent;
+      note.querySelector("small").textContent = el.querySelector(".bil").textContent;
       note.querySelector("p").textContent = el.getAttribute("data-n");
     });
   });

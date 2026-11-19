@@ -1070,9 +1070,9 @@ body.hasck .garden{bottom:120px}
 .bi{position:absolute;left:var(--x);top:var(--y);transform:rotate(var(--r));background:none;border:0;padding:6px;margin:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--ink);font:inherit;pointer-events:auto;z-index:3;transition:transform .75s cubic-bezier(.3,1.5,.5,1) var(--d,0ms),opacity .3s var(--d,0ms)}
 .bi svg{display:block;width:var(--w,120px);height:auto;filter:drop-shadow(4px 5px 0 rgba(0,0,0,.28));transition:transform .25s}
 .bi[data-i=surface]{--w:200px}.bi[data-i=pen]{--w:150px}.bi[data-i=calc]{--w:96px}.bi[data-i=kindle]{--w:100px}.bi[data-i=classbooks]{--w:160px}.bi[data-i=autism]{--w:104px}.bi[data-i=grip]{--w:180px}.bi[data-i=file]{--w:180px}.bi[data-i=charger]{--w:160px}.bi[data-i=wires]{--w:150px}.bi[data-i=paper]{--w:140px}
-.bi .bl{color:var(--ink);background:var(--paper);border:2px solid var(--ink);padding:0 9px;font:400 1.35rem/1.2 "Reenie Beanie",cursive;white-space:nowrap;box-shadow:2px 2px 0 rgba(0,0,0,.3)}
+.bi .bil{color:var(--ink);background:var(--paper);border:2px solid var(--ink);padding:0 9px;font:400 1.35rem/1.2 "Reenie Beanie",cursive;white-space:nowrap;box-shadow:2px 2px 0 rgba(0,0,0,.3)}
 .bi:hover svg,.bi:focus-visible svg{transform:translateY(-6px) rotate(-3deg)}
-.bi[aria-pressed=true] .bl{background:var(--hot);color:var(--paper)}
+.bi[aria-pressed=true] .bil{background:var(--hot);color:var(--paper)}
 .bi[aria-pressed=true] svg{transform:translateY(-8px) scale(1.06)}
 .bi:focus-visible,.bgb:focus-visible{outline:3px dashed var(--hot);outline-offset:4px}
 /* packed: everything is inside the bag */
